@@ -1,13 +1,13 @@
-import http from 'node:http';
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import { createServer } from 'node:http';
+import { readFile, stat } from 'node:fs/promises';
+import { dirname, join, normalize, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(__dirname, '..');
-const PORT = process.env.PORT || 5173;
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const rootDir = join(currentDir, '..');
+const serverPort = process.env.PORT || 5173;
 
-const MIME_TYPES = {
+const mimeTypes = {
   '.html': 'text/html',
   '.css': 'text/css',
   '.js': 'text/javascript',
@@ -25,53 +25,53 @@ const MIME_TYPES = {
   '.xml': 'application/xml',
 };
 
-const server = http.createServer(async (req, res) => {
+const server = createServer(async (request, response) => {
   try {
-    let urlPath = new URL(req.url, `http://${req.headers.host}`).pathname;
+    let urlPath = new URL(request.url, `http://${request.headers.host}`).pathname;
     if (urlPath === '/') {
       urlPath = '/index.html';
     }
 
-    const safePath = path.normalize(urlPath).replace(/^(\.\.[\/\\])+/, '');
-    const filePath = path.join(ROOT, safePath);
+    const safePath = normalize(urlPath).replace(/^(\.\.[\/\\])+/, '');
+    const filePath = join(rootDir, safePath);
 
-    if (!filePath.startsWith(ROOT)) {
-      res.writeHead(403, { 'Content-Type': 'text/plain' });
-      res.end('Forbidden');
+    if (!filePath.startsWith(rootDir)) {
+      response.writeHead(403, { 'Content-Type': 'text/plain' });
+      response.end('Forbidden');
       return;
     }
 
-    let stat;
+    let fileStat;
     try {
-      stat = await fs.stat(filePath);
+      fileStat = await stat(filePath);
     } catch {
-      res.writeHead(404, { 'Content-Type': 'text/plain' });
-      res.end('404 Not Found');
+      response.writeHead(404, { 'Content-Type': 'text/plain' });
+      response.end('404 Not Found');
       return;
     }
 
-    if (stat.isDirectory()) {
-      res.writeHead(403, { 'Content-Type': 'text/plain' });
-      res.end('Forbidden');
+    if (fileStat.isDirectory()) {
+      response.writeHead(403, { 'Content-Type': 'text/plain' });
+      response.end('Forbidden');
       return;
     }
 
-    const ext = path.extname(filePath).toLowerCase();
-    const mimeType = MIME_TYPES[ext] || 'application/octet-stream';
-    const content = await fs.readFile(filePath);
+    const extension = extname(filePath).toLowerCase();
+    const mimeType = mimeTypes[extension] || 'application/octet-stream';
+    const content = await readFile(filePath);
 
-    res.writeHead(200, {
+    response.writeHead(200, {
       'Content-Type': mimeType,
       'Cache-Control': 'no-store',
     });
-    res.end(content);
-  } catch (err) {
-    console.error(err);
-    res.writeHead(500, { 'Content-Type': 'text/plain' });
-    res.end('Internal Server Error');
+    response.end(content);
+  } catch (error) {
+    console.error(error);
+    response.writeHead(500, { 'Content-Type': 'text/plain' });
+    response.end('Internal Server Error');
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+server.listen(serverPort, () => {
+  console.log(`Server running at http://localhost:${serverPort}/`);
 });

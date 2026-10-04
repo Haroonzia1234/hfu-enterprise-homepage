@@ -90,7 +90,6 @@ function buildQuadraticArc(startPoint, endPoint, bendFraction) {
   const chordDy = endPoint.y - startPoint.y;
   const chordLength = Math.sqrt(chordDx * chordDx + chordDy * chordDy);
   const perpX = -chordDy / chordLength;
-  const perpY = chordDx / chordLength;
   const offset = chordLength * bendFraction;
   const controlX = midX + perpX * offset;
   const controlY = midY - Math.abs(offset);
@@ -652,7 +651,7 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
     cameraFrameId = requestAnimationFrame(animateCameraStep);
   }
 
-  function buildRoutePin(point, placeName, isEndPin, viewBoxForClamping) {
+  function buildRoutePin(point, placeName, isEndPin) {
     const pinGroup = createSvgElement('g', {
       class: 'route-map__pin',
       transform: `translate(${point.x},${point.y})`,
@@ -893,8 +892,8 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
     ambientLayer.style.opacity = '0.15';
 
     const fitViewBox = computeFitViewBox(startPoint, endPoint, hostElement, fullViewBox);
-    const startPin = buildRoutePin(startPoint, fromPlace.name, false, fitViewBox);
-    const endPin = buildRoutePin(endPoint, toPlace.name, true, fitViewBox);
+    const startPin = buildRoutePin(startPoint, fromPlace.name, false);
+    const endPin = buildRoutePin(endPoint, toPlace.name, true);
     routeLayer.appendChild(startPin);
     routeLayer.appendChild(endPin);
 

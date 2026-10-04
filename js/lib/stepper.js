@@ -7,11 +7,11 @@ export function attachStepper(rootElement, { onChange }) {
   const increaseBtn = rootElement.querySelector('[data-stepper="increase"]');
   const input = rootElement.querySelector('.stepper__input');
 
-  function clampAndRound(val) {
-    if (isNaN(val)) {
+  function clampAndRound(stepValue) {
+    if (isNaN(stepValue)) {
       return min;
     }
-    const rounded = Math.round(val / step) * step;
+    const rounded = Math.round(stepValue / step) * step;
     if (rounded < min) {
       return min;
     }
@@ -25,17 +25,17 @@ export function attachStepper(rootElement, { onChange }) {
     parseInt(rootElement.getAttribute('data-value') || input.value || String(min), 10)
   );
 
-  function updateDOM(val) {
-    input.value = val;
-    rootElement.setAttribute('data-value', val);
+  function updateDOM(stepValue) {
+    input.value = stepValue;
+    rootElement.setAttribute('data-value', stepValue);
 
-    if (val <= min) {
+    if (stepValue <= min) {
       decreaseBtn.setAttribute('disabled', 'true');
     } else {
       decreaseBtn.removeAttribute('disabled');
     }
 
-    if (val >= max) {
+    if (stepValue >= max) {
       increaseBtn.setAttribute('disabled', 'true');
     } else {
       increaseBtn.removeAttribute('disabled');
@@ -67,8 +67,8 @@ export function attachStepper(rootElement, { onChange }) {
   }
 
   function handleCommit() {
-    const val = parseFloat(input.value);
-    const next = clampAndRound(val);
+    const stepValue = parseFloat(input.value);
+    const next = clampAndRound(stepValue);
     updateDOM(next);
     if (next !== lastEmittedValue) {
       lastEmittedValue = next;
@@ -99,8 +99,8 @@ export function attachStepper(rootElement, { onChange }) {
 
   return {
     getValue: () => parseFloat(input.value),
-    setValue: (val, options = {}) => {
-      const next = clampAndRound(val);
+    setValue: (stepValue, options = {}) => {
+      const next = clampAndRound(stepValue);
       updateDOM(next);
       if (!options.silent) {
         if (next !== lastEmittedValue) {

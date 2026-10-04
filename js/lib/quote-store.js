@@ -26,7 +26,7 @@ function persist() {
     if (typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('hfu-quote-state', JSON.stringify(currentState));
     }
-  } catch (error) {}
+  } catch {}
 }
 
 function hydrate() {
@@ -37,7 +37,7 @@ function hydrate() {
         currentState = { ...DEFAULT_STATE, ...JSON.parse(stored) };
       }
     }
-  } catch (error) {}
+  } catch {}
 
   if (typeof window !== 'undefined' && window.location && window.location.search) {
     try {
@@ -88,7 +88,7 @@ function hydrate() {
         currentState = { ...currentState, ...patch };
         persist();
       }
-    } catch (error) {}
+    } catch {}
   }
 }
 
@@ -127,7 +127,7 @@ export const quoteStore = {
     for (const listener of listeners) {
       try {
         listener(stateCopy, changedKeys, source);
-      } catch (error) {}
+      } catch {}
     }
   },
 

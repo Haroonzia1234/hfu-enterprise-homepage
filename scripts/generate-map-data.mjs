@@ -1,105 +1,128 @@
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { feature } from 'topojson-client';
 
-async function generate() {
+async function generateMapData() {
   const atlasData = await readFile('node_modules/world-atlas/countries-50m.json', 'utf8');
   const topology = JSON.parse(atlasData);
   const countries = feature(topology, topology.objects.countries);
 
-  const ukFeature = countries.features.find((f) => f.properties.name === 'United Kingdom');
-  const irelandFeature = countries.features.find((f) => f.properties.name === 'Ireland');
+  const ukFeature = countries.features.find((featureItem) => {
+    return featureItem.properties.name === 'United Kingdom';
+  });
+  const irelandFeature = countries.features.find((featureItem) => {
+    return featureItem.properties.name === 'Ireland';
+  });
 
-  const minLon = -8.9;
-  const maxLon = 2.1;
-  const minLat = 49.8;
-  const maxLat = 58.8;
+  const minimumLongitude = -8.9;
+  const maximumLongitude = 2.1;
+  const minimumLatitude = 49.8;
+  const maximumLatitude = 58.8;
 
-  function project(lat, lon) {
-    const latRad = (lat * Math.PI) / 180;
-    const lonRad = (lon * Math.PI) / 180;
+  function projectCoordinates(latitude, longitude) {
+    const latitudeRadians = (latitude * Math.PI) / 180;
+    const longitudeRadians = (longitude * Math.PI) / 180;
     return {
-      x: lonRad,
-      y: Math.log(Math.tan(Math.PI / 4 + latRad / 2)),
+      x: longitudeRadians,
+      y: Math.log(Math.tan(Math.PI / 4 + latitudeRadians / 2)),
     };
   }
 
-  const pMin = project(minLat, minLon);
-  const pMax = project(maxLat, maxLon);
+  const projectedMinimum = projectCoordinates(minimumLatitude, minimumLongitude);
+  const projectedMaximum = projectCoordinates(maximumLatitude, maximumLongitude);
 
-  const projMinX = pMin.x;
-  const projMaxX = pMax.x;
-  const projMinY = pMin.y;
-  const projMaxY = pMax.y;
+  const projectedMinimumX = projectedMinimum.x;
+  const projectedMaximumX = projectedMaximum.x;
+  const projectedMinimumY = projectedMinimum.y;
+  const projectedMaximumY = projectedMaximum.y;
 
-  const projWidth = projMaxX - projMinX;
-  const projHeight = projMaxY - projMinY;
+  const projectionWidth = projectedMaximumX - projectedMinimumX;
+  const projectionHeight = projectedMaximumY - projectedMinimumY;
 
   const mapWidth = 640;
-  const padding = 16;
-  const scale = (mapWidth - 2 * padding) / projWidth;
-  const mapHeight = Math.round(projHeight * scale + 2 * padding);
+  const paddingAmount = 16;
+  const projectionScale = (mapWidth - 2 * paddingAmount) / projectionWidth;
+  const mapHeight = Math.round(projectionHeight * projectionScale + 2 * paddingAmount);
 
-  function projectToViewBox(lat, lon) {
-    const p = project(lat, lon);
-    const x = padding + (p.x - projMinX) * scale;
-    const y = mapHeight - padding - (p.y - projMinY) * scale;
-    return { x, y };
+  function projectToViewBox(latitude, longitude) {
+    const projectedPoint = projectCoordinates(latitude, longitude);
+    const viewX = paddingAmount + (projectedPoint.x - projectedMinimumX) * projectionScale;
+    const viewY =
+      mapHeight - paddingAmount - (projectedPoint.y - projectedMinimumY) * projectionScale;
+    return { x: viewX, y: viewY };
   }
 
-  function pointLineDistance(p, a, b) {
-    const num = Math.abs((b.y - a.y) * p.x - (b.x - a.x) * p.y + b.x * a.y - b.y * a.x);
-    const den = Math.sqrt(Math.pow(b.y - a.y, 2) + Math.pow(b.x - a.x, 2));
-    return den === 0 ? Math.sqrt(Math.pow(p.x - a.x, 2) + Math.pow(p.y - a.y, 2)) : num / den;
+  function pointLineDistance(point, lineStart, lineEnd) {
+    const numerator = Math.abs(
+      (lineEnd.y - lineStart.y) * point.x -
+        (lineEnd.x - lineStart.x) * point.y +
+        lineEnd.x * lineStart.y -
+        lineEnd.y * lineStart.x
+    );
+    const denominator = Math.sqrt(
+      Math.pow(lineEnd.y - lineStart.y, 2) + Math.pow(lineEnd.x - lineStart.x, 2)
+    );
+    if (denominator === 0) {
+      return Math.sqrt(Math.pow(point.x - lineStart.x, 2) + Math.pow(point.y - lineStart.y, 2));
+    } else {
+      return numerator / denominator;
+    }
   }
 
-  function rdp(points, epsilon) {
+  function ramerDouglasPeucker(points, epsilon) {
     if (points.length < 3) {
       return points;
     }
-    let dmax = 0;
-    let index = 0;
-    const end = points.length - 1;
-    for (let i = 1; i < end; i++) {
-      const d = pointLineDistance(points[i], points[0], points[end]);
-      if (d > dmax) {
-        index = i;
-        dmax = d;
+    let maximumDistance = 0;
+    let maximumIndex = 0;
+    const endIndex = points.length - 1;
+    for (let pointIndex = 1; pointIndex < endIndex; pointIndex++) {
+      const distance = pointLineDistance(points[pointIndex], points[0], points[endIndex]);
+      if (distance > maximumDistance) {
+        maximumIndex = pointIndex;
+        maximumDistance = distance;
       }
     }
-    if (dmax > epsilon) {
-      const recResults1 = rdp(points.slice(0, index + 1), epsilon);
-      const recResults2 = rdp(points.slice(index), epsilon);
-      return recResults1.slice(0, -1).concat(recResults2);
+    if (maximumDistance > epsilon) {
+      const recursiveResults1 = ramerDouglasPeucker(points.slice(0, maximumIndex + 1), epsilon);
+      const recursiveResults2 = ramerDouglasPeucker(points.slice(maximumIndex), epsilon);
+      return recursiveResults1.slice(0, -1).concat(recursiveResults2);
     } else {
-      return [points[0], points[end]];
+      return [points[0], points[endIndex]];
     }
   }
 
   function polygonArea(points) {
-    let area = 0;
-    for (let i = 0; i < points.length; i++) {
-      const j = (i + 1) % points.length;
-      area += points[i].x * points[j].y;
-      area -= points[j].x * points[i].y;
+    let computedArea = 0;
+    for (let pointIndex = 0; pointIndex < points.length; pointIndex++) {
+      const nextIndex = (pointIndex + 1) % points.length;
+      computedArea += points[pointIndex].x * points[nextIndex].y;
+      computedArea -= points[nextIndex].x * points[pointIndex].y;
     }
-    return Math.abs(area / 2);
+    return Math.abs(computedArea / 2);
   }
 
-  function processFeature(feat) {
+  function processFeature(featureData) {
     let pathString = '';
-    let totalPoints = 0;
-    let finalPoints = 0;
+    let totalPointsCount = 0;
+    let finalPointsCount = 0;
 
     const polygons =
-      feat.geometry.type === 'Polygon' ? [feat.geometry.coordinates] : feat.geometry.coordinates;
+      featureData.geometry.type === 'Polygon'
+        ? [featureData.geometry.coordinates]
+        : featureData.geometry.coordinates;
 
     for (const polygon of polygons) {
       for (const ring of polygon) {
-        totalPoints += ring.length;
+        totalPointsCount += ring.length;
 
         let inFrame = false;
-        for (const [lon, lat] of ring) {
-          if (lon >= minLon && lon <= maxLon && lat >= minLat && lat <= maxLat) {
+        for (const [longitude, latitude] of ring) {
+          if (
+            longitude >= minimumLongitude &&
+            longitude <= maximumLongitude &&
+            latitude >= minimumLatitude &&
+            latitude <= maximumLatitude
+          ) {
             inFrame = true;
             break;
           }
@@ -108,44 +131,46 @@ async function generate() {
           continue;
         }
 
-        const projectedRing = ring.map(([lon, lat]) => projectToViewBox(lat, lon));
-        const simplified = rdp(projectedRing, 0.45);
+        const projectedRing = ring.map(([longitude, latitude]) => {
+          return projectToViewBox(latitude, longitude);
+        });
+        const simplified = ramerDouglasPeucker(projectedRing, 0.45);
 
         if (simplified.length < 4 || polygonArea(simplified) < 3) {
           continue;
         }
 
-        finalPoints += simplified.length;
+        finalPointsCount += simplified.length;
 
-        for (let i = 0; i < simplified.length; i++) {
-          const pt = simplified[i];
-          const cmd = i === 0 ? 'M' : 'L';
-          pathString += `${cmd}${pt.x.toFixed(1)},${pt.y.toFixed(1)}`;
+        for (let pointIndex = 0; pointIndex < simplified.length; pointIndex++) {
+          const point = simplified[pointIndex];
+          const command = pointIndex === 0 ? 'M' : 'L';
+          pathString += `${command}${point.x.toFixed(1)},${point.y.toFixed(1)}`;
         }
         pathString += 'Z';
       }
     }
-    return { pathString, totalPoints, finalPoints };
+    return { pathString, totalPointsCount, finalPointsCount };
   }
 
-  const ukRes = processFeature(ukFeature);
-  const irelandRes = processFeature(irelandFeature);
+  const ukResult = processFeature(ukFeature);
+  const irelandResult = processFeature(irelandFeature);
 
   const jsContent = `export const MAP_VIEWBOX = { width: ${mapWidth}, height: ${mapHeight} };
-export const UK_OUTLINE_PATH = '${ukRes.pathString}';
-export const IRELAND_OUTLINE_PATH = '${irelandRes.pathString}';
+export const UK_OUTLINE_PATH = '${ukResult.pathString}';
+export const IRELAND_OUTLINE_PATH = '${irelandResult.pathString}';
 export function projectLatLon(latitude, longitude) {
-  const latRad = latitude * Math.PI / 180;
-  const lonRad = longitude * Math.PI / 180;
-  const projX = lonRad;
-  const projY = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
-  const projMinX = ${projMinX.toFixed(6)};
-  const projMinY = ${projMinY.toFixed(6)};
-  const scale = ${scale.toFixed(6)};
-  const mapHeight = ${mapHeight};
-  const padding = ${padding};
-  const x = padding + (projX - projMinX) * scale;
-  const y = mapHeight - padding - (projY - projMinY) * scale;
+  const latitudeRadians = latitude * Math.PI / 180;
+  const longitudeRadians = longitude * Math.PI / 180;
+  const projectedX = longitudeRadians;
+  const projectedY = Math.log(Math.tan(Math.PI / 4 + latitudeRadians / 2));
+  const projectedMinimumX = ${projectedMinimumX.toFixed(6)};
+  const projectedMinimumY = ${projectedMinimumY.toFixed(6)};
+  const projectionScale = ${projectionScale.toFixed(6)};
+  const targetHeight = ${mapHeight};
+  const targetPadding = ${paddingAmount};
+  const x = targetPadding + (projectedX - projectedMinimumX) * projectionScale;
+  const y = targetHeight - targetPadding - (projectedY - projectedMinimumY) * projectionScale;
   return { x, y };
 }
 `;
@@ -153,10 +178,12 @@ export function projectLatLon(latitude, longitude) {
   await mkdir('js/data', { recursive: true });
   await writeFile('js/data/uk-map.js', jsContent, 'utf8');
 
-  console.log(`Map data generated.`);
-  console.log(`UK points: ${ukRes.totalPoints} -> ${ukRes.finalPoints}`);
-  console.log(`Ireland points: ${irelandRes.totalPoints} -> ${irelandRes.finalPoints}`);
+  console.log('Map data generated.');
+  console.log(`UK points: ${ukResult.totalPointsCount} -> ${ukResult.finalPointsCount}`);
+  console.log(
+    `Ireland points: ${irelandResult.totalPointsCount} -> ${irelandResult.finalPointsCount}`
+  );
   console.log(`File size: ${jsContent.length} bytes`);
 }
 
-generate().catch(console.error);
+generateMapData().catch(console.error);

@@ -20,8 +20,8 @@
           <span class="hero__title-line2">Quoted in 15 minutes.</span>
         </h1>
         <p class="hero__lede">
-          Same day couriers, pallet delivery and dedicated vans for businesses and households across
-          Manchester, the UK and beyond. Open 24/7.
+          Same day couriers, pallet delivery and dedicated vans across Manchester, the UK and
+          beyond. Open 24/7.
         </p>
       </header>
 
@@ -35,7 +35,7 @@
                 id="hero-from"
                 type="text"
                 autocomplete="off"
-                placeholder="Town, city or postcode"
+                placeholder="Town or postcode"
               />
             </div>
           </div>
@@ -55,91 +55,93 @@
                 id="hero-to"
                 type="text"
                 autocomplete="off"
-                placeholder="Town, city or postcode"
+                placeholder="Town or postcode"
               />
             </div>
           </div>
         </div>
 
-        <fieldset class="segmented field">
-          <legend class="field__label">When</legend>
-          <label class="segmented__option">
-            <input
-              class="segmented__input"
-              type="radio"
-              name="hero-delivery-type"
-              value="same-day"
-              checked
-            />
-            <span class="segmented__label">Same Day</span>
-          </label>
-          <label class="segmented__option">
-            <input
-              class="segmented__input"
-              type="radio"
-              name="hero-delivery-type"
-              value="next-day"
-            />
-            <span class="segmented__label">Next Day</span>
-          </label>
-          <label class="segmented__option">
-            <input
-              class="segmented__input"
-              type="radio"
-              name="hero-delivery-type"
-              value="flexible"
-            />
-            <span class="segmented__label">Flexible</span>
-          </label>
-        </fieldset>
-
-        <div class="planner__load field">
-          <label class="field__label" for="hero-pallets">Pallets</label>
-          <div class="planner__row">
-            <div
-              class="stepper"
-              data-js="stepper-pallets"
-              data-min="0"
-              data-max="16"
-              data-value="0"
-            >
-              <button
-                class="stepper__btn"
-                type="button"
-                data-stepper="decrease"
-                aria-label="Fewer pallets"
-              >
-                <svg class="icon" aria-hidden="true"><use href="#icon-minus"></use></svg>
-              </button>
+        <div class="planner__options">
+          <fieldset class="segmented field">
+            <legend class="field__label">When</legend>
+            <label class="segmented__option">
               <input
-                class="stepper__input"
-                type="number"
-                inputmode="numeric"
-                min="0"
-                max="16"
-                value="0"
-                aria-label="Pallets"
-                id="hero-pallets"
+                class="segmented__input"
+                type="radio"
+                name="hero-delivery-type"
+                value="same-day"
+                checked
               />
-              <button
-                class="stepper__btn"
-                type="button"
-                data-stepper="increase"
-                aria-label="More pallets"
+              <span class="segmented__label">Same Day</span>
+            </label>
+            <label class="segmented__option">
+              <input
+                class="segmented__input"
+                type="radio"
+                name="hero-delivery-type"
+                value="next-day"
+              />
+              <span class="segmented__label">Next Day</span>
+            </label>
+            <label class="segmented__option">
+              <input
+                class="segmented__input"
+                type="radio"
+                name="hero-delivery-type"
+                value="flexible"
+              />
+              <span class="segmented__label">Flexible</span>
+            </label>
+          </fieldset>
+
+          <div class="planner__load field">
+            <label class="field__label" for="hero-pallets">Pallets</label>
+            <div class="planner__row">
+              <div
+                class="stepper"
+                data-js="stepper-pallets"
+                data-min="0"
+                data-max="16"
+                data-value="0"
               >
-                <svg class="icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
-              </button>
-            </div>
-            <div class="planner__vehicle" data-js="planner-vehicle" aria-live="polite">
-              <span class="chip chip--ink"
-                ><span data-js="vehicle-short" style="font-weight: 700; margin-inline-end: 0.5ch"
-                  >SV</span
+                <button
+                  class="stepper__btn"
+                  type="button"
+                  data-stepper="decrease"
+                  aria-label="Fewer pallets"
                 >
-                <span data-js="vehicle-name">Small Van</span></span
-              >
+                  <svg class="icon" aria-hidden="true"><use href="#icon-minus"></use></svg>
+                </button>
+                <input
+                  class="stepper__input"
+                  type="number"
+                  inputmode="numeric"
+                  min="0"
+                  max="16"
+                  value="0"
+                  aria-label="Pallets"
+                  id="hero-pallets"
+                />
+                <button
+                  class="stepper__btn"
+                  type="button"
+                  data-stepper="increase"
+                  aria-label="More pallets"
+                >
+                  <svg class="icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
+                </button>
+              </div>
+              <div class="planner__vehicle" data-js="planner-vehicle" aria-live="polite">
+                <span class="chip chip--ink"
+                  ><span data-js="vehicle-short" style="font-weight: 700; margin-inline-end: 0.5ch"
+                    >SV</span
+                  >
+                  <span data-js="vehicle-name">Small Van</span></span
+                >
+              </div>
             </div>
+            <p class="field__hint">0 means parcels or documents</p>
           </div>
-          <p class="field__hint">0 means parcels or documents</p>
         </div>
 
         <p class="planner__result" data-js="planner-result" aria-live="polite">

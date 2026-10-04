@@ -80,7 +80,9 @@ export function suggestPlaces(text, limit = 6) {
         defaultPlaces.push(place);
       }
     }
-    defaultPlaces.sort((a, b) => a.name.localeCompare(b.name));
+    defaultPlaces.sort((firstPlace, secondPlace) =>
+      firstPlace.name.localeCompare(secondPlace.name)
+    );
     return defaultPlaces.slice(0, limit);
   }
 
@@ -138,9 +140,9 @@ export function formatPlaceLabel(place) {
   }
 
   let cityPlace = null;
-  for (const p of PLACES) {
-    if (p.kind === 'city' && p.area === place.area) {
-      cityPlace = p;
+  for (const candidatePlace of PLACES) {
+    if (candidatePlace.kind === 'city' && candidatePlace.area === place.area) {
+      cityPlace = candidatePlace;
       break;
     }
   }
@@ -162,21 +164,24 @@ export function getHubPlace() {
 }
 
 export function haversineMiles(placeA, placeB) {
-  const r = 3958.8;
-  const lat1 = placeA.lat * (Math.PI / 180);
-  const lon1 = placeA.lon * (Math.PI / 180);
-  const lat2 = placeB.lat * (Math.PI / 180);
-  const lon2 = placeB.lon * (Math.PI / 180);
+  const earthRadiusMiles = 3958.8;
+  const latitude1Radians = placeA.lat * (Math.PI / 180);
+  const longitude1Radians = placeA.lon * (Math.PI / 180);
+  const latitude2Radians = placeB.lat * (Math.PI / 180);
+  const longitude2Radians = placeB.lon * (Math.PI / 180);
 
-  const dLat = lat2 - lat1;
-  const dLon = lon2 - lon1;
+  const latitudeDifferenceRadians = latitude2Radians - latitude1Radians;
+  const longitudeDifferenceRadians = longitude2Radians - longitude1Radians;
 
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const haversineTerm =
+    Math.sin(latitudeDifferenceRadians / 2) * Math.sin(latitudeDifferenceRadians / 2) +
+    Math.cos(latitude1Radians) *
+      Math.cos(latitude2Radians) *
+      Math.sin(longitudeDifferenceRadians / 2) *
+      Math.sin(longitudeDifferenceRadians / 2);
 
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return r * c;
+  const angularDistance = 2 * Math.atan2(Math.sqrt(haversineTerm), Math.sqrt(1 - haversineTerm));
+  return earthRadiusMiles * angularDistance;
 }
 
 export function estimateRoadMiles(placeA, placeB) {

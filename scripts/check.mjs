@@ -1,311 +1,300 @@
-import fs from 'node:fs';
-import fsp from 'node:fs/promises';
-import path from 'node:path';
+import { readdir, readFile, stat } from 'node:fs/promises';
+import { join, relative, extname } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { execSync } from 'node:child_process';
+import * as acorn from 'acorn';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(__dirname, '..');
+const currentDirectory = fileURLToPath(new URL('.', import.meta.url));
+const rootDirectory = join(currentDirectory, '..');
 
-const errors = [];
-const warnings = [];
+let totalErrorCount = 0;
+let totalWarningCount = 0;
 
-function addError(msg) {
-  errors.push(msg);
+function reportError(filePath, messageText) {
+  console.log(`ERROR: ${filePath} - ${messageText}`);
+  totalErrorCount++;
 }
 
-function addWarning(msg) {
-  warnings.push(msg);
+function reportWarning(filePath, messageText) {
+  console.log(`WARNING: ${filePath} - ${messageText}`);
+  totalWarningCount++;
 }
 
-async function readDirRecursive(dir) {
-  const entries = await fsp.readdir(dir, { withFileTypes: true });
-  const files = [];
-  for (const entry of entries) {
-    const res = path.resolve(dir, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...(await readDirRecursive(res)));
-    } else if (entry.isFile()) {
-      files.push(res);
-    }
-  }
-  return files;
-}
-
-function isTextFile(filePath) {
-  const ext = path.extname(filePath).toLowerCase();
-  if (['.png', '.jpg', '.jpeg', '.webp', '.ico', '.woff2'].includes(ext)) {
-    return false;
-  }
-  if (filePath.includes('.git')) {
-    return false;
-  }
-  return true;
-}
-
-async function check() {
-  const allFiles = [];
-  const dirsToCheck = ['src', 'js', 'scripts', 'docs', 'assets/img'];
-  for (const d of dirsToCheck) {
-    const p = path.join(ROOT, d);
-    if (fs.existsSync(p)) {
-      allFiles.push(...(await readDirRecursive(p)));
-    }
-  }
-  for (const f of ['README.md', 'SUBMISSION.md', 'index.html', 'package.json']) {
-    const p = path.join(ROOT, f);
-    if (fs.existsSync(p)) {
-      allFiles.push(p);
-    }
-  }
-
-  for (const file of allFiles) {
-    if (!isTextFile(file)) {
-      continue;
-    }
-    const content = await fsp.readFile(file, 'utf8');
-    if (/[^\x00-\x7F]/.test(content)) {
-      addError(`Non-ASCII character found in ${path.relative(ROOT, file)}`);
-    }
-  }
-
-  for (const file of allFiles) {
-    if (!isTextFile(file)) {
-      continue;
-    }
-    if (file.endsWith('.md') || file.endsWith('.json')) {
-      continue;
-    }
-    const content = await fsp.readFile(file, 'utf8');
-
-    let stripped = content.replace(/(['"`])(?:\\[\s\S]|(?!\1)[^\\])*\1/g, '""');
-    stripped = stripped.replace(/:\/\//g, '');
-
-    if (file.endsWith('.html') || file.endsWith('.svg')) {
-      if (/<!--/.test(stripped)) {
-        addError(`HTML comment found in ${path.relative(ROOT, file)}`);
-      }
-    }
-    if (file.endsWith('.css') || file.endsWith('.js') || file.endsWith('.mjs')) {
-      if (/\/\*/.test(stripped)) {
-        addError(`Block comment found in ${path.relative(ROOT, file)}`);
-      }
-    }
-    if (file.endsWith('.js') || file.endsWith('.mjs')) {
-      if (/\/\//.test(stripped)) {
-        addError(`Line comment found in ${path.relative(ROOT, file)}`);
-      }
-    }
-  }
-
-  for (const file of allFiles) {
-    if (!file.endsWith('.js') && !file.endsWith('.mjs')) {
-      continue;
-    }
-    const content = await fsp.readFile(file, 'utf8');
-    const stripped = content.replace(/(['"`])(?:\\[\s\S]|(?!\1)[^\\])*\1/g, '""');
-
-    const sameLineBody = stripped.match(/\)\s*\{\s*[^\s}][^\n]*\n/);
-    if (sameLineBody) {
-      addError(
-        `Body on same line as condition in ${path.relative(ROOT, file)}: ${sameLineBody[0].trim()}`
-      );
-    }
-
-    const lines = stripped.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-      const nextLine = i + 1 < lines.length ? lines[i + 1].trim() : '';
-
-      const matchIf = line.match(/^(if|for|while)\s*\(.*\)/);
-      if (matchIf) {
-        if (!line.endsWith('{') && !nextLine.startsWith('{')) {
-          addError(
-            `Missing brace for ${matchIf[1]} in ${path.relative(ROOT, file)} on line ${i + 1}`
-          );
+async function getFilesRecursively(directoryPath) {
+  const allFilesList = [];
+  try {
+    const directoryEntries = await readdir(directoryPath, { withFileTypes: true });
+    for (const directoryEntry of directoryEntries) {
+      const entryFullPath = join(directoryPath, directoryEntry.name);
+      if (directoryEntry.isDirectory()) {
+        const nestedFilesList = await getFilesRecursively(entryFullPath);
+        for (const nestedFile of nestedFilesList) {
+          allFilesList.push(nestedFile);
         }
+      } else if (directoryEntry.isFile()) {
+        allFilesList.push(entryFullPath);
       }
+    }
+  } catch {}
+  return allFilesList;
+}
 
-      const matchElse = line.match(/^else\b/);
-      if (matchElse && !line.startsWith('else if')) {
-        if (!line.endsWith('{') && !nextLine.startsWith('{')) {
-          addError(`Missing brace for else in ${path.relative(ROOT, file)} on line ${i + 1}`);
-        }
-      }
+function isTextExtension(fileExtension) {
+  const lowercaseExtension = fileExtension.toLowerCase();
+  const binaryExtensions = ['.png', '.jpg', '.jpeg', '.webp', '.ico', '.woff2'];
+  return !binaryExtensions.includes(lowercaseExtension);
+}
+
+async function runAllChecks() {
+  const textDirectories = ['src', 'js', 'scripts', 'docs'];
+  const textFilesList = [
+    'README.md',
+    'SUBMISSION.md',
+    'index.html',
+    'package.json',
+    'eslint.config.js',
+  ];
+  const allTextFilePaths = [];
+
+  for (const directoryName of textDirectories) {
+    const directoryFiles = await getFilesRecursively(join(rootDirectory, directoryName));
+    for (const directoryFile of directoryFiles) {
+      allTextFilePaths.push(directoryFile);
     }
   }
 
-  for (const file of allFiles) {
-    if (!file.endsWith('.js') && !file.endsWith('.mjs')) {
-      continue;
-    }
+  for (const textFileName of textFilesList) {
+    const textFilePath = join(rootDirectory, textFileName);
     try {
-      execSync(`node --check "${file}"`, { stdio: 'ignore' });
-    } catch (e) {
-      addError(`Syntax error in ${path.relative(ROOT, file)}`);
+      const fileStat = await stat(textFilePath);
+      if (fileStat.isFile()) {
+        allTextFilePaths.push(textFilePath);
+      }
+    } catch {}
+  }
+
+  for (const textFilePath of allTextFilePaths) {
+    const fileExtension = extname(textFilePath);
+    if (!isTextExtension(fileExtension)) {
+      continue;
+    }
+    const fileContent = await readFile(textFilePath, 'utf8');
+    if (/[^\x00-\x7F]/.test(fileContent)) {
+      reportError(relative(rootDirectory, textFilePath), 'Contains non-ASCII characters');
     }
   }
 
-  const jsDir = path.join(ROOT, 'js');
-  if (fs.existsSync(jsDir)) {
-    const jsFiles = await readDirRecursive(jsDir);
-    for (const file of jsFiles) {
-      if (!file.endsWith('.js') && !file.endsWith('.mjs')) {
-        continue;
+  const javascriptDirectories = ['js', 'scripts'];
+  const javascriptFilesList = ['eslint.config.js'];
+  const allJavascriptFilePaths = [];
+
+  for (const directoryName of javascriptDirectories) {
+    const directoryFiles = await getFilesRecursively(join(rootDirectory, directoryName));
+    for (const directoryFile of directoryFiles) {
+      if (directoryFile.endsWith('.js') || directoryFile.endsWith('.mjs')) {
+        allJavascriptFilePaths.push(directoryFile);
       }
-      const content = await fsp.readFile(file, 'utf8');
+    }
+  }
+
+  for (const javascriptFileName of javascriptFilesList) {
+    const javascriptFilePath = join(rootDirectory, javascriptFileName);
+    try {
+      const fileStat = await stat(javascriptFilePath);
+      if (fileStat.isFile()) {
+        allJavascriptFilePaths.push(javascriptFilePath);
+      }
+    } catch {}
+  }
+
+  for (const javascriptFilePath of allJavascriptFilePaths) {
+    const fileContent = await readFile(javascriptFilePath, 'utf8');
+    const commentsList = [];
+    try {
+      acorn.parse(fileContent, {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        onComment: commentsList,
+      });
+      if (commentsList.length > 0) {
+        reportError(relative(rootDirectory, javascriptFilePath), 'Contains JavaScript comments');
+      }
+    } catch (parseError) {
+      const errorMessage = `Acorn parse error: ${parseError.message}`;
+      reportError(relative(rootDirectory, javascriptFilePath), errorMessage);
+    }
+  }
+
+  const cssFilesList = await getFilesRecursively(join(rootDirectory, 'src', 'css'));
+  for (const cssFile of cssFilesList) {
+    if (cssFile.endsWith('.css')) {
+      const fileContent = await readFile(cssFile, 'utf8');
+      if (/\/\*/.test(fileContent)) {
+        reportError(relative(rootDirectory, cssFile), 'Contains CSS comments');
+      }
+    }
+  }
+
+  const htmlFilesList = await getFilesRecursively(join(rootDirectory, 'src'));
+  for (const htmlFile of htmlFilesList) {
+    if (htmlFile.endsWith('.html')) {
+      const fileContent = await readFile(htmlFile, 'utf8');
+      if (/<!--/.test(fileContent)) {
+        reportError(relative(rootDirectory, htmlFile), 'Contains HTML comments');
+      }
+    }
+  }
+
+  const eslintArguments = ['eslint', 'js', 'scripts', 'eslint.config.js', '--format', 'json'];
+  const lintProcess = spawnSync('npx', eslintArguments, {
+    cwd: rootDirectory,
+    encoding: 'utf8',
+  });
+
+  if (lintProcess.stdout) {
+    try {
+      const lintResultsList = JSON.parse(lintProcess.stdout);
+      for (const resultItem of lintResultsList) {
+        const filePathRelative = relative(rootDirectory, resultItem.filePath);
+        for (const lintMessage of resultItem.messages) {
+          if (lintMessage.severity === 2) {
+            reportError(filePathRelative, `ESLint Error: ${lintMessage.message}`);
+          }
+        }
+        if (resultItem.warningCount > 0) {
+          reportWarning(filePathRelative, `ESLint warnings count: ${resultItem.warningCount}`);
+        }
+      }
+    } catch (parseError) {
+      const errorMessage = `Failed to parse ESLint JSON output: ${parseError.message}`;
+      reportError('ESLint output', errorMessage);
+    }
+  }
+
+  const applicationJsFilesList = await getFilesRecursively(join(rootDirectory, 'js'));
+  for (const javascriptFile of applicationJsFilesList) {
+    if (javascriptFile.endsWith('.js') || javascriptFile.endsWith('.mjs')) {
+      const fileContent = await readFile(javascriptFile, 'utf8');
       const importRegex = /import\s+\{([^}]+)\}\s+from\s+['"]([^'"]+)['"]/g;
-      let m;
-      while ((m = importRegex.exec(content)) !== null) {
-        const imports = m[1]
+      let importMatch;
+      while ((importMatch = importRegex.exec(fileContent)) !== null) {
+        const importedNamesString = importMatch[1];
+        const importTarget = importMatch[2];
+        const importedNamesList = importedNamesString
           .split(',')
-          .map((s) => s.trim())
-          .filter(Boolean);
-        const target = m[2];
-        const targetPath = path.join(path.dirname(file), target);
+          .map((importName) => {
+            const trimmedName = importName.trim();
+            if (trimmedName.includes(' as ')) {
+              return trimmedName.split(' as ')[0].trim();
+            }
+            return trimmedName;
+          })
+          .filter((importName) => {
+            return importName.length > 0;
+          });
+
+        const targetPath = join(javascriptFile, '..', importTarget);
         try {
-          const mod = await import(pathToFileURL(targetPath).href);
-          for (const imp of imports) {
-            const exportName = imp.includes(' as ') ? imp.split(' as ')[0].trim() : imp;
-            if (!(exportName in mod)) {
-              addError(
-                `Export '${exportName}' not found in ${target} (imported by ${path.relative(ROOT, file)})`
-              );
+          const importedModule = await import(pathToFileURL(targetPath).href);
+          for (const importedName of importedNamesList) {
+            if (!(importedName in importedModule)) {
+              const errorMessage = `Export '${importedName}' not found in ${importTarget}`;
+              reportError(relative(rootDirectory, javascriptFile), errorMessage);
             }
           }
-        } catch (e) {
-          addError(`Could not load import ${target} in ${path.relative(ROOT, file)}: ${e.message}`);
+        } catch (importError) {
+          const errorMessage = `Failed to import ${importTarget}: ${importError.message}`;
+          reportError(relative(rootDirectory, javascriptFile), errorMessage);
         }
       }
     }
   }
 
-  const indexPath = path.join(ROOT, 'index.html');
-  if (!fs.existsSync(indexPath)) {
-    try {
-      execSync(`node "${path.join(ROOT, 'scripts', 'build.mjs')}"`, { stdio: 'ignore' });
-    } catch (e) {
-      addError(`Failed to build index.html: ${e.message}`);
-    }
-  }
-
-  const htmlClasses = new Set();
-  if (fs.existsSync(indexPath)) {
-    const html = await fsp.readFile(indexPath, 'utf8');
-
-    const ids = new Set();
-    const idRegex = /id=["']([^"']+)["']/g;
-    let m;
-    while ((m = idRegex.exec(html)) !== null) {
-      if (ids.has(m[1])) {
-        addError(`Duplicate id attribute in index.html: ${m[1]}`);
-      }
-      ids.add(m[1]);
-    }
-
-    const hrefRegex = /href=["']#([^"']+)["']/g;
-    while ((m = hrefRegex.exec(html)) !== null) {
-      if (m[1] && !ids.has(m[1])) {
-        addError(`Anchor href="#${m[1]}" target does not exist in index.html`);
+  const indexHtmlPath = join(rootDirectory, 'index.html');
+  try {
+    const indexHtmlContent = await readFile(indexHtmlPath, 'utf8');
+    const htmlIdsSet = new Set();
+    const idRegex = /\sid=["']([^"']+)["']/g;
+    let idMatch;
+    while ((idMatch = idRegex.exec(indexHtmlContent)) !== null) {
+      const idValue = idMatch[1];
+      if (htmlIdsSet.has(idValue)) {
+        reportError('index.html', `Duplicate id attribute: ${idValue}`);
+      } else {
+        htmlIdsSet.add(idValue);
       }
     }
 
-    const symbols = new Set();
+    const anchorRegex = /href=["']#([^"']+)["']/g;
+    let anchorMatch;
+    while ((anchorMatch = anchorRegex.exec(indexHtmlContent)) !== null) {
+      const anchorTarget = anchorMatch[1];
+      if (anchorTarget !== '' && !htmlIdsSet.has(anchorTarget)) {
+        reportError('index.html', `Link href="#${anchorTarget}" points to non-existent id`);
+      }
+    }
+
     const symbolRegex = /<symbol[^>]+id=["']([^"']+)["']/g;
-    while ((m = symbolRegex.exec(html)) !== null) {
-      symbols.add(m[1]);
+    const svgSymbolsSet = new Set();
+    let symbolMatch;
+    while ((symbolMatch = symbolRegex.exec(indexHtmlContent)) !== null) {
+      svgSymbolsSet.add(symbolMatch[1]);
     }
 
     const useRegex = /<use[^>]+href=["']#([^"']+)["']/g;
-    while ((m = useRegex.exec(html)) !== null) {
-      if (!symbols.has(m[1])) {
-        addError(`<use href="#${m[1]}"> reference has no matching <symbol> in index.html`);
+    let useMatch;
+    while ((useMatch = useRegex.exec(indexHtmlContent)) !== null) {
+      const useTarget = useMatch[1];
+      if (useTarget !== '' && !svgSymbolsSet.has(useTarget)) {
+        reportError('index.html', `<use href="#${useTarget}"> references non-existent symbol`);
       }
     }
 
-    const classRegex = /class=["']([^"']+)["']/g;
-    while ((m = classRegex.exec(html)) !== null) {
-      m[1].split(/\s+/).forEach((c) => c && htmlClasses.add(c));
-    }
-  }
+    const cssClassesSet = new Set();
+    const stylesCssPath = join(rootDirectory, 'css', 'styles.css');
+    try {
+      const cssContent = await readFile(stylesCssPath, 'utf8');
+      const cssClassRegex = /\.([a-zA-Z][a-zA-Z0-9_-]*)/g;
+      let cssClassMatch;
+      while ((cssClassMatch = cssClassRegex.exec(cssContent)) !== null) {
+        cssClassesSet.add(cssClassMatch[1]);
+      }
+    } catch {}
 
-  const cssPath = path.join(ROOT, 'css', 'styles.css');
-  const cssClasses = new Set();
-  if (fs.existsSync(cssPath)) {
-    const css = await fsp.readFile(cssPath, 'utf8');
-    const classRegex = /\.([a-zA-Z0-9_-]+)/g;
-    let m;
-    while ((m = classRegex.exec(css)) !== null) {
-      cssClasses.add(m[1]);
-    }
-  }
-
-  let jsContent = '';
-  if (fs.existsSync(jsDir)) {
-    const jsFiles = await readDirRecursive(jsDir);
-    for (const f of jsFiles) {
-      if (f.endsWith('.js') || f.endsWith('.mjs')) {
-        jsContent += await fsp.readFile(f, 'utf8');
+    const htmlClassRegex = /class=["']([^"']+)["']/g;
+    let htmlClassMatch;
+    while ((htmlClassMatch = htmlClassRegex.exec(indexHtmlContent)) !== null) {
+      const htmlClassesList = htmlClassMatch[1].split(/\s+/);
+      for (const htmlClassName of htmlClassesList) {
+        if (htmlClassName === '') {
+          continue;
+        }
+        if (
+          htmlClassName.startsWith('is-') ||
+          htmlClassName.startsWith('has-') ||
+          htmlClassName.startsWith('js-')
+        ) {
+          continue;
+        }
+        if (!cssClassesSet.has(htmlClassName)) {
+          const warningMessage = `CSS class '${htmlClassName}' not found in css/styles.css`;
+          reportWarning('index.html', warningMessage);
+        }
       }
     }
+  } catch {
+    reportError('index.html', 'Failed to read index.html');
   }
 
-  for (const c of htmlClasses) {
-    if (!cssClasses.has(c)) {
-      addWarning(`CSS class '${c}' used in HTML but not defined in CSS`);
-    }
-  }
-
-  for (const c of cssClasses) {
-    if (!htmlClasses.has(c) && !jsContent.includes(c)) {
-      addWarning(`CSS class '${c}' defined in CSS but never used in HTML or JS`);
-    }
-  }
-
-  const badVars = ['e', 'el', 'i', 'm', 'st', 'cb', 'fn', 'res', 'btn', 'evt'];
-  if (fs.existsSync(jsDir)) {
-    const jsFiles = await readDirRecursive(jsDir);
-    for (const f of jsFiles) {
-      if (!f.endsWith('.js') && !f.endsWith('.mjs')) {
-        continue;
-      }
-      const content = await fsp.readFile(f, 'utf8');
-
-      const varRegex = new RegExp(
-        `\\b(?:const|let|var|function)\\s+(${badVars.join('|')})\\b`,
-        'g'
-      );
-      let m;
-      while ((m = varRegex.exec(content)) !== null) {
-        addWarning(
-          `Single letter/abbreviated identifier '${m[1]}' used in ${path.relative(ROOT, f)}`
-        );
-      }
-
-      const paramRegex = new RegExp(`\\(\\s*(${badVars.join('|')})\\s*[\\),]`, 'g');
-      while ((m = paramRegex.exec(content)) !== null) {
-        addWarning(
-          `Single letter/abbreviated parameter '${m[1]}' used in ${path.relative(ROOT, f)}`
-        );
-      }
-    }
-  }
-
-  if (warnings.length > 0) {
-    console.log('WARNINGS:');
-    warnings.forEach((w) => console.log(` - ${w}`));
-  }
-
-  if (errors.length > 0) {
-    console.error('\nERRORS:');
-    errors.forEach((e) => console.error(` - ${e}`));
+  console.log(`\nSummary: ${totalErrorCount} errors, ${totalWarningCount} warnings`);
+  if (totalErrorCount > 0) {
     process.exit(1);
+  } else {
+    process.exit(0);
   }
-
-  console.log('\nAll checks passed!');
 }
 
-check().catch((e) => {
-  console.error(e);
+runAllChecks().catch((executionError) => {
+  console.error(executionError);
   process.exit(1);
 });

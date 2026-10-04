@@ -475,6 +475,9 @@ body.has-menu-open {
   bottom: 0;
   left: 0;
   right: 0;
+  width: auto;
+  margin: 0;
+  box-sizing: border-box;
   z-index: var(--z-sticky-cta);
   background: rgb(244 242 238 / 0.94);
   backdrop-filter: blur(14px);

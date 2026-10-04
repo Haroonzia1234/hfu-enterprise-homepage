@@ -10,13 +10,7 @@ import { trackEvent } from '../lib/analytics.js';
 import { quoteStore } from '../lib/quote-store.js';
 import { renderVehicleSvg } from '../lib/vehicle-art.js';
 import { attachStepper } from '../lib/stepper.js';
-import {
-  FLEET,
-  STANDARD_PALLET_CM,
-  recommendVehicle,
-  getVehicle,
-  formatMetres,
-} from '../data/fleet.js';
+import { STANDARD_PALLET_CM, recommendVehicle, getVehicle, formatMetres } from '../data/fleet.js';
 
 export function initFleet() {
   const root = qs('[data-section="fleet"]');
@@ -44,25 +38,24 @@ export function initFleet() {
     weightInput.addEventListener('input', handleFinderChange);
   }
 
-  const activeTab = null;
   const lazyFilled = new Set();
 
   function selectVehicle(vehicleId, source = 'fleet', focusTab = false) {
-    const tab = Array.from(tabs).find((t) => t.dataset.vehicle === vehicleId);
+    const tab = Array.from(tabs).find((tabButton) => tabButton.dataset.vehicle === vehicleId);
     if (!tab) {
       return;
     }
 
-    for (const t of tabs) {
-      t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
-      t.tabIndex = t === tab ? 0 : -1;
+    for (const tabButton of tabs) {
+      tabButton.setAttribute('aria-selected', tabButton === tab ? 'true' : 'false');
+      tabButton.tabIndex = tabButton === tab ? 0 : -1;
     }
 
-    for (const bar of ladderBars) {
-      if (bar.dataset.vehicle === vehicleId) {
-        bar.classList.add('is-active');
+    for (const ladderButton of ladderBars) {
+      if (ladderButton.dataset.vehicle === vehicleId) {
+        ladderButton.classList.add('is-active');
       } else {
-        bar.classList.remove('is-active');
+        ladderButton.classList.remove('is-active');
       }
     }
 
@@ -71,11 +64,11 @@ export function initFleet() {
         panel.removeAttribute('hidden');
         fillPanelLazily(panel, vehicleId);
 
-        const artEl = qs('.fleet__vehicle', panel);
-        if (artEl) {
-          artEl.classList.remove('is-visible');
-          void artEl.offsetWidth;
-          artEl.classList.add('is-visible');
+        const artElement = qs('.fleet__vehicle', panel);
+        if (artElement) {
+          artElement.classList.remove('is-visible');
+          void artElement.offsetWidth;
+          artElement.classList.add('is-visible');
         }
       } else {
         panel.setAttribute('hidden', '');
@@ -111,6 +104,32 @@ export function initFleet() {
         className: 'fleet__vehicle is-visible',
         title: vehicle.name,
       });
+
+      const svg = qs('svg', artContainer);
+      if (svg) {
+        const wrapper = createSvgElement('g');
+        const children = Array.from(svg.childNodes);
+        for (const child of children) {
+          if (child.nodeName !== 'title') {
+            wrapper.appendChild(child);
+          }
+        }
+        svg.appendChild(wrapper);
+
+        const bbox = wrapper.getBBox();
+        const padding = 28;
+        let boxWidth = bbox.width + padding * 2;
+        let boxX = bbox.x - padding;
+        if (boxWidth < 340) {
+          boxX = boxX - (340 - boxWidth) / 2;
+          boxWidth = 340;
+        }
+        const boxY = bbox.y - padding;
+        const boxHeight = bbox.height + padding * 2;
+
+        svg.setAttribute('viewBox', `${boxX} ${boxY} ${boxWidth} ${boxHeight}`);
+        svg.setAttribute('preserveAspectRatio', 'xMidYMax meet');
+      }
     }
 
     if (bayContainer) {
@@ -124,31 +143,32 @@ export function initFleet() {
 
       const palletsNodes = qsa('.fleet__pallet', baySvg);
       if (!prefersReducedMotion()) {
-        for (let i = 0; i < palletsNodes.length; i++) {
+        for (let index = 0; index < palletsNodes.length; index++) {
           setTimeout(
             () => {
-              palletsNodes[i].classList.add('is-visible');
+              palletsNodes[index].classList.add('is-visible');
             },
-            i * 40 + 100
+            index * 40 + 100
           );
         }
       } else {
-        for (let i = 0; i < palletsNodes.length; i++) {
-          palletsNodes[i].classList.add('is-visible');
+        for (let index = 0; index < palletsNodes.length; index++) {
+          palletsNodes[index].classList.add('is-visible');
         }
       }
     }
   }
 
   function buildBaySvg(vehicle) {
-    const l = vehicle.lengthCm;
-    const w = vehicle.widthCm;
+    const vehicleLength = vehicle.lengthCm;
+    const vehicleWidth = vehicle.widthCm;
     const padding = 60;
-    const svgW = l + padding * 2;
-    const svgH = w + padding * 2;
+    const paddingRight = 90;
+    const svgWidth = vehicleLength + padding + paddingRight;
+    const svgHeight = vehicleWidth + padding * 2;
 
     const svg = createSvgElement('svg', {
-      viewBox: `0 0 ${svgW} ${svgH}`,
+      viewBox: `0 0 ${svgWidth} ${svgHeight}`,
       className: 'fleet__bay-svg',
       aria: { hidden: 'true' },
     });
@@ -186,8 +206,8 @@ export function initFleet() {
     const bayRect = createSvgElement('rect', {
       x: String(xOffset),
       y: String(yOffset),
-      width: String(l),
-      height: String(w),
+      width: String(vehicleLength),
+      height: String(vehicleWidth),
       fill: 'transparent',
       stroke: 'var(--blue-400)',
       'stroke-width': '2',
@@ -195,16 +215,16 @@ export function initFleet() {
     });
     svg.appendChild(bayRect);
 
-    const pL = STANDARD_PALLET_CM.length;
-    const pW = STANDARD_PALLET_CM.width;
+    const palletLength = STANDARD_PALLET_CM.length;
+    const palletWidth = STANDARD_PALLET_CM.width;
 
-    const along1 = pL;
-    const across1 = pW;
-    const cap1 = Math.floor(l / along1) * Math.floor(w / across1);
+    const along1 = palletLength;
+    const across1 = palletWidth;
+    const cap1 = Math.floor(vehicleLength / along1) * Math.floor(vehicleWidth / across1);
 
-    const along2 = pW;
-    const across2 = pL;
-    const cap2 = Math.floor(l / along2) * Math.floor(w / across2);
+    const along2 = palletWidth;
+    const across2 = palletLength;
+    const cap2 = Math.floor(vehicleLength / along2) * Math.floor(vehicleWidth / across2);
 
     let along;
     let across;
@@ -228,21 +248,21 @@ export function initFleet() {
       across = across2;
     }
 
-    const cols = Math.floor(l / along);
-    const rows = Math.floor(w / across);
+    const cols = Math.floor(vehicleLength / along);
+    const rows = Math.floor(vehicleWidth / across);
 
     let drawn = 0;
-    for (let c = 0; c < cols && drawn < vehicle.pallets; c++) {
-      for (let r = 0; r < rows && drawn < vehicle.pallets; r++) {
-        const clusterH = rows * across;
-        const startY = yOffset + (w - clusterH) / 2;
-        const px = xOffset + c * along;
-        const py = startY + r * across;
+    for (let colIndex = 0; colIndex < cols && drawn < vehicle.pallets; colIndex++) {
+      for (let rowIndex = 0; rowIndex < rows && drawn < vehicle.pallets; rowIndex++) {
+        const clusterHeight = rows * across;
+        const startY = yOffset + (vehicleWidth - clusterHeight) / 2;
+        const palletX = xOffset + colIndex * along;
+        const palletY = startY + rowIndex * across;
         const gap = 2;
 
         const palletRect = createSvgElement('rect', {
-          x: String(px + gap),
-          y: String(py + gap),
+          x: String(palletX + gap),
+          y: String(palletY + gap),
           width: String(along - gap * 2),
           height: String(across - gap * 2),
           rx: '4',
@@ -256,137 +276,161 @@ export function initFleet() {
       }
     }
 
-    const fontSize = Math.max(12, Math.round(svgW * 0.035));
+    const fontSize = Math.max(12, Math.round(svgWidth * 0.035));
 
-    const yL = yOffset + w + 16;
-    const pathL = createSvgElement('path', {
-      d: `M${xOffset},${yL - 6} L${xOffset},${yL} L${xOffset + l},${yL} L${xOffset + l},${yL - 6}`,
+    const yLength = yOffset + vehicleWidth + 16;
+    const lengthPath = createSvgElement('path', {
+      d: `M${xOffset},${yLength - 6} L${xOffset},${yLength} L${xOffset + vehicleLength},${yLength} L${xOffset + vehicleLength},${yLength - 6}`,
       stroke: 'var(--ink-400)',
       fill: 'none',
       'stroke-width': '1.5',
     });
-    const textL = createSvgElement('text', {
-      x: String(xOffset + l / 2),
-      y: String(yL + fontSize + 4),
+    const lengthText = createSvgElement('text', {
+      x: String(xOffset + vehicleLength / 2),
+      y: String(yLength + fontSize + 4),
       fill: 'var(--white)',
       'font-size': String(fontSize),
       'text-anchor': 'middle',
     });
-    textL.textContent = `${formatMetres(l)} m length`;
-    svg.appendChild(pathL);
-    svg.appendChild(textL);
+    lengthText.textContent = `${formatMetres(vehicleLength)} m`;
+    const lengthSubText = createSvgElement('text', {
+      x: String(xOffset + vehicleLength / 2),
+      y: String(yLength + fontSize + 4 + fontSize * 1.2),
+      fill: 'var(--ink-300)',
+      'font-size': String(Math.round(fontSize * 0.8)),
+      'text-anchor': 'middle',
+    });
+    lengthSubText.textContent = 'length';
+    svg.appendChild(lengthPath);
+    svg.appendChild(lengthText);
+    svg.appendChild(lengthSubText);
 
-    const xW = xOffset + l + 16;
-    const pathW = createSvgElement('path', {
-      d: `M${xW - 6},${yOffset} L${xW},${yOffset} L${xW},${yOffset + w} L${xW - 6},${yOffset + w}`,
+    const xWidth = xOffset + vehicleLength + 16;
+    const widthPath = createSvgElement('path', {
+      d: `M${xWidth - 6},${yOffset} L${xWidth},${yOffset} L${xWidth},${yOffset + vehicleWidth} L${xWidth - 6},${yOffset + vehicleWidth}`,
       stroke: 'var(--ink-400)',
       fill: 'none',
       'stroke-width': '1.5',
     });
-    const textW = createSvgElement('text', {
-      x: String(xW + 8),
-      y: String(yOffset + w / 2 + fontSize * 0.35),
+    const widthText = createSvgElement('text', {
+      x: String(xWidth + 8),
+      y: String(yOffset + vehicleWidth / 2 - fontSize * 0.2),
       fill: 'var(--white)',
       'font-size': String(fontSize),
       'text-anchor': 'start',
     });
-    textW.textContent = `${formatMetres(w)} m width`;
-    svg.appendChild(pathW);
-    svg.appendChild(textW);
+    widthText.textContent = `${formatMetres(vehicleWidth)} m`;
+    const widthSubText = createSvgElement('text', {
+      x: String(xWidth + 8),
+      y: String(yOffset + vehicleWidth / 2 + fontSize),
+      fill: 'var(--ink-300)',
+      'font-size': String(Math.round(fontSize * 0.8)),
+      'text-anchor': 'start',
+    });
+    widthSubText.textContent = 'width';
+    svg.appendChild(widthPath);
+    svg.appendChild(widthText);
+    svg.appendChild(widthSubText);
 
     return svg;
   }
 
   function handleFinderChange() {
-    const p = Number(palletsInput.value) || 0;
-    const w = Number(weightInput.value) || 0;
+    const palletsValue = Number(palletsInput.value) || 0;
+    const weightValue = Number(weightInput.value) || 0;
 
-    const recommended = recommendVehicle(p, w);
+    const recommended = recommendVehicle(palletsValue, weightValue);
 
-    for (const tab of tabs) {
-      tab.classList.remove('is-recommended');
+    for (const tabButton of tabs) {
+      tabButton.classList.remove('is-recommended');
     }
-    for (const bar of ladderBars) {
-      bar.classList.remove('is-recommended');
+    for (const ladderButton of ladderBars) {
+      ladderButton.classList.remove('is-recommended');
     }
 
-    if (p === 0 && w === 0) {
+    if (palletsValue === 0 && weightValue === 0) {
       resultArea.innerHTML = '';
       return;
     }
 
     if (recommended) {
-      const tab = Array.from(tabs).find((t) => t.dataset.vehicle === recommended.id);
-      if (tab) {
-        tab.classList.add('is-recommended');
+      const tabButton = Array.from(tabs).find(
+        (button) => button.dataset.vehicle === recommended.id
+      );
+      if (tabButton) {
+        tabButton.classList.add('is-recommended');
       }
 
-      const bar = Array.from(ladderBars).find((b) => b.dataset.vehicle === recommended.id);
-      if (bar) {
-        bar.classList.add('is-recommended');
+      const ladderButton = Array.from(ladderBars).find(
+        (bar) => bar.dataset.vehicle === recommended.id
+      );
+      if (ladderButton) {
+        ladderButton.classList.add('is-recommended');
       }
 
       resultArea.innerHTML = '';
-      const pText = createElement('p', {
+      const paragraphElement = createElement('p', {
         text: `Best match: ${recommended.name}. Carries up to ${formatNumber(recommended.pallets)} pallet${recommended.pallets === 1 ? '' : 's'} and ${formatNumber(recommended.payloadKg)} kg.`,
       });
-      const btn = createElement('button', {
+      const finderButton = createElement('button', {
         className: 'btn btn--primary fleet__finder-btn',
         text: 'See it in the fleet',
         dataset: { vehicle: recommended.id },
       });
-      btn.addEventListener('click', () => {
+      finderButton.addEventListener('click', () => {
         selectVehicle(recommended.id, 'fleet', true);
       });
-      resultArea.appendChild(pText);
-      resultArea.appendChild(btn);
+      resultArea.appendChild(paragraphElement);
+      resultArea.appendChild(finderButton);
     } else {
       resultArea.innerHTML =
         '<p>That is beyond a single 26T. Contact the team and we will plan it with you.</p>';
     }
 
-    quoteStore.update({ pallets: p, weightKg: w || null }, 'fleet');
+    quoteStore.update({ pallets: palletsValue, weightKg: weightValue || null }, 'fleet');
   }
 
-  tablist.addEventListener('keydown', (e) => {
+  tablist.addEventListener('keydown', (keyboardEvent) => {
     const tabsArr = Array.from(tabs);
-    const currentIndex = tabsArr.findIndex((t) => t.tabIndex === 0);
+    const currentIndex = tabsArr.findIndex((tabButton) => tabButton.tabIndex === 0);
     let newIndex = currentIndex;
 
-    if (e.key === 'ArrowRight') {
+    if (keyboardEvent.key === 'ArrowRight') {
       newIndex = (currentIndex + 1) % tabsArr.length;
-    } else if (e.key === 'ArrowLeft') {
+    } else if (keyboardEvent.key === 'ArrowLeft') {
       newIndex = (currentIndex - 1 + tabsArr.length) % tabsArr.length;
-    } else if (e.key === 'Home') {
+    } else if (keyboardEvent.key === 'Home') {
       newIndex = 0;
-    } else if (e.key === 'End') {
+    } else if (keyboardEvent.key === 'End') {
       newIndex = tabsArr.length - 1;
     }
 
     if (newIndex !== currentIndex) {
-      e.preventDefault();
+      keyboardEvent.preventDefault();
       const newTab = tabsArr[newIndex];
       selectVehicle(newTab.dataset.vehicle, 'fleet', true);
     }
   });
 
-  for (const tab of tabs) {
-    tab.addEventListener('click', () => {
-      selectVehicle(tab.dataset.vehicle, 'fleet', true);
+  for (const tabButton of tabs) {
+    tabButton.addEventListener('click', () => {
+      selectVehicle(tabButton.dataset.vehicle, 'fleet', true);
     });
   }
 
-  for (const bar of ladderBars) {
-    bar.addEventListener('click', () => {
-      selectVehicle(bar.dataset.vehicle, 'fleet', true);
-      const tab = Array.from(tabs).find((t) => t.dataset.vehicle === bar.dataset.vehicle);
-      if (tab) {
-        tab.focus();
+  for (const ladderButton of ladderBars) {
+    ladderButton.addEventListener('click', () => {
+      selectVehicle(ladderButton.dataset.vehicle, 'fleet', true);
+      const tabButton = Array.from(tabs).find(
+        (button) => button.dataset.vehicle === ladderButton.dataset.vehicle
+      );
+      if (tabButton) {
+        tabButton.focus();
       }
     });
   }
 
-  const unsubscribe = quoteStore.subscribe((state, changedKeys, source) => {
+  quoteStore.subscribe((state, changedKeys, source) => {
     if (source !== 'fleet' && changedKeys.includes('vehicleId') && state.vehicleId) {
       selectVehicle(state.vehicleId, source, false);
     }

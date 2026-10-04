@@ -1,59 +1,59 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import { stat, readdir, readFile, mkdir, writeFile } from 'node:fs/promises';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import crypto from 'node:crypto';
+import { createHash } from 'node:crypto';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(__dirname, '..');
-const isProd = process.argv.includes('--production');
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const rootDir = join(currentDir, '..');
+const isProduction = process.argv.includes('--production');
 
-const SITE_URL = (
+const siteUrl = (
   process.env.SITE_URL || 'https://haroonzia1234.github.io/hfu-enterprise-homepage/'
 ).replace(/\/?$/, '/');
-const CANONICAL = SITE_URL;
-const ROBOTS = isProd
+const canonicalUrl = siteUrl;
+const robotsTag = isProduction
   ? '<meta name="robots" content="index, follow, max-image-preview:large">'
   : '<meta name="robots" content="noindex, nofollow">';
-const TITLE = 'HFU Enterprise Ltd | Same Day Courier and Pallet Delivery, Quoted in 15 Minutes';
-const DESCRIPTION =
+const pageTitle = 'HFU Enterprise Ltd | Same Day Courier and Pallet Delivery, Quoted in 15 Minutes';
+const pageDescription =
   'same day courier, scheduled delivery, pallet delivery and vans from Manchester across the UK and abroad. Open 24/7. Get a quote in 15 minutes.';
 
-async function fileExists(filePath) {
+async function checkFileExists(filePath) {
   try {
-    await fs.stat(filePath);
+    await stat(filePath);
     return true;
   } catch {
     return false;
   }
 }
 
-async function readDirRecursive(dir) {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  const files = [];
-  for (const entry of entries) {
-    const res = path.resolve(dir, entry.name);
+async function readDirectoryRecursive(directoryPath) {
+  const directoryEntries = await readdir(directoryPath, { withFileTypes: true });
+  const filePaths = [];
+  for (const entry of directoryEntries) {
+    const resolvedPath = resolve(directoryPath, entry.name);
     if (entry.isDirectory()) {
-      files.push(...(await readDirRecursive(res)));
+      filePaths.push(...(await readDirectoryRecursive(resolvedPath)));
     } else if (entry.isFile()) {
-      files.push(res);
+      filePaths.push(resolvedPath);
     }
   }
-  return files;
+  return filePaths;
 }
 
-async function build() {
-  let html = await fs.readFile(path.join(ROOT, 'src', 'template.html'), 'utf-8');
+async function buildSite() {
+  let htmlContent = await readFile(join(rootDir, 'src', 'template.html'), 'utf-8');
 
   const partialRegex = /\{\{>\s*([a-zA-Z0-9_-]+)\s*\}\}/g;
-  let match;
-  while ((match = partialRegex.exec(html)) !== null) {
-    const name = match[1];
-    const partialPath = path.join(ROOT, 'src', 'sections', `${name}.html`);
-    if (!(await fileExists(partialPath))) {
+  let regexMatch;
+  while ((regexMatch = partialRegex.exec(htmlContent)) !== null) {
+    const partialName = regexMatch[1];
+    const partialPath = join(rootDir, 'src', 'sections', `${partialName}.html`);
+    if (!(await checkFileExists(partialPath))) {
       throw new Error(`Missing partial: ${partialPath}`);
     }
-    const partialContent = (await fs.readFile(partialPath, 'utf-8')).trim();
-    html = html.replace(match[0], partialContent);
+    const partialContent = (await readFile(partialPath, 'utf-8')).trim();
+    htmlContent = htmlContent.replace(regexMatch[0], partialContent);
     partialRegex.lastIndex = 0;
   }
 
@@ -78,64 +78,64 @@ async function build() {
       'quote',
       'faq',
       'footer',
-    ].map((name) => `sections/${name}.css`),
+    ].map((sectionName) => `sections/${sectionName}.css`),
   ];
 
-  let css = '';
-  for (const cssFile of cssOrder) {
-    const cssPath = path.join(ROOT, 'src', 'css', cssFile);
-    if (await fileExists(cssPath)) {
-      css += (await fs.readFile(cssPath, 'utf-8')) + '\n';
+  let combinedCss = '';
+  for (const cssFileName of cssOrder) {
+    const cssFilePath = join(rootDir, 'src', 'css', cssFileName);
+    if (await checkFileExists(cssFilePath)) {
+      combinedCss += (await readFile(cssFilePath, 'utf-8')) + '\n';
     } else {
-      if (cssFile.startsWith('sections/')) {
-        console.warn(`Warning: Missing section CSS file: ${cssPath}`);
+      if (cssFileName.startsWith('sections/')) {
+        console.warn(`Warning: Missing section CSS file: ${cssFilePath}`);
       } else {
-        throw new Error(`Missing required CSS file: ${cssPath}`);
+        throw new Error(`Missing required CSS file: ${cssFilePath}`);
       }
     }
   }
 
-  await fs.mkdir(path.join(ROOT, 'css'), { recursive: true });
-  await fs.writeFile(path.join(ROOT, 'css', 'styles.css'), css);
+  await mkdir(join(rootDir, 'css'), { recursive: true });
+  await writeFile(join(rootDir, 'css', 'styles.css'), combinedCss);
 
-  const cssHash = crypto.createHash('sha256').update(css).digest('hex').substring(0, 8);
+  const cssHash = createHash('sha256').update(combinedCss).digest('hex').substring(0, 8);
 
-  const jsDir = path.join(ROOT, 'js');
-  let jsFiles = [];
-  if (await fileExists(jsDir)) {
-    jsFiles = await readDirRecursive(jsDir);
-    jsFiles.sort();
+  const javascriptDirectory = join(rootDir, 'js');
+  let javascriptFiles = [];
+  if (await checkFileExists(javascriptDirectory)) {
+    javascriptFiles = await readDirectoryRecursive(javascriptDirectory);
+    javascriptFiles.sort();
   }
-  let jsConcat = '';
-  for (const jsFile of jsFiles) {
-    jsConcat += await fs.readFile(jsFile, 'utf-8');
+  let combinedJavascript = '';
+  for (const javascriptFile of javascriptFiles) {
+    combinedJavascript += await readFile(javascriptFile, 'utf-8');
   }
-  const jsHash = crypto.createHash('sha256').update(jsConcat).digest('hex').substring(0, 8);
+  const jsHash = createHash('sha256').update(combinedJavascript).digest('hex').substring(0, 8);
 
-  const companyMod = await import(pathToFileURL(path.join(ROOT, 'js', 'data', 'company.js')).href);
-  const servicesMod = await import(
-    pathToFileURL(path.join(ROOT, 'js', 'data', 'services.js')).href
+  const companyModule = await import(pathToFileURL(join(rootDir, 'js', 'data', 'company.js')).href);
+  const servicesModule = await import(
+    pathToFileURL(join(rootDir, 'js', 'data', 'services.js')).href
   );
-  const faqsMod = await import(pathToFileURL(path.join(ROOT, 'js', 'data', 'faqs.js')).href);
+  const faqsModule = await import(pathToFileURL(join(rootDir, 'js', 'data', 'faqs.js')).href);
 
-  const COMPANY = companyMod.COMPANY;
-  const SERVICES = servicesMod.SERVICES;
-  const FAQS = faqsMod.FAQS;
+  const companyData = companyModule.COMPANY;
+  const servicesData = servicesModule.SERVICES;
+  const faqsData = faqsModule.FAQS;
 
-  const jsonLdObj = {
+  const jsonLdObject = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'LocalBusiness',
-        name: COMPANY.legalName,
-        url: SITE_URL,
-        telephone: COMPANY.phones.map((p) => p.display),
-        email: COMPANY.email,
+        name: companyData.legalName,
+        url: siteUrl,
+        telephone: companyData.phones.map((phoneItem) => phoneItem.display),
+        email: companyData.email,
         address: {
           '@type': 'PostalAddress',
-          streetAddress: COMPANY.address.street,
-          addressLocality: COMPANY.address.city,
-          postalCode: COMPANY.address.postcode,
+          streetAddress: companyData.address.street,
+          addressLocality: companyData.address.city,
+          postalCode: companyData.address.postcode,
           addressCountry: 'GB',
         },
         openingHoursSpecification: {
@@ -145,56 +145,56 @@ async function build() {
           closes: '23:59',
         },
         areaServed: [
-          ...COMPANY.localAreas.map((area) => ({ '@type': 'Place', name: area })),
+          ...companyData.localAreas.map((areaName) => ({ '@type': 'Place', name: areaName })),
           { '@type': 'Country', name: 'United Kingdom' },
         ],
-        description: DESCRIPTION,
-        makesOffer: SERVICES.map((service) => ({
+        description: pageDescription,
+        makesOffer: servicesData.map((serviceItem) => ({
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: service.name,
-            description: service.description,
+            name: serviceItem.name,
+            description: serviceItem.description,
           },
         })),
       },
       {
         '@type': 'FAQPage',
-        mainEntity: FAQS.map((faq) => ({
+        mainEntity: faqsData.map((faqItem) => ({
           '@type': 'Question',
-          name: faq.question,
+          name: faqItem.question,
           acceptedAnswer: {
             '@type': 'Answer',
-            text: faq.answer,
+            text: faqItem.answer,
           },
         })),
       },
     ],
   };
 
-  const jsonLdStr = JSON.stringify(jsonLdObj).replace(/</g, '\\u003c');
-  const JSON_LD = `<script type="application/ld+json">\n${jsonLdStr}\n</script>`;
+  const jsonLdString = JSON.stringify(jsonLdObject).replace(/</g, '\\u003c');
+  const jsonLdScript = `<script type="application/ld+json">\n${jsonLdString}\n</script>`;
 
-  html = html
-    .replace(/\{\{SITE_URL\}\}/g, SITE_URL)
-    .replace(/\{\{CANONICAL\}\}/g, CANONICAL)
-    .replace(/\{\{ROBOTS\}\}/g, ROBOTS)
-    .replace(/\{\{TITLE\}\}/g, TITLE)
-    .replace(/\{\{DESCRIPTION\}\}/g, DESCRIPTION)
+  htmlContent = htmlContent
+    .replace(/\{\{SITE_URL\}\}/g, siteUrl)
+    .replace(/\{\{CANONICAL\}\}/g, canonicalUrl)
+    .replace(/\{\{ROBOTS\}\}/g, robotsTag)
+    .replace(/\{\{TITLE\}\}/g, pageTitle)
+    .replace(/\{\{DESCRIPTION\}\}/g, pageDescription)
     .replace(/\{\{CSS_HASH\}\}/g, cssHash)
     .replace(/\{\{JS_HASH\}\}/g, jsHash)
-    .replace(/\{\{JSON_LD\}\}/g, JSON_LD);
+    .replace(/\{\{JSON_LD\}\}/g, jsonLdScript);
 
-  const indexPath = path.join(ROOT, 'index.html');
-  await fs.writeFile(indexPath, html);
+  const indexFilePath = join(rootDir, 'index.html');
+  await writeFile(indexFilePath, htmlContent);
 
-  const htmlSize = (await fs.stat(indexPath)).size;
-  const cssSize = (await fs.stat(path.join(ROOT, 'css', 'styles.css'))).size;
+  const htmlSize = (await stat(indexFilePath)).size;
+  const cssSize = (await stat(join(rootDir, 'css', 'styles.css'))).size;
 
   console.log(`Build complete. index.html: ${htmlSize} bytes, css/styles.css: ${cssSize} bytes.`);
 }
 
-build().catch((err) => {
-  console.error(err);
+buildSite().catch((buildError) => {
+  console.error(buildError);
   process.exit(1);
 });

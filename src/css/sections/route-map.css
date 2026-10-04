@@ -97,6 +97,10 @@
   transition: fill var(--dur-fast) var(--ease-out);
 }
 
+.route-map__place.is-route-endpoint .route-map__label {
+  display: none;
+}
+
 .route-map__place:hover .route-map__label,
 .route-map__place:focus-visible .route-map__label {
   fill: var(--white);

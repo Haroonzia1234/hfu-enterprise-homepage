@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  padding-block: var(--space-8) var(--space-9);
+  padding-block: var(--space-6) var(--space-9);
   overflow: hidden;
   contain: paint;
 }
@@ -31,7 +31,8 @@
 .hero__title {
   margin: 0;
   text-wrap: balance;
-  font-size: clamp(2.25rem, 1.2rem + 4.2vw, 4.75rem);
+  font-size: clamp(2.25rem, 1.2rem + 3.6vw, 4rem);
+  line-height: 0.96;
 }
 .hero__title-line2 {
   color: var(--plum-500);
@@ -64,6 +65,11 @@
   background-color: var(--white);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
+}
+.planner__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 .planner__locations {
   display: grid;
@@ -162,15 +168,19 @@
 }
 .board__body {
   overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
 }
 .hero__map {
   flex: 1;
   min-height: 0;
   position: relative;
   overflow: hidden;
-  aspect-ratio: 640 / 889;
-  max-height: 460px;
   margin: 0 auto;
+  width: 100%;
 }
 .hero__map-hint {
   text-align: center;
@@ -178,6 +188,11 @@
   color: var(--ink-300);
   padding: var(--space-2);
   margin: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
 }
 .board__legend {
   display: flex;
@@ -216,9 +231,6 @@
 }
 
 @media (min-width: 640px) {
-  .planner {
-    padding: var(--space-5);
-  }
   .planner__locations {
     grid-template-columns: 1fr auto 1fr;
     align-items: end;
@@ -236,15 +248,18 @@
 }
 
 @media (min-width: 1100px) {
+  .planner__options {
+    flex-direction: row;
+    align-items: flex-end;
+  }
   .hero__container.container {
     max-width: none;
     margin-inline: 0;
     padding-inline: 0;
     display: grid;
-    grid-template-columns: minmax(var(--gutter), 1fr) minmax(
-        0,
-        calc((var(--container) - var(--space-8)) * 1.15 / 2)
-      ) var(--space-8) minmax(0, calc((var(--container) - var(--space-8)) * 0.85 / 2)) minmax(
+    grid-template-columns:
+      minmax(var(--gutter), 1fr) minmax(0, calc((var(--container) - var(--space-8)) * 1.15 / 2))
+      var(--space-8) minmax(0, calc((var(--container) - var(--space-8)) * 0.85 / 2)) minmax(
         var(--gutter),
         1fr
       );

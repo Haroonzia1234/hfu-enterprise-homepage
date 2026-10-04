@@ -86,6 +86,15 @@ export default [
     rules: sharedRules,
   },
   {
+    files: ['scripts/capture.mjs'],
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: 'module',
+      globals: toGlobals([...nodeGlobals, ...browserGlobals]),
+    },
+    rules: sharedRules,
+  },
+  {
     files: ['scripts/**/*.mjs', 'eslint.config.js'],
     languageOptions: {
       ecmaVersion: 2023,

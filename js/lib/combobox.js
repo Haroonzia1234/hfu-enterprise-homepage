@@ -36,9 +36,9 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       listElement.appendChild(emptyItem);
       announce('No match. Try a town, city or postcode area such as LS or M20.');
     } else {
-      for (let i = 0; i < suggestions.length; i++) {
-        const place = suggestions[i];
-        const optionId = `${listId}-opt-${i}`;
+      for (let optionIndex = 0; optionIndex < suggestions.length; optionIndex++) {
+        const place = suggestions[optionIndex];
+        const optionId = `${listId}-opt-${optionIndex}`;
 
         const metaText = place.kind === 'local' ? 'local' : place.area;
 
@@ -91,15 +91,15 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
 
   function updateActiveDescendant() {
     const options = listElement.querySelectorAll('.combobox__option');
-    for (let i = 0; i < options.length; i++) {
-      if (i === activeIndex) {
-        options[i].classList.add('is-active');
-        options[i].setAttribute('aria-selected', 'true');
-        inputElement.setAttribute('aria-activedescendant', options[i].id);
-        options[i].scrollIntoView({ block: 'nearest' });
+    for (let optionIndex = 0; optionIndex < options.length; optionIndex++) {
+      if (optionIndex === activeIndex) {
+        options[optionIndex].classList.add('is-active');
+        options[optionIndex].setAttribute('aria-selected', 'true');
+        inputElement.setAttribute('aria-activedescendant', options[optionIndex].id);
+        options[optionIndex].scrollIntoView({ block: 'nearest' });
       } else {
-        options[i].classList.remove('is-active');
-        options[i].setAttribute('aria-selected', 'false');
+        options[optionIndex].classList.remove('is-active');
+        options[optionIndex].setAttribute('aria-selected', 'false');
       }
     }
     if (activeIndex === -1) {

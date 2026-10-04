@@ -9,5 +9,5 @@ export function trackEvent(eventName, parameters = {}) {
       event: eventName,
       ...parameters,
     });
-  } catch (error) {}
+  } catch {}
 }

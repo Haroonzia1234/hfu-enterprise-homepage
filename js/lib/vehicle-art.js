@@ -1,4 +1,4 @@
-import { FLEET, getVehicle } from '../data/fleet.js';
+import { getVehicle } from '../data/fleet.js';
 
 export const VEHICLE_VIEWBOX = { width: 800, height: 280 };
 
@@ -44,7 +44,7 @@ function getWheelRadius(vehicleData) {
   return WHEEL_RADIUS_LARGE;
 }
 
-function buildWheel(centreX, centreY, radius, idPrefix) {
+function buildWheel(centreX, centreY, radius) {
   const hubRadius = radius * 0.55;
   const capRadius = radius * 0.22;
   return [
@@ -131,7 +131,6 @@ function buildVan(vehicleData, idPrefix) {
   const wheelRadius = getWheelRadius(vehicleData);
   const bodyLength = vehicleData.lengthCm * BODY_LENGTH_SCALE;
   const bodyHeight = vehicleData.heightCm * BODY_HEIGHT_SCALE;
-  const isHighRoof = vehicleData.id === 'lwb' || vehicleData.id === 'xlwb';
 
   const cabWidth = VAN_CAB_WIDTH;
   const totalLength = bodyLength + cabWidth + VAN_BONNET_LENGTH;
@@ -154,7 +153,6 @@ function buildVan(vehicleData, idPrefix) {
   const bonnetTipX = cabRightX;
   const bonnetY = bodyBottomY - cabHeight * 0.35;
   const windscreenTopX = cabRightX - VAN_BONNET_LENGTH;
-  const windscreenBottomX = windscreenTopX - VAN_WINDSCREEN_DEPTH * 0.3;
 
   const archDarken = '#d9dee8';
 
@@ -245,8 +243,8 @@ function buildVan(vehicleData, idPrefix) {
   bodyParts.push(buildWheelArch(rearWheelX, bodyBottomY, wheelRadius, archDarken));
   bodyParts.push(buildWheelArch(frontWheelX, bodyBottomY, wheelRadius, archDarken));
 
-  bodyParts.push(buildWheel(rearWheelX, wheelCentreY, wheelRadius, idPrefix));
-  bodyParts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius, idPrefix));
+  bodyParts.push(buildWheel(rearWheelX, wheelCentreY, wheelRadius));
+  bodyParts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius));
 
   bodyParts.push(
     `<rect x="${bonnetTipX - 3}" y="${bonnetY - 3}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`
@@ -357,8 +355,8 @@ function buildLuton(vehicleData, idPrefix) {
   parts.push(buildWheelArch(rearWheelX, bodyBottomY, wheelRadius, archDarken));
   parts.push(buildWheelArch(frontWheelX, bodyBottomY, wheelRadius, archDarken));
 
-  parts.push(buildWheel(rearWheelX, wheelCentreY, wheelRadius, idPrefix));
-  parts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius, idPrefix));
+  parts.push(buildWheel(rearWheelX, wheelCentreY, wheelRadius));
+  parts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius));
 
   parts.push(
     `<rect x="${bonnetTipX - 3}" y="${bonnetY - 3}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`
@@ -479,9 +477,9 @@ function buildRigid(vehicleData, idPrefix) {
   parts.push(buildWheelArch(frontWheelX, chassisBottomY, wheelRadius, archDarken));
 
   for (const axleX of rearAxles) {
-    parts.push(buildWheel(axleX, wheelCentreY, wheelRadius, idPrefix));
+    parts.push(buildWheel(axleX, wheelCentreY, wheelRadius));
   }
-  parts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius, idPrefix));
+  parts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius));
 
   parts.push(
     `<rect x="${cabRightX - 3}" y="${cabRoofY + glassHeight + 10}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`

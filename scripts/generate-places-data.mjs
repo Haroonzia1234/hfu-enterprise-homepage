@@ -1,130 +1,130 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 
-const inputs = [
-  { a: 'AB', n: 'Aberdeen', r: 'Scotland', o: 'AB10' },
-  { a: 'AL', n: 'St Albans', r: 'East of England', o: 'AL1' },
-  { a: 'B', n: 'Birmingham', r: 'West Midlands', o: 'B1' },
-  { a: 'BA', n: 'Bath', r: 'South West', o: 'BA1' },
-  { a: 'BB', n: 'Blackburn', r: 'North West', o: 'BB1' },
-  { a: 'BD', n: 'Bradford', r: 'Yorkshire', o: 'BD1' },
-  { a: 'BH', n: 'Bournemouth', r: 'South West', o: 'BH1' },
-  { a: 'BL', n: 'Bolton', r: 'North West', o: 'BL1' },
-  { a: 'BN', n: 'Brighton', r: 'South East', o: 'BN1' },
-  { a: 'BR', n: 'Bromley', r: 'London', o: 'BR1' },
-  { a: 'BS', n: 'Bristol', r: 'South West', o: 'BS1' },
-  { a: 'BT', n: 'Belfast', r: 'Northern Ireland', o: 'BT1' },
-  { a: 'CA', n: 'Carlisle', r: 'North West', o: 'CA1' },
-  { a: 'CB', n: 'Cambridge', r: 'East of England', o: 'CB1' },
-  { a: 'CF', n: 'Cardiff', r: 'Wales', o: 'CF10' },
-  { a: 'CH', n: 'Chester', r: 'North West', o: 'CH1' },
-  { a: 'CM', n: 'Chelmsford', r: 'East of England', o: 'CM1' },
-  { a: 'CO', n: 'Colchester', r: 'East of England', o: 'CO1' },
-  { a: 'CR', n: 'Croydon', r: 'London', o: 'CR0' },
-  { a: 'CT', n: 'Canterbury', r: 'South East', o: 'CT1' },
-  { a: 'CV', n: 'Coventry', r: 'West Midlands', o: 'CV1' },
-  { a: 'CW', n: 'Crewe', r: 'North West', o: 'CW1' },
-  { a: 'DA', n: 'Dartford', r: 'South East', o: 'DA1' },
-  { a: 'DD', n: 'Dundee', r: 'Scotland', o: 'DD1' },
-  { a: 'DE', n: 'Derby', r: 'East Midlands', o: 'DE1' },
-  { a: 'DG', n: 'Dumfries', r: 'Scotland', o: 'DG1' },
-  { a: 'DH', n: 'Durham', r: 'North East', o: 'DH1' },
-  { a: 'DL', n: 'Darlington', r: 'North East', o: 'DL1' },
-  { a: 'DN', n: 'Doncaster', r: 'Yorkshire', o: 'DN1' },
-  { a: 'DT', n: 'Dorchester', r: 'South West', o: 'DT1' },
-  { a: 'DY', n: 'Dudley', r: 'West Midlands', o: 'DY1' },
-  { a: 'E', n: 'London E', r: 'London', o: 'E1' },
-  { a: 'EC', n: 'London City', r: 'London', o: 'EC1A' },
-  { a: 'EH', n: 'Edinburgh', r: 'Scotland', o: 'EH1' },
-  { a: 'EN', n: 'Enfield', r: 'London', o: 'EN1' },
-  { a: 'EX', n: 'Exeter', r: 'South West', o: 'EX1' },
-  { a: 'FK', n: 'Falkirk', r: 'Scotland', o: 'FK1' },
-  { a: 'FY', n: 'Blackpool', r: 'North West', o: 'FY1' },
-  { a: 'G', n: 'Glasgow', r: 'Scotland', o: 'G1' },
-  { a: 'GL', n: 'Gloucester', r: 'South West', o: 'GL1' },
-  { a: 'GU', n: 'Guildford', r: 'South East', o: 'GU1' },
-  { a: 'HA', n: 'Harrow', r: 'London', o: 'HA1' },
-  { a: 'HD', n: 'Huddersfield', r: 'Yorkshire', o: 'HD1' },
-  { a: 'HG', n: 'Harrogate', r: 'Yorkshire', o: 'HG1' },
-  { a: 'HP', n: 'Hemel Hempstead', r: 'East of England', o: 'HP1' },
-  { a: 'HR', n: 'Hereford', r: 'West Midlands', o: 'HR1' },
-  { a: 'HS', n: 'Outer Hebrides', r: 'Scotland', o: 'HS1' },
-  { a: 'HU', n: 'Kingston upon Hull', r: 'Yorkshire', o: 'HU1' },
-  { a: 'HX', n: 'Halifax', r: 'Yorkshire', o: 'HX1' },
-  { a: 'IG', n: 'Ilford', r: 'London', o: 'IG1' },
-  { a: 'IP', n: 'Ipswich', r: 'East of England', o: 'IP1' },
-  { a: 'IV', n: 'Inverness', r: 'Scotland', o: 'IV1' },
-  { a: 'KA', n: 'Kilmarnock', r: 'Scotland', o: 'KA1' },
-  { a: 'KT', n: 'Kingston upon Thames', r: 'London', o: 'KT1' },
-  { a: 'KW', n: 'Kirkwall', r: 'Scotland', o: 'KW15' },
-  { a: 'KY', n: 'Kirkcaldy', r: 'Scotland', o: 'KY1' },
-  { a: 'L', n: 'Liverpool', r: 'North West', o: 'L1' },
-  { a: 'LA', n: 'Lancaster', r: 'North West', o: 'LA1' },
-  { a: 'LD', n: 'Llandrindod Wells', r: 'Wales', o: 'LD1' },
-  { a: 'LE', n: 'Leicester', r: 'East Midlands', o: 'LE1' },
-  { a: 'LL', n: 'Llandudno', r: 'Wales', o: 'LL11' },
-  { a: 'LN', n: 'Lincoln', r: 'East Midlands', o: 'LN1' },
-  { a: 'LS', n: 'Leeds', r: 'Yorkshire', o: 'LS1' },
-  { a: 'LU', n: 'Luton', r: 'East of England', o: 'LU1' },
-  { a: 'M', n: 'Manchester', r: 'North West', o: 'M1' },
-  { a: 'ME', n: 'Medway', r: 'South East', o: 'ME1' },
-  { a: 'MK', n: 'Milton Keynes', r: 'South East', o: 'MK1' },
-  { a: 'ML', n: 'Motherwell', r: 'Scotland', o: 'ML1' },
-  { a: 'N', n: 'London N', r: 'London', o: 'N1' },
-  { a: 'NE', n: 'Newcastle upon Tyne', r: 'North East', o: 'NE1' },
-  { a: 'NG', n: 'Nottingham', r: 'East Midlands', o: 'NG1' },
-  { a: 'NN', n: 'Northampton', r: 'East Midlands', o: 'NN1' },
-  { a: 'NP', n: 'Newport', r: 'Wales', o: 'NP10' },
-  { a: 'NR', n: 'Norwich', r: 'East of England', o: 'NR1' },
-  { a: 'NW', n: 'London NW', r: 'London', o: 'NW1' },
-  { a: 'OL', n: 'Oldham', r: 'North West', o: 'OL1' },
-  { a: 'OX', n: 'Oxford', r: 'South East', o: 'OX1' },
-  { a: 'PA', n: 'Paisley', r: 'Scotland', o: 'PA1' },
-  { a: 'PE', n: 'Peterborough', r: 'East of England', o: 'PE1' },
-  { a: 'PH', n: 'Perth', r: 'Scotland', o: 'PH1' },
-  { a: 'PL', n: 'Plymouth', r: 'South West', o: 'PL1' },
-  { a: 'PO', n: 'Portsmouth', r: 'South East', o: 'PO1' },
-  { a: 'PR', n: 'Preston', r: 'North West', o: 'PR1' },
-  { a: 'RG', n: 'Reading', r: 'South East', o: 'RG1' },
-  { a: 'RH', n: 'Redhill', r: 'South East', o: 'RH1' },
-  { a: 'RM', n: 'Romford', r: 'London', o: 'RM1' },
-  { a: 'S', n: 'Sheffield', r: 'Yorkshire', o: 'S1' },
-  { a: 'SA', n: 'Swansea', r: 'Wales', o: 'SA1' },
-  { a: 'SE', n: 'London SE', r: 'London', o: 'SE1' },
-  { a: 'SG', n: 'Stevenage', r: 'East of England', o: 'SG1' },
-  { a: 'SK', n: 'Stockport', r: 'North West', o: 'SK1' },
-  { a: 'SL', n: 'Slough', r: 'South East', o: 'SL1' },
-  { a: 'SM', n: 'Sutton', r: 'London', o: 'SM1' },
-  { a: 'SN', n: 'Swindon', r: 'South West', o: 'SN1' },
-  { a: 'SO', n: 'Southampton', r: 'South East', o: 'SO14' },
-  { a: 'SP', n: 'Salisbury', r: 'South West', o: 'SP1' },
-  { a: 'SR', n: 'Sunderland', r: 'North East', o: 'SR1' },
-  { a: 'SS', n: 'Southend-on-Sea', r: 'East of England', o: 'SS1' },
-  { a: 'ST', n: 'Stoke-on-Trent', r: 'West Midlands', o: 'ST1' },
-  { a: 'SW', n: 'London', id: 'london', r: 'London', o: 'SW1A' },
-  { a: 'SY', n: 'Shrewsbury', r: 'West Midlands', o: 'SY1' },
-  { a: 'TA', n: 'Taunton', r: 'South West', o: 'TA1' },
-  { a: 'TD', n: 'Galashiels', r: 'Scotland', o: 'TD1' },
-  { a: 'TF', n: 'Telford', r: 'West Midlands', o: 'TF1' },
-  { a: 'TN', n: 'Tonbridge', r: 'South East', o: 'TN1' },
-  { a: 'TQ', n: 'Torquay', r: 'South West', o: 'TQ1' },
-  { a: 'TR', n: 'Truro', r: 'South West', o: 'TR1' },
-  { a: 'TS', n: 'Cleveland', r: 'North East', o: 'TS1' },
-  { a: 'TW', n: 'Twickenham', r: 'London', o: 'TW1' },
-  { a: 'UB', n: 'Southall', r: 'London', o: 'UB1' },
-  { a: 'W', n: 'London W', r: 'London', o: 'W1A' },
-  { a: 'WA', n: 'Warrington', r: 'North West', o: 'WA1' },
-  { a: 'WC', n: 'London West End', r: 'London', o: 'WC1A' },
-  { a: 'WD', n: 'Watford', r: 'East of England', o: 'WD1' },
-  { a: 'WF', n: 'Wakefield', r: 'Yorkshire', o: 'WF1' },
-  { a: 'WN', n: 'Wigan', r: 'North West', o: 'WN1' },
-  { a: 'WR', n: 'Worcester', r: 'West Midlands', o: 'WR1' },
-  { a: 'WS', n: 'Walsall', r: 'West Midlands', o: 'WS1' },
-  { a: 'WV', n: 'Wolverhampton', r: 'West Midlands', o: 'WV1' },
-  { a: 'YO', n: 'York', r: 'Yorkshire', o: 'YO1' },
-  { a: 'ZE', n: 'Lerwick', r: 'Scotland', o: 'ZE1' },
+const placeInputs = [
+  { areaCode: 'AB', name: 'Aberdeen', region: 'Scotland', outcode: 'AB10' },
+  { areaCode: 'AL', name: 'St Albans', region: 'East of England', outcode: 'AL1' },
+  { areaCode: 'B', name: 'Birmingham', region: 'West Midlands', outcode: 'B1' },
+  { areaCode: 'BA', name: 'Bath', region: 'South West', outcode: 'BA1' },
+  { areaCode: 'BB', name: 'Blackburn', region: 'North West', outcode: 'BB1' },
+  { areaCode: 'BD', name: 'Bradford', region: 'Yorkshire', outcode: 'BD1' },
+  { areaCode: 'BH', name: 'Bournemouth', region: 'South West', outcode: 'BH1' },
+  { areaCode: 'BL', name: 'Bolton', region: 'North West', outcode: 'BL1' },
+  { areaCode: 'BN', name: 'Brighton', region: 'South East', outcode: 'BN1' },
+  { areaCode: 'BR', name: 'Bromley', region: 'London', outcode: 'BR1' },
+  { areaCode: 'BS', name: 'Bristol', region: 'South West', outcode: 'BS1' },
+  { areaCode: 'BT', name: 'Belfast', region: 'Northern Ireland', outcode: 'BT1' },
+  { areaCode: 'CA', name: 'Carlisle', region: 'North West', outcode: 'CA1' },
+  { areaCode: 'CB', name: 'Cambridge', region: 'East of England', outcode: 'CB1' },
+  { areaCode: 'CF', name: 'Cardiff', region: 'Wales', outcode: 'CF10' },
+  { areaCode: 'CH', name: 'Chester', region: 'North West', outcode: 'CH1' },
+  { areaCode: 'CM', name: 'Chelmsford', region: 'East of England', outcode: 'CM1' },
+  { areaCode: 'CO', name: 'Colchester', region: 'East of England', outcode: 'CO1' },
+  { areaCode: 'CR', name: 'Croydon', region: 'London', outcode: 'CR0' },
+  { areaCode: 'CT', name: 'Canterbury', region: 'South East', outcode: 'CT1' },
+  { areaCode: 'CV', name: 'Coventry', region: 'West Midlands', outcode: 'CV1' },
+  { areaCode: 'CW', name: 'Crewe', region: 'North West', outcode: 'CW1' },
+  { areaCode: 'DA', name: 'Dartford', region: 'South East', outcode: 'DA1' },
+  { areaCode: 'DD', name: 'Dundee', region: 'Scotland', outcode: 'DD1' },
+  { areaCode: 'DE', name: 'Derby', region: 'East Midlands', outcode: 'DE1' },
+  { areaCode: 'DG', name: 'Dumfries', region: 'Scotland', outcode: 'DG1' },
+  { areaCode: 'DH', name: 'Durham', region: 'North East', outcode: 'DH1' },
+  { areaCode: 'DL', name: 'Darlington', region: 'North East', outcode: 'DL1' },
+  { areaCode: 'DN', name: 'Doncaster', region: 'Yorkshire', outcode: 'DN1' },
+  { areaCode: 'DT', name: 'Dorchester', region: 'South West', outcode: 'DT1' },
+  { areaCode: 'DY', name: 'Dudley', region: 'West Midlands', outcode: 'DY1' },
+  { areaCode: 'E', name: 'London E', region: 'London', outcode: 'E1' },
+  { areaCode: 'EC', name: 'London City', region: 'London', outcode: 'EC1A' },
+  { areaCode: 'EH', name: 'Edinburgh', region: 'Scotland', outcode: 'EH1' },
+  { areaCode: 'EN', name: 'Enfield', region: 'London', outcode: 'EN1' },
+  { areaCode: 'EX', name: 'Exeter', region: 'South West', outcode: 'EX1' },
+  { areaCode: 'FK', name: 'Falkirk', region: 'Scotland', outcode: 'FK1' },
+  { areaCode: 'FY', name: 'Blackpool', region: 'North West', outcode: 'FY1' },
+  { areaCode: 'G', name: 'Glasgow', region: 'Scotland', outcode: 'G1' },
+  { areaCode: 'GL', name: 'Gloucester', region: 'South West', outcode: 'GL1' },
+  { areaCode: 'GU', name: 'Guildford', region: 'South East', outcode: 'GU1' },
+  { areaCode: 'HA', name: 'Harrow', region: 'London', outcode: 'HA1' },
+  { areaCode: 'HD', name: 'Huddersfield', region: 'Yorkshire', outcode: 'HD1' },
+  { areaCode: 'HG', name: 'Harrogate', region: 'Yorkshire', outcode: 'HG1' },
+  { areaCode: 'HP', name: 'Hemel Hempstead', region: 'East of England', outcode: 'HP1' },
+  { areaCode: 'HR', name: 'Hereford', region: 'West Midlands', outcode: 'HR1' },
+  { areaCode: 'HS', name: 'Outer Hebrides', region: 'Scotland', outcode: 'HS1' },
+  { areaCode: 'HU', name: 'Kingston upon Hull', region: 'Yorkshire', outcode: 'HU1' },
+  { areaCode: 'HX', name: 'Halifax', region: 'Yorkshire', outcode: 'HX1' },
+  { areaCode: 'IG', name: 'Ilford', region: 'London', outcode: 'IG1' },
+  { areaCode: 'IP', name: 'Ipswich', region: 'East of England', outcode: 'IP1' },
+  { areaCode: 'IV', name: 'Inverness', region: 'Scotland', outcode: 'IV1' },
+  { areaCode: 'KA', name: 'Kilmarnock', region: 'Scotland', outcode: 'KA1' },
+  { areaCode: 'KT', name: 'Kingston upon Thames', region: 'London', outcode: 'KT1' },
+  { areaCode: 'KW', name: 'Kirkwall', region: 'Scotland', outcode: 'KW15' },
+  { areaCode: 'KY', name: 'Kirkcaldy', region: 'Scotland', outcode: 'KY1' },
+  { areaCode: 'L', name: 'Liverpool', region: 'North West', outcode: 'L1' },
+  { areaCode: 'LA', name: 'Lancaster', region: 'North West', outcode: 'LA1' },
+  { areaCode: 'LD', name: 'Llandrindod Wells', region: 'Wales', outcode: 'LD1' },
+  { areaCode: 'LE', name: 'Leicester', region: 'East Midlands', outcode: 'LE1' },
+  { areaCode: 'LL', name: 'Llandudno', region: 'Wales', outcode: 'LL11' },
+  { areaCode: 'LN', name: 'Lincoln', region: 'East Midlands', outcode: 'LN1' },
+  { areaCode: 'LS', name: 'Leeds', region: 'Yorkshire', outcode: 'LS1' },
+  { areaCode: 'LU', name: 'Luton', region: 'East of England', outcode: 'LU1' },
+  { areaCode: 'M', name: 'Manchester', region: 'North West', outcode: 'M1' },
+  { areaCode: 'ME', name: 'Medway', region: 'South East', outcode: 'ME1' },
+  { areaCode: 'MK', name: 'Milton Keynes', region: 'South East', outcode: 'MK1' },
+  { areaCode: 'ML', name: 'Motherwell', region: 'Scotland', outcode: 'ML1' },
+  { areaCode: 'N', name: 'London N', region: 'London', outcode: 'N1' },
+  { areaCode: 'NE', name: 'Newcastle upon Tyne', region: 'North East', outcode: 'NE1' },
+  { areaCode: 'NG', name: 'Nottingham', region: 'East Midlands', outcode: 'NG1' },
+  { areaCode: 'NN', name: 'Northampton', region: 'East Midlands', outcode: 'NN1' },
+  { areaCode: 'NP', name: 'Newport', region: 'Wales', outcode: 'NP10' },
+  { areaCode: 'NR', name: 'Norwich', region: 'East of England', outcode: 'NR1' },
+  { areaCode: 'NW', name: 'London NW', region: 'London', outcode: 'NW1' },
+  { areaCode: 'OL', name: 'Oldham', region: 'North West', outcode: 'OL1' },
+  { areaCode: 'OX', name: 'Oxford', region: 'South East', outcode: 'OX1' },
+  { areaCode: 'PA', name: 'Paisley', region: 'Scotland', outcode: 'PA1' },
+  { areaCode: 'PE', name: 'Peterborough', region: 'East of England', outcode: 'PE1' },
+  { areaCode: 'PH', name: 'Perth', region: 'Scotland', outcode: 'PH1' },
+  { areaCode: 'PL', name: 'Plymouth', region: 'South West', outcode: 'PL1' },
+  { areaCode: 'PO', name: 'Portsmouth', region: 'South East', outcode: 'PO1' },
+  { areaCode: 'PR', name: 'Preston', region: 'North West', outcode: 'PR1' },
+  { areaCode: 'RG', name: 'Reading', region: 'South East', outcode: 'RG1' },
+  { areaCode: 'RH', name: 'Redhill', region: 'South East', outcode: 'RH1' },
+  { areaCode: 'RM', name: 'Romford', region: 'London', outcode: 'RM1' },
+  { areaCode: 'S', name: 'Sheffield', region: 'Yorkshire', outcode: 'S1' },
+  { areaCode: 'SA', name: 'Swansea', region: 'Wales', outcode: 'SA1' },
+  { areaCode: 'SE', name: 'London SE', region: 'London', outcode: 'SE1' },
+  { areaCode: 'SG', name: 'Stevenage', region: 'East of England', outcode: 'SG1' },
+  { areaCode: 'SK', name: 'Stockport', region: 'North West', outcode: 'SK1' },
+  { areaCode: 'SL', name: 'Slough', region: 'South East', outcode: 'SL1' },
+  { areaCode: 'SM', name: 'Sutton', region: 'London', outcode: 'SM1' },
+  { areaCode: 'SN', name: 'Swindon', region: 'South West', outcode: 'SN1' },
+  { areaCode: 'SO', name: 'Southampton', region: 'South East', outcode: 'SO14' },
+  { areaCode: 'SP', name: 'Salisbury', region: 'South West', outcode: 'SP1' },
+  { areaCode: 'SR', name: 'Sunderland', region: 'North East', outcode: 'SR1' },
+  { areaCode: 'SS', name: 'Southend-on-Sea', region: 'East of England', outcode: 'SS1' },
+  { areaCode: 'ST', name: 'Stoke-on-Trent', region: 'West Midlands', outcode: 'ST1' },
+  { areaCode: 'SW', name: 'London', id: 'london', region: 'London', outcode: 'SW1A' },
+  { areaCode: 'SY', name: 'Shrewsbury', region: 'West Midlands', outcode: 'SY1' },
+  { areaCode: 'TA', name: 'Taunton', region: 'South West', outcode: 'TA1' },
+  { areaCode: 'TD', name: 'Galashiels', region: 'Scotland', outcode: 'TD1' },
+  { areaCode: 'TF', name: 'Telford', region: 'West Midlands', outcode: 'TF1' },
+  { areaCode: 'TN', name: 'Tonbridge', region: 'South East', outcode: 'TN1' },
+  { areaCode: 'TQ', name: 'Torquay', region: 'South West', outcode: 'TQ1' },
+  { areaCode: 'TR', name: 'Truro', region: 'South West', outcode: 'TR1' },
+  { areaCode: 'TS', name: 'Cleveland', region: 'North East', outcode: 'TS1' },
+  { areaCode: 'TW', name: 'Twickenham', region: 'London', outcode: 'TW1' },
+  { areaCode: 'UB', name: 'Southall', region: 'London', outcode: 'UB1' },
+  { areaCode: 'W', name: 'London W', region: 'London', outcode: 'W1A' },
+  { areaCode: 'WA', name: 'Warrington', region: 'North West', outcode: 'WA1' },
+  { areaCode: 'WC', name: 'London West End', region: 'London', outcode: 'WC1A' },
+  { areaCode: 'WD', name: 'Watford', region: 'East of England', outcode: 'WD1' },
+  { areaCode: 'WF', name: 'Wakefield', region: 'Yorkshire', outcode: 'WF1' },
+  { areaCode: 'WN', name: 'Wigan', region: 'North West', outcode: 'WN1' },
+  { areaCode: 'WR', name: 'Worcester', region: 'West Midlands', outcode: 'WR1' },
+  { areaCode: 'WS', name: 'Walsall', region: 'West Midlands', outcode: 'WS1' },
+  { areaCode: 'WV', name: 'Wolverhampton', region: 'West Midlands', outcode: 'WV1' },
+  { areaCode: 'YO', name: 'York', region: 'Yorkshire', outcode: 'YO1' },
+  { areaCode: 'ZE', name: 'Lerwick', region: 'Scotland', outcode: 'ZE1' },
 ];
 
-const labelIds = new Set([
+const mappedLabelIds = new Set([
   'manchester',
   'london',
   'birmingham',
@@ -145,33 +145,33 @@ const labelIds = new Set([
   'inverness',
 ]);
 
-function getSlug(name) {
-  return name
+function getSlug(placeName) {
+  return placeName
     .toLowerCase()
     .replace(/ /g, '-')
     .replace(/[^a-z0-9-]/g, '');
 }
 
-function getAliases(id) {
-  if (id === 'newcastle-upon-tyne') {
+function getAliases(placeIdentifier) {
+  if (placeIdentifier === 'newcastle-upon-tyne') {
     return ['Newcastle'];
   }
-  if (id === 'kingston-upon-hull') {
+  if (placeIdentifier === 'kingston-upon-hull') {
     return ['Hull'];
   }
-  if (id === 'stoke-on-trent') {
+  if (placeIdentifier === 'stoke-on-trent') {
     return ['Stoke'];
   }
-  if (id === 'birmingham') {
+  if (placeIdentifier === 'birmingham') {
     return ['Brum'];
   }
-  if (id === 'nottingham') {
+  if (placeIdentifier === 'nottingham') {
     return ['Notts'];
   }
   return [];
 }
 
-const fallbacks = {
+const fallbackCoordinates = {
   B1: { lat: 52.48, lon: -1.9 },
   BD1: { lat: 53.79, lon: -1.75 },
   BT1: { lat: 54.6, lon: -5.93 },
@@ -193,34 +193,39 @@ const fallbacks = {
   WC1A: { lat: 51.52, lon: -0.12 },
 };
 
-function getFallback(outcode) {
-  if (fallbacks[outcode]) {
-    return fallbacks[outcode];
+function getFallback(outcodeString) {
+  if (fallbackCoordinates[outcodeString]) {
+    return fallbackCoordinates[outcodeString];
   }
   return { lat: 54.0, lon: -2.0 };
 }
 
-async function fetchCoord(outcode, retries = 3) {
+async function fetchCoordinates(outcodeString, retriesAllowed = 3) {
   try {
-    const res = await fetch('https://api.postcodes.io/outcodes/' + outcode);
-    if (!res.ok) {
+    const fetchResponse = await fetch('https://api.postcodes.io/outcodes/' + outcodeString);
+    if (!fetchResponse.ok) {
       throw new Error('Not OK');
     }
-    const data = await res.json();
-    if (data && data.result && data.result.latitude && data.result.longitude) {
-      return { lat: data.result.latitude, lon: data.result.longitude };
+    const responseData = await fetchResponse.json();
+    if (
+      responseData &&
+      responseData.result &&
+      responseData.result.latitude &&
+      responseData.result.longitude
+    ) {
+      return { lat: responseData.result.latitude, lon: responseData.result.longitude };
     }
     throw new Error('No coordinates');
-  } catch (error) {
-    if (retries > 0) {
-      return fetchCoord(outcode, retries - 1);
+  } catch {
+    if (retriesAllowed > 0) {
+      return fetchCoordinates(outcodeString, retriesAllowed - 1);
     }
-    console.warn(`Lookup failed for ${outcode}, using fallback`);
-    return getFallback(outcode);
+    console.warn(`Lookup failed for ${outcodeString}, using fallback`);
+    return getFallback(outcodeString);
   }
 }
 
-const locals = [
+const localPlaces = [
   {
     id: 'salford',
     name: 'Salford',
@@ -267,50 +272,48 @@ const locals = [
   },
 ];
 
-async function generate() {
-  const places = [];
+async function generatePlaces() {
+  const allPlaces = [];
 
-  for (const item of inputs) {
-    const id = item.id || getSlug(item.n);
-    const coord = await fetchCoord(item.o);
-    places.push({
-      id: id,
-      name: item.n,
-      area: item.a,
-      region: item.r,
-      lat: Number(coord.lat.toFixed(4)),
-      lon: Number(coord.lon.toFixed(4)),
+  for (const inputItem of placeInputs) {
+    const placeIdentifier = inputItem.id || getSlug(inputItem.name);
+    const coordinates = await fetchCoordinates(inputItem.outcode);
+    allPlaces.push({
+      id: placeIdentifier,
+      name: inputItem.name,
+      area: inputItem.areaCode,
+      region: inputItem.region,
+      lat: Number(coordinates.lat.toFixed(4)),
+      lon: Number(coordinates.lon.toFixed(4)),
       kind: 'city',
-      labelOnMap: labelIds.has(id),
-      aliases: getAliases(id),
+      labelOnMap: mappedLabelIds.has(placeIdentifier),
+      aliases: getAliases(placeIdentifier),
     });
   }
 
-  for (const loc of locals) {
-    places.push(loc);
+  for (const localLocation of localPlaces) {
+    allPlaces.push(localLocation);
   }
 
-  places.sort((a, b) => a.name.localeCompare(b.name));
+  allPlaces.sort((placeA, placeB) => {
+    return placeA.name.localeCompare(placeB.name);
+  });
 
-  let output = `export const HUB_PLACE_ID = 'manchester';
-export const PLACES = [`;
+  let fileOutput = `export const HUB_PLACE_ID = 'manchester';\nexport const PLACES = [`;
 
-  for (let i = 0; i < places.length; i++) {
-    const p = places[i];
-    const al = JSON.stringify(p.aliases).replace(/"/g, "'");
-    output += `
-  { id: '${p.id}', name: '${p.name}', area: '${p.area}', region: '${p.region}', lat: ${p.lat}, lon: ${p.lon}, kind: '${p.kind}', labelOnMap: ${p.labelOnMap}, aliases: ${al} }`;
-    if (i < places.length - 1) {
-      output += ',';
+  for (let placeIndex = 0; placeIndex < allPlaces.length; placeIndex++) {
+    const placeItem = allPlaces[placeIndex];
+    const aliasesString = JSON.stringify(placeItem.aliases).replace(/"/g, "'");
+    fileOutput += `\n  { id: '${placeItem.id}', name: '${placeItem.name}', area: '${placeItem.area}', region: '${placeItem.region}', lat: ${placeItem.lat}, lon: ${placeItem.lon}, kind: '${placeItem.kind}', labelOnMap: ${placeItem.labelOnMap}, aliases: ${aliasesString} }`;
+    if (placeIndex < allPlaces.length - 1) {
+      fileOutput += ',';
     }
   }
-  output += `
-];
-`;
+  fileOutput += `\n];\n`;
 
   await mkdir('js/data', { recursive: true });
-  await writeFile('js/data/places.js', output, 'utf8');
+  await writeFile('js/data/places.js', fileOutput, 'utf8');
   console.log('Places generated.');
 }
 
-generate().catch(console.error);
+generatePlaces().catch(console.error);
