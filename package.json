@@ -1,0 +1,22 @@
+{
+  "name": "hfu-enterprise-homepage",
+  "version": "1.0.0",
+  "description": "Homepage design concept for HFU Enterprise Ltd, a UK logistics and courier company",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:production": "node scripts/build.mjs --production",
+    "start": "node scripts/build.mjs && node scripts/serve.mjs",
+    "check": "node scripts/check.mjs",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.9.9",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

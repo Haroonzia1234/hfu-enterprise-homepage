@@ -1,0 +1,119 @@
+<section class="section section--blue-deep section--slant coverage" id="coverage" data-section="coverage" aria-labelledby="coverage-title">
+  <div class="container">
+    <header class="section__header" data-reveal>
+      <p class="section__eyebrow"><span class="section__stop">05</span> Coverage</p>
+      <h2 class="section__title" id="coverage-title">Local roots. UK reach. Global connections.</h2>
+      <p class="section__lede">Based around Manchester, delivering across the UK and overseas.</p>
+    </header>
+
+    <div class="coverage__layout">
+      <div class="coverage__radar-area" data-reveal data-reveal-delay="1">
+        <div class="coverage__radar">
+          <svg class="coverage__radar-svg" viewBox="0 0 400 400" aria-hidden="true">
+            <circle cx="200" cy="200" r="60" class="coverage__ring coverage__ring--local"></circle>
+            <circle cx="200" cy="200" r="120" class="coverage__ring coverage__ring--uk"></circle>
+            <circle cx="200" cy="200" r="180" class="coverage__ring coverage__ring--intl"></circle>
+            
+            <g class="coverage__sweep">
+              <path d="M200,200 L200,20 A180,180 0 0,1 270,35 Z" fill="url(#radar-sweep)" opacity="0.6"></path>
+            </g>
+            <defs>
+              <linearGradient id="radar-sweep" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="var(--blue-400)" stop-opacity="0.8"></stop>
+                <stop offset="100%" stop-color="var(--blue-400)" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+
+            <g class="coverage__orbit coverage__orbit--1">
+              <use href="#brand-chevron" x="190" y="130" width="20" height="20" fill="var(--blue-400)"></use>
+            </g>
+            <g class="coverage__orbit coverage__orbit--2">
+              <use href="#brand-chevron" x="190" y="70" width="20" height="20" fill="var(--blue-400)"></use>
+            </g>
+            <g class="coverage__orbit coverage__orbit--3">
+              <use href="#brand-chevron" x="190" y="10" width="20" height="20" fill="var(--blue-400)"></use>
+            </g>
+
+            <circle cx="200" cy="200" r="15" fill="var(--plum-500)"></circle>
+            <use href="#brand-chevron" x="185" y="185" width="30" height="30" fill="var(--white)"></use>
+          </svg>
+          
+          <div class="coverage__radar-tabs" role="tablist" aria-label="Coverage zones">
+            <button class="coverage__tab coverage__tab--local is-active" role="tab" aria-selected="true" aria-controls="panel-local" id="tab-local" type="button" data-js="coverage-tab" data-zone="local">Local</button>
+            <button class="coverage__tab coverage__tab--uk" role="tab" aria-selected="false" aria-controls="panel-uk" id="tab-uk" type="button" data-js="coverage-tab" data-zone="uk">UK wide</button>
+            <button class="coverage__tab coverage__tab--intl" role="tab" aria-selected="false" aria-controls="panel-intl" id="tab-intl" type="button" data-js="coverage-tab" data-zone="intl">International</button>
+          </div>
+        </div>
+
+        <fieldset class="segmented coverage__segmented">
+          <legend class="visually-hidden">Coverage zones</legend>
+          <label class="segmented__option">
+            <input class="segmented__input" type="radio" name="coverage-zone" value="local" checked>
+            <span class="segmented__label">Local</span>
+          </label>
+          <label class="segmented__option">
+            <input class="segmented__input" type="radio" name="coverage-zone" value="uk">
+            <span class="segmented__label">UK</span>
+          </label>
+          <label class="segmented__option">
+            <input class="segmented__input" type="radio" name="coverage-zone" value="intl">
+            <span class="segmented__label">International</span>
+          </label>
+        </fieldset>
+      </div>
+
+      <div class="board coverage__board" data-reveal data-reveal-delay="2">
+        <div class="board__body coverage__panel is-active" id="panel-local" role="tabpanel" aria-labelledby="tab-local" tabindex="0">
+          <h3 class="board__title">Greater Manchester</h3>
+          <p class="coverage__panel-text">Same day couriers and vans around Greater Manchester.</p>
+          <div class="cluster coverage__chips">
+            <span class="chip chip--blue"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-pin"></use></svg>Manchester</span>
+            <span class="chip chip--blue"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-pin"></use></svg>Salford</span>
+            <span class="chip chip--blue"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-pin"></use></svg>Stockport</span>
+            <span class="chip chip--blue"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-pin"></use></svg>Trafford</span>
+            <span class="chip chip--blue"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-pin"></use></svg>Didsbury</span>
+            <span class="chip chip--blue"><svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-pin"></use></svg>Chorlton</span>
+          </div>
+        </div>
+
+        <div class="board__body coverage__panel" id="panel-uk" role="tabpanel" aria-labelledby="tab-uk" tabindex="0" hidden>
+          <h3 class="board__title">UK Wide</h3>
+          <p class="coverage__panel-text">Pallets, vans and trucks to every part of the UK.</p>
+          
+          <div class="coverage__checker" data-js="coverage-checker">
+            <label class="field__label" for="coverage-place">Check your area</label>
+            <div class="combobox" data-js="combobox-wrapper">
+              <input class="field__control" id="coverage-place" type="text" autocomplete="off" placeholder="Town, city or postcode" data-js="checker-input">
+            </div>
+            
+            <div class="coverage__result" data-js="checker-result" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="board__body coverage__panel" id="panel-intl" role="tabpanel" aria-labelledby="tab-intl" tabindex="0" hidden>
+          <h3 class="board__title">International</h3>
+          <p class="coverage__panel-text">Customs clearance and safe transit across borders. Small parcels or bulk freight.</p>
+          <a class="btn btn--primary coverage__btn" href="#quote" data-quote-cta data-quote-service="international">
+            Get an International Quote
+            <svg class="icon btn__icon" aria-hidden="true" focusable="false"><use href="#icon-chevron-right"></use></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="coverage__stats" data-reveal data-reveal-delay="3">
+      <div class="coverage__stat">
+        <div class="coverage__stat-val">200<span class="coverage__stat-suffix">+</span></div>
+        <div class="coverage__stat-label">trusted clients</div>
+      </div>
+      <div class="coverage__stat">
+        <div class="coverage__stat-val">7<span class="coverage__stat-suffix">+</span></div>
+        <div class="coverage__stat-label">years of experience</div>
+      </div>
+      <div class="coverage__stat">
+        <div class="coverage__stat-val">24/7</div>
+        <div class="coverage__stat-label">office hours, every day</div>
+      </div>
+    </div>
+  </div>
+</section>

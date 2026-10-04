@@ -1,0 +1,90 @@
+:root {
+  --ink-950: #070c16;
+  --ink-900: #0b1324;
+  --ink-800: #121d35;
+  --ink-700: #1c2a49;
+  --ink-600: #2b3b5e;
+  --ink-500: #4a5a7c;
+  --ink-400: #6f7d9b;
+  --ink-300: #9aa6bd;
+  --ink-200: #c5cddb;
+
+  --paper: #f4f2ee;
+  --paper-2: #ebe7df;
+  --white: #ffffff;
+  --line: #d9d4c9;
+  --line-strong: #bfb9ab;
+  --line-ink: #25345a;
+
+  --blue-900: #0c3454;
+  --blue-700: #17598a;
+  --blue-600: #1d6ba3;
+  --blue-500: #2781ba;
+  --blue-400: #4a9ed4;
+  --blue-300: #7db6dc;
+  --blue-100: #dcebf6;
+
+  --plum-900: #4a1230;
+  --plum-700: #7a2753;
+  --plum-600: #8f2d5f;
+  --plum-500: #a2356e;
+  --plum-400: #cc6ba0;
+  --plum-300: #d48cb1;
+  --plum-100: #f6e3ed;
+
+  --success-600: #17784a;
+  --success-100: #dff3e8;
+  --error-600: #b3261e;
+  --error-100: #fbe4e2;
+
+  --font-display: 'Montserrat Variable', 'Montserrat', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --text-xs: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
+  --text-sm: clamp(0.8125rem, 0.79rem + 0.12vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+  --text-3xl: clamp(2.125rem, 1.5rem + 3vw, 3.75rem);
+  --text-4xl: clamp(2.5rem, 1.5rem + 4.6vw, 5.25rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 6rem;
+  --space-section: clamp(4rem, 2.5rem + 6vw, 8rem);
+
+  --container: 1240px;
+  --gutter: clamp(1.25rem, 0.5rem + 3vw, 2.5rem);
+  --utility-height: 38px;
+  --header-height: 76px;
+  --cut: clamp(1.5rem, 1rem + 3vw, 4.5rem);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgb(11 19 36 / 0.06), 0 2px 8px rgb(11 19 36 / 0.05);
+  --shadow-md: 0 8px 24px -8px rgb(11 19 36 / 0.18);
+  --shadow-lg: 0 24px 60px -20px rgb(11 19 36 / 0.35);
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-med: 300ms;
+  --dur-slow: 600ms;
+
+  --z-sticky-cta: 40;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-overlay: 70;
+
+  --scroll-offset: calc(var(--header-height) + 16px);
+}

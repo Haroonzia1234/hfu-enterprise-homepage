@@ -1,0 +1,105 @@
+.quote__layout {
+  display: grid;
+  gap: var(--space-8);
+}
+@media (min-width: 860px) {
+  .quote__layout {
+    grid-template-columns: 1fr 1.3fr;
+    align-items: start;
+  }
+}
+.quote__giant {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+.quote__giant-number {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(5rem, 10vw, 8rem);
+  line-height: 0.9;
+  background: linear-gradient(to right, var(--blue-400), var(--plum-400));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.quote__giant-text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: var(--text-2xl);
+  color: var(--white);
+}
+.quote__steps {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-lg);
+  color: var(--ink-200);
+}
+.quote__steps li {
+  padding-block: var(--space-2);
+}
+.quote__contact {
+  color: var(--ink-300);
+}
+.quote__contact svg {
+  color: var(--plum-400);
+  margin-right: var(--space-2);
+  vertical-align: text-bottom;
+}
+.quote__link {
+  color: var(--ink-200);
+  text-decoration: none;
+}
+.quote__link:hover {
+  text-decoration: underline;
+}
+.quote__card {
+  padding: var(--space-5);
+  background: var(--white);
+  color: var(--ink-900);
+}
+@media (min-width: 640px) {
+  .quote__card {
+    padding: var(--space-6);
+  }
+}
+.quote__row {
+  display: grid;
+  gap: var(--space-4);
+}
+@media (min-width: 640px) {
+  .quote__row {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+}
+.quote__summary {
+  margin-top: var(--space-2);
+}
+@media (min-width: 1100px) {
+  .quote__summary {
+    position: sticky;
+    top: var(--scroll-offset);
+  }
+}
+.is-hidden {
+  display: none !important;
+}
+.quote__success {
+  text-align: center;
+  align-items: center;
+}
+.quote__success-title {
+  color: var(--ink-900);
+}
+.quote__success-board {
+  text-align: left;
+  width: 100%;
+  margin-block: var(--space-4);
+}
+.quote__success .btn {
+  margin-bottom: var(--space-2);
+}

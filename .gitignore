@@ -1,0 +1,6 @@
+node_modules
+.briefs
+.agent-logs
+.DS_Store
+*.log
+.claude

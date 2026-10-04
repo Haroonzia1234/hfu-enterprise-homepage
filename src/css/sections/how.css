@@ -1,0 +1,320 @@
+.how__header {
+  margin-bottom: var(--space-7);
+}
+
+.how__timeline {
+  position: relative;
+}
+
+.how__track {
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 23px;
+  width: 4px;
+  background: var(--line);
+  border-radius: var(--radius-pill);
+  z-index: 1;
+}
+
+.how__track-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--how-progress, 0) * 100%);
+  background: linear-gradient(180deg, var(--blue-500), var(--plum-500));
+  border-radius: var(--radius-pill);
+  transition: height var(--dur-fast) linear;
+}
+
+.how__track-head {
+  position: absolute;
+  top: calc(var(--how-progress, 0) * 100%);
+  left: 50%;
+  width: 14px;
+  height: 18px;
+  background: var(--plum-500);
+  clip-path: polygon(0 0, 60% 0, 100% 50%, 60% 100%, 0 100%, 40% 50%);
+  transform: translate(-50%, -50%) rotate(90deg);
+  z-index: 3;
+  pointer-events: none;
+  transition: top var(--dur-fast) linear;
+}
+
+.how__steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  position: relative;
+}
+
+.how__step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--space-4);
+  align-items: start;
+  position: relative;
+  transition: opacity var(--dur-med) var(--ease-out);
+}
+
+.how__node-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.how__node {
+  width: 48px;
+  height: 48px;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-pill);
+  background: var(--paper-2);
+  border: 2px solid var(--line-strong);
+  color: var(--ink-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.how__node-number {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: var(--text-base);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.how__node:hover {
+  transform: scale(1.08);
+  border-color: var(--blue-500);
+  color: var(--blue-600);
+}
+
+.how__node:focus-visible {
+  outline: 3px solid var(--blue-500);
+  outline-offset: 3px;
+}
+
+.how__card {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out), border-color var(--dur-med) var(--ease-out), opacity var(--dur-med) var(--ease-out);
+}
+
+.how__card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.how__icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--blue-100);
+  color: var(--blue-700);
+  flex-shrink: 0;
+}
+
+.how__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.how__step-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: var(--text-lg);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
+  margin-bottom: var(--space-2);
+}
+
+.how__step-text {
+  font-size: var(--text-sm);
+  color: var(--ink-500);
+  line-height: 1.6;
+}
+
+.how__step:not(.is-reached) {
+  opacity: 0.65;
+}
+
+.how__step:not(.is-reached) .how__card {
+  border-top-color: var(--line);
+}
+
+.how__step.is-reached {
+  opacity: 1;
+}
+
+.how__step.is-reached .how__node {
+  background: var(--white);
+  border-color: var(--blue-500);
+  color: var(--blue-600);
+  box-shadow: var(--shadow-sm);
+}
+
+.how__step.is-reached .how__card {
+  border-top: 3px solid var(--blue-500);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.how__step.is-current .how__node {
+  background: linear-gradient(135deg, var(--blue-500), var(--plum-500));
+  border-color: transparent;
+  color: var(--white);
+  box-shadow: 0 0 0 4px rgb(39 129 186 / 0.25), var(--shadow-md);
+  transform: scale(1.06);
+}
+
+.how__step.is-current .how__card {
+  border-top: 3px solid var(--blue-500);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.how__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-8);
+}
+
+@media (min-width: 640px) {
+  .how__step {
+    grid-template-columns: 52px 1fr;
+    gap: var(--space-5);
+  }
+
+  .how__node {
+    width: 52px;
+    height: 52px;
+  }
+
+  .how__track {
+    top: 26px;
+    bottom: 26px;
+    left: 25px;
+  }
+}
+
+@media (min-width: 860px) {
+  .how__steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+    align-items: stretch;
+  }
+
+  .how__step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .how__node-wrap {
+    justify-content: center;
+    padding-bottom: var(--space-2);
+  }
+
+  .how__node {
+    width: 52px;
+    height: 52px;
+  }
+
+  .how__card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .how__step-text {
+    flex-grow: 1;
+  }
+
+  .how__track {
+    top: 25px;
+    bottom: auto;
+    left: calc(12.5% - (3 * var(--space-5) / 8));
+    right: calc(12.5% - (3 * var(--space-5) / 8));
+    width: auto;
+    height: 4px;
+  }
+
+  .how__track-fill {
+    width: calc(var(--how-progress, 0) * 100%);
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue-500), var(--plum-500));
+    transition: width var(--dur-fast) linear;
+  }
+
+  .how__track-head {
+    top: 50%;
+    left: calc(var(--how-progress, 0) * 100%);
+    transform: translate(-50%, -50%);
+    transition: left var(--dur-fast) linear;
+  }
+}
+
+@media (min-width: 1100px) {
+  .how__steps {
+    gap: var(--space-6);
+  }
+
+  .how__track {
+    left: calc(12.5% - (3 * var(--space-6) / 8));
+    right: calc(12.5% - (3 * var(--space-6) / 8));
+  }
+
+  .how__card {
+    padding: var(--space-6);
+  }
+
+  .how__step-title {
+    font-size: var(--text-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .how__step,
+  .how__node,
+  .how__card,
+  .how__track-fill,
+  .how__track-head {
+    transition: none;
+    transform: none;
+  }
+
+  .how__step.is-reached .how__card,
+  .how__step.is-current .how__card {
+    transform: none;
+  }
+
+  .how__step.is-current .how__node {
+    transform: none;
+  }
+}

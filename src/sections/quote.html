@@ -1,0 +1,197 @@
+<section class="section section--ink section--slant quote" id="quote" data-section="quote" aria-labelledby="quote-title">
+  <div class="container">
+    <header class="section__header">
+      <p class="section__eyebrow"><span class="section__stop">08</span> Quote</p>
+      <h2 class="section__title" id="quote-title">Get a quote in 15 minutes</h2>
+      <p class="section__lede">No waiting for email. Tell us the route and the load and we come back with a tailored price.</p>
+    </header>
+
+    <div class="quote__layout">
+      <div class="quote__info stack">
+        <div class="quote__giant">
+          <span class="quote__giant-number">15</span>
+          <span class="quote__giant-text">minutes</span>
+        </div>
+        
+        <ul class="chevron-list quote__steps" role="list">
+          <li>We review your route</li>
+          <li>We send your quote</li>
+          <li>You confirm and pick a time</li>
+        </ul>
+        
+        <div class="quote__contact stack text-muted text-sm">
+          <p>
+            <svg class="icon" aria-hidden="true"><use href="#icon-phone"></use></svg>
+            <a href="tel:+441615096152" class="quote__link">0161 509 6152</a> &middot; 
+            <a href="tel:+447576206225" class="quote__link">07576 206225</a>
+          </p>
+          <p>
+            <svg class="icon" aria-hidden="true"><use href="#icon-mail"></use></svg>
+            <a href="mailto:info@hfuenterprise.com" class="quote__link">info@hfuenterprise.com</a>
+          </p>
+          <p>
+            <svg class="icon" aria-hidden="true"><use href="#icon-pin"></use></svg>
+            880 Manchester Road, Bradford BD5 8DH
+          </p>
+          <p>
+            <svg class="icon" aria-hidden="true"><use href="#icon-clock"></use></svg>
+            Open 24/7, seven days a week
+          </p>
+        </div>
+      </div>
+
+      <div class="quote__form-wrapper">
+        <div class="card quote__card">
+          <form class="quote__form stack" data-js="quote-form" novalidate>
+            <fieldset class="segmented">
+              <legend class="field__label">Delivery type</legend>
+              <div class="segmented__group" data-js="quote-delivery-group">
+                <label class="segmented__option">
+                  <input class="segmented__input" type="radio" name="quote-delivery-type" value="same-day" checked>
+                  <span class="segmented__label">Same Day</span>
+                </label>
+                <label class="segmented__option">
+                  <input class="segmented__input" type="radio" name="quote-delivery-type" value="next-day">
+                  <span class="segmented__label">Next Day</span>
+                </label>
+                <label class="segmented__option">
+                  <input class="segmented__input" type="radio" name="quote-delivery-type" value="flexible">
+                  <span class="segmented__label">Flexible</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="quote__row">
+              <div class="field">
+                <label class="field__label" for="quote-from">Collect from</label>
+                <div class="combobox" data-js="quote-from-combobox">
+                  <input class="field__control" id="quote-from" name="quote-from" type="text" autocomplete="off" placeholder="Town, city or postcode" data-js="quote-focus-target" aria-required="true">
+                </div>
+                <div class="field__error" id="quote-from-error" aria-live="polite"></div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="quote-to">Deliver to</label>
+                <div class="combobox" data-js="quote-to-combobox">
+                  <input class="field__control" id="quote-to" name="quote-to" type="text" autocomplete="off" placeholder="Town, city or postcode" aria-required="true">
+                </div>
+                <div class="field__error" id="quote-to-error" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <div class="quote__row">
+              <div class="field">
+                <label class="field__label" for="quote-date">Collection date</label>
+                <input class="field__control" id="quote-date" name="quote-date" type="date">
+                <div class="field__error" id="quote-date-error" aria-live="polite"></div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="quote-time">Collection time</label>
+                <select class="field__control" id="quote-time" name="quote-time" data-js="quote-time"></select>
+              </div>
+            </div>
+
+            <div class="quote__row">
+              <div class="field">
+                <label class="field__label" for="quote-service">Service needed</label>
+                <select class="field__control" id="quote-service" name="quote-service" data-js="quote-service"></select>
+              </div>
+            </div>
+
+            <div class="quote__row">
+              <div class="field">
+                <label class="field__label" for="quote-vehicle">Vehicle type</label>
+                <select class="field__control" id="quote-vehicle" name="quote-vehicle" data-js="quote-vehicle"></select>
+              </div>
+              <div class="field">
+                <label class="field__label">Pallets</label>
+                <div class="stepper" data-js="quote-pallets" data-min="0" data-max="16" data-value="0">
+                  <button class="stepper__btn" type="button" data-stepper="decrease" aria-label="Fewer pallets">
+                    <svg class="icon" aria-hidden="true"><use href="#icon-minus"></use></svg>
+                  </button>
+                  <input class="stepper__input" type="number" name="quote-pallets" inputmode="numeric" min="0" max="16" value="0" aria-label="Pallets">
+                  <button class="stepper__btn" type="button" data-stepper="increase" aria-label="More pallets">
+                    <svg class="icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="quote__row">
+              <div class="field">
+                <label class="field__label" for="quote-name">Name</label>
+                <input class="field__control" id="quote-name" name="quote-name" type="text" autocomplete="name" aria-required="true">
+                <div class="field__error" id="quote-name-error" aria-live="polite"></div>
+              </div>
+            </div>
+
+            <div class="quote__row">
+              <div class="field">
+                <label class="field__label" for="quote-phone">Phone</label>
+                <input class="field__control" id="quote-phone" name="quote-phone" type="tel" autocomplete="tel">
+                <div class="field__error" id="quote-phone-error" aria-live="polite"></div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="quote-email">Email</label>
+                <input class="field__control" id="quote-email" name="quote-email" type="email" autocomplete="email">
+                <div class="field__error" id="quote-email-error" aria-live="polite"></div>
+              </div>
+            </div>
+            
+            <div class="field">
+              <label class="field__label" for="quote-notes">Instructions or details</label>
+              <textarea class="field__control" id="quote-notes" name="quote-notes" rows="2"></textarea>
+            </div>
+
+            <div class="visually-hidden" aria-hidden="true">
+              <label for="company-website">Website</label>
+              <input id="company-website" name="company-website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="board quote__summary" data-js="quote-summary-board">
+              <div class="board__header">
+                <h3 class="board__title">Summary</h3>
+              </div>
+              <div class="board__body stack text-sm">
+                <div class="readout"><span class="readout__label">Route</span> <span class="readout__value" data-js="summary-route">&ndash;</span></div>
+                <div class="readout"><span class="readout__label">Delivery</span> <span class="readout__value" data-js="summary-delivery">&ndash;</span></div>
+                <div class="readout"><span class="readout__label">Collection</span> <span class="readout__value" data-js="summary-datetime">&ndash;</span></div>
+                <div class="readout"><span class="readout__label">Vehicle</span> <span class="readout__value" data-js="summary-vehicle">&ndash;</span></div>
+                <div class="readout"><span class="readout__label">Service</span> <span class="readout__value" data-js="summary-service">&ndash;</span></div>
+                <div class="readout" data-js="summary-schedule-row"><span class="readout__label">Schedule</span> <span class="readout__value" data-js="summary-schedule">&ndash;</span></div>
+              </div>
+            </div>
+
+            <div class="stack">
+              <button class="btn btn--primary btn--lg btn--block" type="submit">Send my quote request</button>
+              <p class="text-muted text-xs text-center">We only use your details to prepare your quote.</p>
+            </div>
+          </form>
+
+          <div class="quote__success stack is-hidden" data-js="quote-success" tabindex="-1">
+            <h3 class="text-xl" data-js="quote-success-title">Your request is ready</h3>
+            <p>Reference: <strong data-js="quote-success-ref"></strong></p>
+            
+            <div class="board quote__success-board">
+              <div class="board__body stack text-sm" data-js="quote-success-summary">
+                <div class="readout"><span class="readout__label">Route</span> <span class="readout__value" data-js="success-route">&ndash;</span></div>
+                <div class="readout"><span class="readout__label">Delivery</span> <span class="readout__value" data-js="success-delivery">&ndash;</span></div>
+                <div class="readout"><span class="readout__label">Collection</span> <span class="readout__value" data-js="success-datetime">&ndash;</span></div>
+                <div class="readout"><span class="readout__label">Vehicle</span> <span class="readout__value" data-js="success-vehicle">&ndash;</span></div>
+                <div class="readout"><span class="readout__label">Service</span> <span class="readout__value" data-js="success-service">&ndash;</span></div>
+                <div class="readout" data-js="success-schedule-row"><span class="readout__label">Schedule</span> <span class="readout__value" data-js="success-schedule">&ndash;</span></div>
+              </div>
+            </div>
+
+            <div class="stack" style="width: 100%;">
+              <a class="btn btn--primary btn--block" href="#" data-js="quote-email-btn">Send by email</a>
+              <a class="btn btn--secondary btn--block" href="tel:+441615096152">Call 0161 509 6152</a>
+            </div>
+            <div style="text-align: center;">
+              <button class="btn btn--ghost" type="button" data-js="quote-reset">Start another quote</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

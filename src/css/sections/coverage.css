@@ -1,0 +1,252 @@
+.coverage__layout {
+  display: grid;
+  gap: var(--space-6);
+  margin-block-end: var(--space-8);
+}
+
+@media (min-width: 860px) {
+  .coverage__layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--space-8);
+  }
+}
+
+.coverage__radar-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.coverage__radar {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+}
+
+.coverage__radar-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.coverage__ring {
+  fill: none;
+  stroke: var(--blue-300);
+  stroke-dasharray: 4 6;
+  stroke-width: 2;
+  opacity: 0.5;
+}
+
+.coverage__ring--local {
+  r: 60px;
+}
+
+.coverage__ring--uk {
+  r: 120px;
+}
+
+.coverage__ring--intl {
+  r: 180px;
+}
+
+.coverage__sweep {
+  transform-origin: 200px 200px;
+  animation: radar-sweep 6s linear infinite;
+}
+
+@keyframes radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coverage__sweep {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+.coverage__orbit {
+  transform-origin: 200px 200px;
+}
+
+.coverage__orbit--1 {
+  animation: orbit 8s linear infinite;
+}
+
+.coverage__orbit--2 {
+  animation: orbit 14s linear infinite reverse;
+}
+
+.coverage__orbit--3 {
+  animation: orbit 22s linear infinite;
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coverage__orbit--1,
+  .coverage__orbit--2,
+  .coverage__orbit--3 {
+    animation: none;
+  }
+}
+
+.coverage__radar-tabs {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .coverage__radar-tabs {
+    display: block;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .coverage__segmented {
+    display: none;
+  }
+}
+
+.coverage__tab {
+  pointer-events: auto;
+  position: absolute;
+  background: var(--ink-900);
+  color: var(--blue-300);
+  border: 1px solid var(--line-ink);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+  transform: translateY(-50%);
+}
+
+.coverage__tab:hover,
+.coverage__tab:focus-visible {
+  color: var(--white);
+  border-color: var(--blue-400);
+}
+
+.coverage__tab.is-active {
+  background: var(--blue-600);
+  color: var(--white);
+  border-color: var(--blue-500);
+}
+
+.coverage__tab--local {
+  top: 35%;
+  left: 60%;
+}
+
+.coverage__tab--uk {
+  top: 20%;
+  left: 70%;
+}
+
+.coverage__tab--intl {
+  top: 5%;
+  left: 80%;
+}
+
+.coverage__board {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.coverage__panel {
+  flex: 1;
+}
+
+.coverage__panel[hidden] {
+  display: none;
+}
+
+.coverage__panel-text {
+  color: var(--ink-200);
+  margin-block-end: var(--space-4);
+  margin-block-start: var(--space-2);
+}
+
+.coverage__chips {
+  margin-block-start: var(--space-4);
+}
+
+.coverage__checker {
+  margin-block-start: var(--space-4);
+  background: var(--ink-950);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line-ink);
+}
+
+.coverage__result {
+  margin-block-start: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--ink-200);
+}
+
+.coverage__result-text {
+  margin-block-end: var(--space-3);
+}
+
+.coverage__btn {
+  margin-block-start: var(--space-4);
+}
+
+.coverage__stats {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--line-ink);
+  padding-block-start: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .coverage__stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.coverage__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.coverage__stat-val {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.coverage__stat-suffix {
+  color: var(--blue-400);
+}
+
+.coverage__stat-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--ink-300);
+}

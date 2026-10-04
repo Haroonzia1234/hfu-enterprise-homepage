@@ -1,0 +1,278 @@
+.route-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.route-map__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.route-map__ireland {
+  fill: rgb(255 255 255 / 0.03);
+  stroke: var(--ink-600);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.route-map__land {
+  fill: var(--ink-800);
+  stroke: var(--ink-500);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.route-map__land-pattern {
+  pointer-events: none;
+}
+
+.route-map__ambient-layer {
+  transition: opacity var(--dur-med) var(--ease-out);
+}
+
+.route-map__ambient-arc {
+  fill: none;
+  stroke: var(--blue-400);
+  stroke-opacity: 0.35;
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.route-map__ambient-marker {
+  fill: var(--blue-400);
+  opacity: 0.6;
+}
+
+.route-map__places-layer {
+  outline: none;
+}
+
+.route-map__place {
+  cursor: pointer;
+  outline: none;
+}
+
+.route-map__place-hit {
+  fill: transparent;
+  stroke: none;
+}
+
+.route-map__place-dot {
+  fill: var(--ink-300);
+  transition: r var(--dur-fast) var(--ease-out);
+}
+
+.route-map__place:hover .route-map__place-dot,
+.route-map__place:focus-visible .route-map__place-dot {
+  fill: var(--blue-400);
+  r: 5;
+}
+
+.route-map__place:focus-visible {
+  outline: none;
+}
+
+.route-map__place:focus-visible .route-map__place-focus-ring {
+  opacity: 1;
+}
+
+.route-map__place-focus-ring {
+  fill: none;
+  stroke: var(--blue-400);
+  stroke-width: 2;
+  opacity: 0;
+  r: 10;
+  vector-effect: non-scaling-stroke;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.route-map__label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  fill: var(--ink-200);
+  pointer-events: none;
+  transition: fill var(--dur-fast) var(--ease-out);
+}
+
+.route-map__place:hover .route-map__label,
+.route-map__place:focus-visible .route-map__label {
+  fill: var(--white);
+}
+
+.route-map__hub {
+  pointer-events: none;
+}
+
+.route-map__hub-dot {
+  fill: var(--blue-400);
+}
+
+.route-map__hub-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  fill: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.route-map__ring {
+  fill: none;
+  stroke: var(--blue-400);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  animation: route-map-pulse 2.4s var(--ease-out) infinite;
+}
+
+.route-map__ring--delayed {
+  animation-delay: 1.2s;
+}
+
+@keyframes route-map-pulse {
+  0% {
+    r: 6;
+    opacity: 0.8;
+  }
+  100% {
+    r: 22;
+    opacity: 0;
+  }
+}
+
+.route-map__route-layer {
+  pointer-events: none;
+}
+
+.route-map__route {
+  fill: none;
+  stroke: var(--blue-400);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.route-map__route-glow {
+  fill: none;
+  stroke: var(--blue-400);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.25;
+}
+
+.route-map__pin {
+  pointer-events: none;
+}
+
+.route-map__pin-ring {
+  fill: var(--white);
+  stroke: var(--blue-400);
+  stroke-width: 2;
+}
+
+.route-map__pin-ring--end {
+  fill: var(--white);
+  stroke: var(--plum-400);
+  stroke-width: 2;
+}
+
+.route-map__pin-centre {
+  fill: var(--blue-400);
+}
+
+.route-map__pin-centre--end {
+  fill: var(--plum-400);
+}
+
+.route-map__chip {
+  pointer-events: none;
+}
+
+.route-map__chip-bg {
+  fill: var(--ink-800);
+  rx: 4;
+  ry: 4;
+}
+
+.route-map__chip-text {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 11px;
+  fill: var(--white);
+}
+
+.route-map__vehicle-marker {
+  pointer-events: none;
+}
+
+.route-map__vehicle-chevron {
+  opacity: 1;
+}
+
+.route-map__vehicle-ghost {
+  opacity: 0.2;
+}
+
+.route-map__vehicle-ghost:nth-child(2) {
+  opacity: 0.12;
+}
+
+.route-map__vehicle-ghost:nth-child(3) {
+  opacity: 0.06;
+}
+
+.route-map__focus-pulse {
+  fill: none;
+  stroke: var(--blue-400);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  animation: route-map-focus-pulse 0.8s var(--ease-out) forwards;
+}
+
+@keyframes route-map-focus-pulse {
+  0% {
+    r: 4;
+    opacity: 1;
+  }
+  100% {
+    r: 18;
+    opacity: 0;
+  }
+}
+
+.route-map__chevron-top {
+  fill: #2781BA;
+}
+
+.route-map__chevron-bottom {
+  fill: #A2356E;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-map__ring {
+    animation: none !important;
+  }
+
+  .route-map__focus-pulse {
+    animation: none !important;
+  }
+
+  .route-map__ambient-marker {
+    display: none;
+  }
+
+  .route-map__vehicle-marker {
+    animation: none !important;
+  }
+
+  .route-map__route {
+    transition: none !important;
+  }
+
+  .route-map__vehicle-ghost {
+    display: none;
+  }
+}

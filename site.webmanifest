@@ -1,0 +1,15 @@
+{
+  "name": "HFU Enterprise Ltd",
+  "short_name": "HFU",
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#0b1324",
+  "background_color": "#0b1324",
+  "icons": [
+    {
+      "src": "assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
