@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
 const isProd = process.argv.includes('--production');
 
-const SITE_URL = (process.env.SITE_URL || 'https://hzia1938-spec.github.io/hfu-enterprise-homepage/').replace(/\/?$/, '/');
+const SITE_URL = (process.env.SITE_URL || 'https://haroonzia1234.github.io/hfu-enterprise-homepage/').replace(/\/?$/, '/');
 const CANONICAL = SITE_URL;
 const ROBOTS = isProd 
   ? '<meta name="robots" content="index, follow, max-image-preview:large">'
