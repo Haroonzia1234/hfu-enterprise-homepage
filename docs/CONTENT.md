@@ -37,16 +37,16 @@ Storage and Fulfilment, Pallet Delivery, Home Moves. Full copy in `js/data/servi
 Dimensions in centimetres, payload in kilograms, standard UK pallets carried. Luton and the three
 trucks list Box, Curtain and Tail lift options. Full data in `js/data/fleet.js`.
 
-| Vehicle | L | W | H | Payload | Pallets |
-| --- | --- | --- | --- | --- | --- |
-| Small Van (SV) | 120 | 100 | 100 | 450 | 1 |
-| Short Wheel Base Van (SWB) | 240 | 100 | 120 | 800 | 2 |
-| Long Wheel Base Van (LWB) | 340 | 120 | 180 | 1200 | 3 |
-| Extra-Long Wheel Base Van (XLWB) | 420 | 120 | 180 | 1000 | 4 |
-| Luton Van (LV) | 400 | 200 | 200 | 1000 | 6 |
-| 7.5 Tonne (7.5T) | 600 | 240 | 220 | 2500 | 10 |
-| 18 Tonne (18T) | 700 | 240 | 250 | 9000 | 14 |
-| 26 Tonne (26T) | 800 | 240 | 250 | 15000 | 16 |
+| Vehicle                          | L   | W   | H   | Payload | Pallets |
+| -------------------------------- | --- | --- | --- | ------- | ------- |
+| Small Van (SV)                   | 120 | 100 | 100 | 450     | 1       |
+| Short Wheel Base Van (SWB)       | 240 | 100 | 120 | 800     | 2       |
+| Long Wheel Base Van (LWB)        | 340 | 120 | 180 | 1200    | 3       |
+| Extra-Long Wheel Base Van (XLWB) | 420 | 120 | 180 | 1000    | 4       |
+| Luton Van (LV)                   | 400 | 200 | 200 | 1000    | 6       |
+| 7.5 Tonne (7.5T)                 | 600 | 240 | 220 | 2500    | 10      |
+| 18 Tonne (18T)                   | 700 | 240 | 250 | 9000    | 14      |
+| 26 Tonne (26T)                   | 800 | 240 | 250 | 15000   | 16      |
 
 ## Why choose HFU
 

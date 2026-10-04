@@ -20,14 +20,14 @@ export function initHero() {
   const errorSlot = qs('[data-js="planner-error"]', root);
   const resultLine = qs('[data-js="planner-result"]', root);
   const deliveryRadios = qsa('[name="hero-delivery-type"]', root);
-  
+
   const vehicleChipShort = qs('[data-js="vehicle-short"]', root);
   const vehicleChipName = qs('[data-js="vehicle-name"]', root);
-  
+
   const readoutDistance = qs('[data-js="readout-distance"]', root);
   const readoutDuration = qs('[data-js="readout-duration"]', root);
   const readoutVehicle = qs('[data-js="readout-vehicle"]', root);
-  
+
   const mapHost = qs('[data-js="route-map"]', root);
   const stepperRoot = qs('[data-js="stepper-pallets"]', root);
 
@@ -44,7 +44,7 @@ export function initHero() {
       } else {
         toBox.setPlace(place);
       }
-    }
+    },
   });
 
   const fromBox = attachPlaceCombobox(fromInput, {
@@ -66,7 +66,7 @@ export function initHero() {
       selectedFrom = null;
       fromText = '';
       updateRoute();
-    }
+    },
   });
 
   const toBox = attachPlaceCombobox(toInput, {
@@ -88,14 +88,14 @@ export function initHero() {
       selectedTo = null;
       toText = '';
       updateRoute();
-    }
+    },
   });
 
   const stepper = attachStepper(stepperRoot, {
     onChange: (value) => {
       updateVehicle(value);
       syncToStore();
-    }
+    },
   });
 
   for (const radio of deliveryRadios) {
@@ -127,7 +127,7 @@ export function initHero() {
       selectedTo = null;
       toText = tempFromText;
     }
-    
+
     updateRoute();
   });
 
@@ -146,7 +146,7 @@ export function initHero() {
       vehicleChipShort.textContent = vehicle.shortName;
       vehicleChipName.textContent = vehicle.name;
       readoutVehicle.textContent = vehicle.shortName;
-      
+
       if (!isInternalUpdate) {
         trackEvent('vehicle_selected', { vehicle: vehicle.id });
       }
@@ -156,22 +156,22 @@ export function initHero() {
   function updateRoute() {
     errorSlot.hidden = true;
     errorSlot.textContent = '';
-    
+
     if (selectedFrom && selectedTo) {
       map.setRoute(selectedFrom, selectedTo);
       const routeInfo = describeRoute(selectedFrom, selectedTo);
       const sentence = `${selectedFrom.name} to ${selectedTo.name}: about ${routeInfo.milesLabel} road miles, around ${routeInfo.durationLabel} drive.`;
-      
+
       resultLine.textContent = sentence;
       readoutDistance.textContent = routeInfo.milesLabel;
       readoutDuration.textContent = routeInfo.durationLabel;
-      
+
       if (!isInternalUpdate) {
         announce(sentence);
         trackEvent('route_planned', {
           from: selectedFrom.name,
           to: selectedTo.name,
-          miles: routeInfo.miles
+          miles: routeInfo.miles,
         });
       }
     } else {
@@ -180,7 +180,7 @@ export function initHero() {
       readoutDistance.textContent = '--';
       readoutDuration.textContent = '--';
     }
-    
+
     syncToStore();
   }
 
@@ -188,29 +188,32 @@ export function initHero() {
     if (isInternalUpdate) {
       return;
     }
-    
+
     const parsed = parseInt(stepper.getValue(), 10);
     const pallets = isNaN(parsed) ? 0 : parsed;
     const vehicle = recommendVehicle(pallets);
-    
-    quoteStore.update({
-      from: selectedFrom,
-      fromText: fromText,
-      to: selectedTo,
-      toText: toText,
-      deliveryType: getDeliveryType(),
-      pallets: pallets,
-      vehicleId: vehicle ? vehicle.id : null
-    }, 'hero');
+
+    quoteStore.update(
+      {
+        from: selectedFrom,
+        fromText: fromText,
+        to: selectedTo,
+        toText: toText,
+        deliveryType: getDeliveryType(),
+        pallets: pallets,
+        vehicleId: vehicle ? vehicle.id : null,
+      },
+      'hero'
+    );
   }
 
   quoteStore.subscribe((state, changedKeys, source) => {
     if (source === 'hero') {
       return;
     }
-    
+
     isInternalUpdate = true;
-    
+
     if (state.from) {
       fromBox.setPlace(state.from);
       selectedFrom = state.from;
@@ -220,7 +223,7 @@ export function initHero() {
       selectedFrom = null;
       fromText = state.fromText;
     }
-    
+
     if (state.to) {
       toBox.setPlace(state.to);
       selectedTo = state.to;
@@ -230,16 +233,16 @@ export function initHero() {
       selectedTo = null;
       toText = state.toText;
     }
-    
+
     stepper.setValue(state.pallets, { silent: true });
     updateVehicle(state.pallets);
-    
+
     for (const radio of deliveryRadios) {
       radio.checked = radio.value === state.deliveryType;
     }
-    
+
     updateRoute();
-    
+
     isInternalUpdate = false;
   });
 
@@ -247,7 +250,7 @@ export function initHero() {
     if (!fromText || !toText) {
       errorSlot.textContent = 'Add where from and where to so we can quote you.';
       errorSlot.hidden = false;
-      
+
       if (!fromText) {
         fromInput.closest('.field').classList.add('is-invalid');
         fromInput.focus();
@@ -257,7 +260,7 @@ export function initHero() {
       }
       return;
     }
-    
+
     trackEvent('quote_started', { source: 'hero' });
     scrollToSection('quote', { focusSelector: '[data-js="quote-focus-target"]' });
   });

@@ -8,47 +8,47 @@ import {
 } from '../data/uk-map.js';
 
 const LABEL_OFFSETS = {
-  'london': { dx: -8, dy: -6, anchor: 'end' },
-  'birmingham': { dx: 8, dy: -4, anchor: 'start' },
-  'glasgow': { dx: 8, dy: -4, anchor: 'start' },
-  'cardiff': { dx: -8, dy: 4, anchor: 'end' },
+  london: { dx: -8, dy: -6, anchor: 'end' },
+  birmingham: { dx: 8, dy: 4, anchor: 'start' },
+  glasgow: { dx: 8, dy: -4, anchor: 'start' },
+  cardiff: { dx: -8, dy: -6, anchor: 'end' },
   'newcastle-upon-tyne': { dx: 8, dy: -4, anchor: 'start' },
-  'bristol': { dx: -8, dy: 4, anchor: 'end' },
-  'southampton': { dx: -8, dy: 6, anchor: 'end' },
-  'norwich': { dx: 8, dy: -4, anchor: 'start' },
-  'liverpool': { dx: -8, dy: -4, anchor: 'end' },
-  'leeds': { dx: 8, dy: -6, anchor: 'start' },
-  'sheffield': { dx: 8, dy: 6, anchor: 'start' },
-  'manchester': { dx: 8, dy: -4, anchor: 'start' },
-  'edinburgh': { dx: 8, dy: -4, anchor: 'start' },
-  'belfast': { dx: -8, dy: -4, anchor: 'end' },
-  'aberdeen': { dx: 8, dy: -4, anchor: 'start' },
-  'nottingham': { dx: 8, dy: 4, anchor: 'start' },
-  'cambridge': { dx: 8, dy: -4, anchor: 'start' },
-  'oxford': { dx: -8, dy: -4, anchor: 'end' },
-  'exeter': { dx: -8, dy: -4, anchor: 'end' },
-  'swansea': { dx: -8, dy: 4, anchor: 'end' },
-  'hull': { dx: 8, dy: -4, anchor: 'start' },
-  'york': { dx: 8, dy: -4, anchor: 'start' },
+  bristol: { dx: -8, dy: 8, anchor: 'end' },
+  southampton: { dx: 8, dy: 6, anchor: 'start' },
+  norwich: { dx: 8, dy: -4, anchor: 'start' },
+  liverpool: { dx: -8, dy: -6, anchor: 'end' },
+  leeds: { dx: 8, dy: -8, anchor: 'start' },
+  sheffield: { dx: 8, dy: 8, anchor: 'start' },
+  manchester: { dx: 8, dy: -4, anchor: 'start' },
+  edinburgh: { dx: 8, dy: -4, anchor: 'start' },
+  belfast: { dx: -8, dy: -4, anchor: 'end' },
+  aberdeen: { dx: 8, dy: -4, anchor: 'start' },
+  nottingham: { dx: 8, dy: -4, anchor: 'start' },
+  cambridge: { dx: 8, dy: -4, anchor: 'start' },
+  oxford: { dx: -8, dy: -4, anchor: 'end' },
+  exeter: { dx: -8, dy: -4, anchor: 'end' },
+  swansea: { dx: -8, dy: 4, anchor: 'end' },
+  hull: { dx: 8, dy: -4, anchor: 'start' },
+  york: { dx: 8, dy: -4, anchor: 'start' },
   'stoke-on-trent': { dx: -8, dy: 4, anchor: 'end' },
-  'derby': { dx: 8, dy: 4, anchor: 'start' },
-  'leicester': { dx: 8, dy: 4, anchor: 'start' },
-  'coventry': { dx: 8, dy: 4, anchor: 'start' },
-  'brighton': { dx: 8, dy: 6, anchor: 'start' },
-  'plymouth': { dx: -8, dy: -4, anchor: 'end' },
-  'bournemouth': { dx: -8, dy: 6, anchor: 'end' },
-  'ipswich': { dx: 8, dy: -4, anchor: 'start' },
-  'peterborough': { dx: 8, dy: -4, anchor: 'start' },
-  'sunderland': { dx: 8, dy: 4, anchor: 'start' },
-  'middlesbrough': { dx: 8, dy: 4, anchor: 'start' },
-  'preston': { dx: -8, dy: -4, anchor: 'end' },
-  'blackpool': { dx: -8, dy: 4, anchor: 'end' },
-  'lancaster': { dx: -8, dy: -4, anchor: 'end' },
-  'carlisle': { dx: -8, dy: -4, anchor: 'end' },
-  'dundee': { dx: 8, dy: 4, anchor: 'start' },
-  'inverness': { dx: 8, dy: -4, anchor: 'start' },
-  'bradford': { dx: -8, dy: 6, anchor: 'end' },
-  'wolverhampton': { dx: -8, dy: 4, anchor: 'end' },
+  derby: { dx: 8, dy: 4, anchor: 'start' },
+  leicester: { dx: 8, dy: 4, anchor: 'start' },
+  coventry: { dx: 8, dy: 4, anchor: 'start' },
+  brighton: { dx: 8, dy: 6, anchor: 'start' },
+  plymouth: { dx: -8, dy: -6, anchor: 'end' },
+  bournemouth: { dx: -8, dy: 6, anchor: 'end' },
+  ipswich: { dx: 8, dy: -4, anchor: 'start' },
+  peterborough: { dx: 8, dy: -4, anchor: 'start' },
+  sunderland: { dx: 8, dy: 4, anchor: 'start' },
+  middlesbrough: { dx: 8, dy: 4, anchor: 'start' },
+  preston: { dx: -8, dy: -4, anchor: 'end' },
+  blackpool: { dx: -8, dy: 4, anchor: 'end' },
+  lancaster: { dx: -8, dy: -4, anchor: 'end' },
+  carlisle: { dx: -8, dy: -4, anchor: 'end' },
+  dundee: { dx: 8, dy: 4, anchor: 'start' },
+  inverness: { dx: 8, dy: -4, anchor: 'start' },
+  bradford: { dx: -8, dy: 6, anchor: 'end' },
+  wolverhampton: { dx: -8, dy: 4, anchor: 'end' },
 };
 
 const AMBIENT_CITY_IDS = [
@@ -67,6 +67,10 @@ const DOT_RADIUS = 1.2;
 const DOT_GRID_PATTERN_ID = 'route-map-dot-grid';
 const GLOW_FILTER_ID = 'route-map-glow';
 const ROUTE_CLIP_ID = 'route-map-uk-clip';
+const MINIMUM_FIT_WIDTH = 220;
+const MAXIMUM_ZOOM = 2.6;
+const MARGIN_FRACTION = 0.18;
+const MINIMUM_VERTICAL_MARGIN = 70;
 
 function getDefaultOffset() {
   return { dx: 8, dy: -3, anchor: 'start' };
@@ -156,39 +160,63 @@ function easeInOutCubic(progressValue) {
   return 1 - Math.pow(-2 * progressValue + 2, 3) / 2;
 }
 
-function computeFitViewBox(startPoint, endPoint, paddingFraction, maxZoom, fullViewBox) {
+function computeFitViewBox(startPoint, endPoint, hostElement, fullViewBox) {
   const minPointX = Math.min(startPoint.x, endPoint.x);
   const minPointY = Math.min(startPoint.y, endPoint.y);
   const maxPointX = Math.max(startPoint.x, endPoint.x);
   const maxPointY = Math.max(startPoint.y, endPoint.y);
   const routeWidth = maxPointX - minPointX;
   const routeHeight = maxPointY - minPointY;
-  const paddedWidth = routeWidth * (1 + paddingFraction * 2);
-  const paddedHeight = routeHeight * (1 + paddingFraction * 2);
-  const aspect = fullViewBox.width / fullViewBox.height;
+
+  const horizontalMargin = Math.max(routeWidth * MARGIN_FRACTION, 40);
+  const verticalMargin = Math.max(routeHeight * MARGIN_FRACTION, MINIMUM_VERTICAL_MARGIN);
+  const paddedWidth = routeWidth + horizontalMargin * 2;
+  const paddedHeight = routeHeight + verticalMargin * 2;
+
+  let hostAspect = fullViewBox.width / fullViewBox.height;
+  if (hostElement && hostElement.clientWidth > 0 && hostElement.clientHeight > 0) {
+    hostAspect = hostElement.clientWidth / hostElement.clientHeight;
+  }
+
   let fitWidth = paddedWidth;
   let fitHeight = paddedHeight;
-  if (fitWidth / fitHeight > aspect) {
-    fitHeight = fitWidth / aspect;
+  if (fitWidth / fitHeight > hostAspect) {
+    fitHeight = fitWidth / hostAspect;
   } else {
-    fitWidth = fitHeight * aspect;
+    fitWidth = fitHeight * hostAspect;
   }
-  const minWidth = fullViewBox.width / maxZoom;
-  const minHeight = fullViewBox.height / maxZoom;
+
+  if (fitWidth < MINIMUM_FIT_WIDTH) {
+    fitWidth = MINIMUM_FIT_WIDTH;
+    fitHeight = fitWidth / hostAspect;
+  }
+
+  const minWidth = fullViewBox.width / MAXIMUM_ZOOM;
+  const minHeight = fullViewBox.height / MAXIMUM_ZOOM;
   if (fitWidth < minWidth) {
     fitWidth = minWidth;
-    fitHeight = fitWidth / aspect;
+    fitHeight = fitWidth / hostAspect;
   }
   if (fitHeight < minHeight) {
     fitHeight = minHeight;
-    fitWidth = fitHeight * aspect;
+    fitWidth = fitHeight * hostAspect;
   }
+
+  if (fitWidth > fullViewBox.width) {
+    fitWidth = fullViewBox.width;
+    fitHeight = fitWidth / hostAspect;
+  }
+  if (fitHeight > fullViewBox.height) {
+    fitHeight = fullViewBox.height;
+    fitWidth = fitHeight * hostAspect;
+  }
+
   const centerX = (minPointX + maxPointX) / 2;
   const centerY = (minPointY + maxPointY) / 2;
   let viewBoxX = centerX - fitWidth / 2;
   let viewBoxY = centerY - fitHeight / 2;
-  viewBoxX = clamp(viewBoxX, 0, fullViewBox.width - fitWidth);
-  viewBoxY = clamp(viewBoxY, 0, fullViewBox.height - fitHeight);
+  viewBoxX = clamp(viewBoxX, 0, Math.max(0, fullViewBox.width - fitWidth));
+  viewBoxY = clamp(viewBoxY, 0, Math.max(0, fullViewBox.height - fitHeight));
   return {
     x: viewBoxX,
     y: viewBoxY,
@@ -224,6 +252,7 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
   let isVisible = true;
   let isDocumentVisible = true;
   let currentRouteElements = null;
+  let activeEndpointIds = [];
 
   const placesById = new Map();
   PLACES.forEach((place) => {
@@ -231,7 +260,9 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
   });
 
   const hubPlace = placesById.get(HUB_PLACE_ID);
-  const hubPoint = hubPlace ? projectLatLon(hubPlace.lat, hubPlace.lon) : { x: MAP_VIEWBOX.width / 2, y: MAP_VIEWBOX.height / 2 };
+  const hubPoint = hubPlace
+    ? projectLatLon(hubPlace.lat, hubPlace.lon)
+    : { x: MAP_VIEWBOX.width / 2, y: MAP_VIEWBOX.height / 2 };
 
   const svgElement = createSvgElement('svg', {
     class: 'route-map__svg',
@@ -240,52 +271,75 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
     width: '100%',
     height: '100%',
     'aria-hidden': 'true',
+    overflow: 'hidden',
   });
 
-  const dotPattern = createSvgElement('pattern', {
-    id: DOT_GRID_PATTERN_ID,
-    width: String(DOT_GRID_SIZE),
-    height: String(DOT_GRID_SIZE),
-    patternUnits: 'userSpaceOnUse',
-  }, [
-    createSvgElement('circle', {
-      cx: String(DOT_GRID_SIZE / 2),
-      cy: String(DOT_GRID_SIZE / 2),
-      r: String(DOT_RADIUS),
-      fill: 'var(--blue-300)',
-      'fill-opacity': '0.18',
-    }),
-  ]);
+  const dotPattern = createSvgElement(
+    'pattern',
+    {
+      id: DOT_GRID_PATTERN_ID,
+      width: String(DOT_GRID_SIZE),
+      height: String(DOT_GRID_SIZE),
+      patternUnits: 'userSpaceOnUse',
+    },
+    [
+      createSvgElement('circle', {
+        cx: String(DOT_GRID_SIZE / 2),
+        cy: String(DOT_GRID_SIZE / 2),
+        r: String(DOT_RADIUS),
+        fill: 'var(--blue-300)',
+        'fill-opacity': '0.18',
+      }),
+    ]
+  );
 
-  const glowFilter = createSvgElement('filter', {
-    id: GLOW_FILTER_ID,
-    x: '-50%',
-    y: '-50%',
-    width: '200%',
-    height: '200%',
-  }, [
-    createSvgElement('feGaussianBlur', {
-      in: 'SourceGraphic',
-      stdDeviation: '6',
-      result: 'blur',
-    }),
-  ]);
+  const glowFilter = createSvgElement(
+    'filter',
+    {
+      id: GLOW_FILTER_ID,
+      x: '-50%',
+      y: '-50%',
+      width: '200%',
+      height: '200%',
+    },
+    [
+      createSvgElement('feGaussianBlur', {
+        in: 'SourceGraphic',
+        stdDeviation: '6',
+        result: 'blur',
+      }),
+    ]
+  );
 
-  const clipPath = createSvgElement('clipPath', {
-    id: ROUTE_CLIP_ID,
-  }, [
-    createSvgElement('path', { d: UK_OUTLINE_PATH }),
-  ]);
+  const clipPath = createSvgElement(
+    'clipPath',
+    {
+      id: ROUTE_CLIP_ID,
+    },
+    [createSvgElement('path', { d: UK_OUTLINE_PATH })]
+  );
 
-  const radialGlow = createSvgElement('radialGradient', {
-    id: 'route-map-england-glow',
-    cx: '55%',
-    cy: '65%',
-    r: '40%',
-  }, [
-    createSvgElement('stop', { offset: '0%', 'stop-color': 'var(--blue-400)', 'stop-opacity': '0.06' }),
-    createSvgElement('stop', { offset: '100%', 'stop-color': 'var(--blue-400)', 'stop-opacity': '0' }),
-  ]);
+  const radialGlow = createSvgElement(
+    'radialGradient',
+    {
+      id: 'route-map-england-glow',
+      cx: '55%',
+      cy: '65%',
+      r: '40%',
+    },
+    [
+      createSvgElement('stop', {
+        offset: '0%',
+        'stop-color': 'var(--blue-400)',
+        'stop-opacity': '0.06',
+      }),
+      createSvgElement('stop', {
+        offset: '100%',
+        'stop-color': 'var(--blue-400)',
+        'stop-opacity': '0',
+      }),
+    ]
+  );
 
   const defsElement = createSvgElement('defs', {}, [dotPattern, glowFilter, clipPath, radialGlow]);
   svgElement.appendChild(defsElement);
@@ -329,9 +383,9 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
   });
   svgElement.appendChild(ambientLayer);
 
-  const ambientCities = AMBIENT_CITY_IDS
-    .map((cityId) => placesById.get(cityId))
-    .filter((place) => place !== undefined);
+  const ambientCities = AMBIENT_CITY_IDS.map((cityId) => placesById.get(cityId)).filter(
+    (place) => place !== undefined
+  );
 
   const ambientArcs = [];
   ambientCities.forEach((city, cityIndex) => {
@@ -479,10 +533,21 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
   containerDiv.appendChild(svgElement);
   hostElement.appendChild(containerDiv);
 
-  function updateSvgViewBox(viewBox) {
-    svgElement.setAttribute('viewBox', `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`);
-    currentViewBox = { ...viewBox };
+  function applyZoomFactor(viewBox) {
+    const zoomFactor = MAP_VIEWBOX.width / viewBox.width;
+    svgElement.style.setProperty('--map-zoom', String(zoomFactor));
   }
+
+  function updateSvgViewBox(viewBox) {
+    svgElement.setAttribute(
+      'viewBox',
+      `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`
+    );
+    currentViewBox = { ...viewBox };
+    applyZoomFactor(viewBox);
+  }
+
+  applyZoomFactor(fullViewBox);
 
   let ambientStartTime = null;
 
@@ -588,28 +653,43 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
   }
 
   function buildRoutePin(point, placeName, isEndPin, viewBoxForClamping) {
-    const pinGroup = createSvgElement('g', { class: 'route-map__pin' });
-    const ringClass = isEndPin ? 'route-map__pin-ring route-map__pin-ring--end' : 'route-map__pin-ring';
-    const centreClass = isEndPin ? 'route-map__pin-centre route-map__pin-centre--end' : 'route-map__pin-centre';
+    const pinGroup = createSvgElement('g', {
+      class: 'route-map__pin',
+      transform: `translate(${point.x},${point.y})`,
+    });
+
+    const ringClass = isEndPin
+      ? 'route-map__pin-ring route-map__pin-ring--end'
+      : 'route-map__pin-ring';
+    const centreClass = isEndPin
+      ? 'route-map__pin-centre route-map__pin-centre--end'
+      : 'route-map__pin-centre';
 
     const outerRing = createSvgElement('circle', {
-      cx: String(point.x),
-      cy: String(point.y),
+      cx: '0',
+      cy: '0',
       r: '7',
       class: ringClass,
     });
 
     const innerDot = createSvgElement('circle', {
-      cx: String(point.x),
-      cy: String(point.y),
+      cx: '0',
+      cy: '0',
       r: '3',
       class: centreClass,
     });
 
-    pinGroup.appendChild(outerRing);
-    pinGroup.appendChild(innerDot);
+    const scaleGroup = createSvgElement('g', {
+      class: 'route-map__pin-scale',
+    });
+    scaleGroup.appendChild(outerRing);
+    scaleGroup.appendChild(innerDot);
+    pinGroup.appendChild(scaleGroup);
 
-    const chipGroup = createSvgElement('g', { class: 'route-map__chip' });
+    const chipGroup = createSvgElement('g', {
+      class: 'route-map__chip',
+    });
+
     const chipText = createSvgElement('text', {
       class: 'route-map__chip-text',
       'text-anchor': 'middle',
@@ -619,32 +699,53 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
 
     const estimatedTextWidth = placeName.length * 6.5;
     const chipPaddingX = 8;
-    const chipPaddingY = 5;
     const chipWidth = estimatedTextWidth + chipPaddingX * 2;
     const chipHeight = 18;
-    const chipXPosition = clamp(
-      point.x - chipWidth / 2,
-      viewBoxForClamping.x + 4,
-      viewBoxForClamping.x + viewBoxForClamping.width - chipWidth - 4
-    );
-    const chipYPosition = point.y - 18;
+    const chipXOffset = -chipWidth / 2;
+    const chipYOffset = -18;
 
     const chipBackground = createSvgElement('rect', {
-      x: String(chipXPosition),
-      y: String(chipYPosition - chipHeight / 2),
+      x: String(chipXOffset),
+      y: String(chipYOffset - chipHeight / 2),
       width: String(chipWidth),
       height: String(chipHeight),
       class: 'route-map__chip-bg',
     });
 
-    chipText.setAttribute('x', String(chipXPosition + chipWidth / 2));
-    chipText.setAttribute('y', String(chipYPosition));
+    chipText.setAttribute('x', String(chipXOffset + chipWidth / 2));
+    chipText.setAttribute('y', String(chipYOffset));
 
-    chipGroup.appendChild(chipBackground);
-    chipGroup.appendChild(chipText);
+    const chipScale = createSvgElement('g', {
+      class: 'route-map__chip-scale',
+    });
+    chipScale.appendChild(chipBackground);
+    chipScale.appendChild(chipText);
+    chipGroup.appendChild(chipScale);
     pinGroup.appendChild(chipGroup);
 
     return pinGroup;
+  }
+
+  function markEndpoints(fromPlaceId, toPlaceId) {
+    clearEndpoints();
+    const idsToMark = [fromPlaceId, toPlaceId];
+    idsToMark.forEach((placeId) => {
+      const placeData = placeGroups.get(placeId);
+      if (placeData) {
+        placeData.groupElement.classList.add('is-route-endpoint');
+        activeEndpointIds.push(placeId);
+      }
+    });
+  }
+
+  function clearEndpoints() {
+    activeEndpointIds.forEach((placeId) => {
+      const placeData = placeGroups.get(placeId);
+      if (placeData) {
+        placeData.groupElement.classList.remove('is-route-endpoint');
+      }
+    });
+    activeEndpointIds = [];
   }
 
   function animateRouteVehicle(routePathElement, durationMs) {
@@ -704,10 +805,9 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
         const ghostLookAhead = routePathElement.getPointAtLength(
           Math.min(ghostDistance + 1, pathLength)
         );
-        const ghostAngle = Math.atan2(
-          ghostLookAhead.y - ghostPoint.y,
-          ghostLookAhead.x - ghostPoint.x
-        ) * 180 / Math.PI;
+        const ghostAngle =
+          (Math.atan2(ghostLookAhead.y - ghostPoint.y, ghostLookAhead.x - ghostPoint.x) * 180) /
+          Math.PI;
         ghostElement.setAttribute(
           'transform',
           `translate(${ghostPoint.x},${ghostPoint.y}) rotate(${ghostAngle})`
@@ -732,6 +832,8 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
 
     const startPoint = projectLatLon(fromPlace.lat, fromPlace.lon);
     const endPoint = projectLatLon(toPlace.lat, toPlace.lon);
+
+    markEndpoints(fromPlace.id, toPlace.id);
 
     if (fromPlace.id === toPlace.id) {
       const pulseRing = createSvgElement('circle', {
@@ -790,7 +892,7 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
 
     ambientLayer.style.opacity = '0.15';
 
-    const fitViewBox = computeFitViewBox(startPoint, endPoint, 0.22, 2.4, fullViewBox);
+    const fitViewBox = computeFitViewBox(startPoint, endPoint, hostElement, fullViewBox);
     const startPin = buildRoutePin(startPoint, fromPlace.name, false, fitViewBox);
     const endPin = buildRoutePin(endPoint, toPlace.name, true, fitViewBox);
     routeLayer.appendChild(startPin);
@@ -817,6 +919,7 @@ export function createRouteMap(hostElement, { onPlaceSelect }) {
 
   function clearRoute() {
     clearRouteElements();
+    clearEndpoints();
     ambientLayer.style.opacity = '1';
     tweenCamera(fullViewBox, 700);
   }

@@ -107,8 +107,9 @@ export function recommendVehicle(palletCount, weightKg = 0) {
   const requiredPallets = Math.max(0, Number(palletCount) || 0);
   const requiredWeight = Math.max(0, Number(weightKg) || 0);
   return (
-    FLEET.find((vehicle) => vehicle.pallets >= requiredPallets && vehicle.payloadKg >= requiredWeight) ||
-    null
+    FLEET.find(
+      (vehicle) => vehicle.pallets >= requiredPallets && vehicle.payloadKg >= requiredWeight
+    ) || null
   );
 }
 

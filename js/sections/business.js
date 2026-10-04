@@ -64,7 +64,7 @@ export function initBusiness() {
   const stepperInstance = attachStepper(stepperElement, {
     onChange: function () {
       updatePreview();
-    }
+    },
   });
 
   function getActiveVehicle() {
@@ -108,8 +108,14 @@ export function initBusiness() {
       columnElement.textContent = '';
       if (selectedDays.includes(dayId)) {
         columnElement.classList.add('is-active');
-        const timeElement = createElement('div', { className: 'business__preview-time', text: selectedTime });
-        const vehicleElement = createElement('div', { className: 'business__preview-vehicle', text: activeVehicle.shortName });
+        const timeElement = createElement('div', {
+          className: 'business__preview-time',
+          text: selectedTime,
+        });
+        const vehicleElement = createElement('div', {
+          className: 'business__preview-vehicle',
+          text: activeVehicle.shortName,
+        });
         columnElement.appendChild(timeElement);
         columnElement.appendChild(vehicleElement);
       } else {
@@ -131,7 +137,21 @@ export function initBusiness() {
     const runWord = selectedDays.length === 1 ? 'run' : 'runs';
     const dayList = selectedLabels.join(', ');
     const palletWord = currentPallets === 1 ? 'pallet' : 'pallets';
-    const summaryText = selectedDays.length + ' ' + runWord + ' a week: ' + dayList + ' at ' + timeLabel + ' with a ' + activeVehicle.shortName + ', up to ' + currentPallets + ' ' + palletWord + ' each.';
+    const summaryText =
+      selectedDays.length +
+      ' ' +
+      runWord +
+      ' a week: ' +
+      dayList +
+      ' at ' +
+      timeLabel +
+      ' with a ' +
+      activeVehicle.shortName +
+      ', up to ' +
+      currentPallets +
+      ' ' +
+      palletWord +
+      ' each.';
 
     summaryElement.textContent = summaryText;
     announce(summaryText);
@@ -173,17 +193,17 @@ export function initBusiness() {
     selectedVehicleId = vehicleSelectElement.value;
     const activeVehicle = getActiveVehicle();
     const currentMax = activeVehicle.pallets;
-    
+
     stepperElement.dataset.max = String(currentMax);
     const inputElement = qs('.stepper__input', stepperElement);
     if (inputElement) {
       inputElement.max = String(currentMax);
     }
-    
+
     if (stepperInstance.getValue() > currentMax) {
       stepperInstance.setValue(currentMax, { silent: true });
     }
-    
+
     updatePreview();
   });
 
@@ -201,7 +221,7 @@ export function initBusiness() {
     trackEvent('schedule_built', {
       days: selectedDays.length,
       vehicle: selectedVehicleId,
-      pallets: currentPallets
+      pallets: currentPallets,
     });
     scrollToSection('quote', { focusSelector: '[data-js="quote-focus-target"]' });
   });

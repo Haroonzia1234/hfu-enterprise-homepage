@@ -68,13 +68,16 @@ export function initReviews() {
     const reviewerNameElement = qs('.reviews__reviewer-name', currentSlide);
     const reviewerName = reviewerNameElement ? reviewerNameElement.textContent : '';
 
-    carouselElement.setAttribute('aria-label', `Review ${activeIndex + 1} of ${totalSlides}: ${reviewerName}`);
+    carouselElement.setAttribute(
+      'aria-label',
+      `Review ${activeIndex + 1} of ${totalSlides}: ${reviewerName}`
+    );
     announce(`Slide ${activeIndex + 1} of ${totalSlides}: ${reviewerName}`);
 
     trackEvent('review_changed', {
       index: activeIndex,
       reviewId: reviewId,
-      reviewer: reviewerName
+      reviewer: reviewerName,
     });
   }
 

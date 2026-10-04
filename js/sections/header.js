@@ -11,6 +11,16 @@ export function initHeader() {
   let isMenuOpen = false;
   let releaseFocusTrap = null;
 
+  function updateMobileMenuPosition() {
+    if (!mobileMenuElement || !siteHeaderElement) {
+      return;
+    }
+    const headerBoundingRectangle = siteHeaderElement.getBoundingClientRect();
+    const headerBottomPosition = Math.round(headerBoundingRectangle.bottom);
+    mobileMenuElement.style.top = `${headerBottomPosition}px`;
+    mobileMenuElement.style.height = `calc(100dvh - ${headerBottomPosition}px)`;
+  }
+
   function openMobileMenu() {
     if (isMenuOpen || !mobileMenuElement || !menuToggleButtonElement) {
       return;
@@ -20,8 +30,14 @@ export function initHeader() {
     menuToggleButtonElement.setAttribute('aria-label', 'Close menu');
     mobileMenuElement.removeAttribute('hidden');
     document.documentElement.classList.add('has-menu-open');
+    document.body.classList.add('has-menu-open');
+    updateMobileMenuPosition();
     if (typeof trapFocus === 'function') {
       releaseFocusTrap = trapFocus(mobileMenuElement);
+    }
+    const firstFocusableElement = mobileMenuElement.querySelector('a[href], button');
+    if (firstFocusableElement) {
+      firstFocusableElement.focus();
     }
   }
 
@@ -34,6 +50,9 @@ export function initHeader() {
     menuToggleButtonElement.setAttribute('aria-label', 'Open menu');
     mobileMenuElement.setAttribute('hidden', '');
     document.documentElement.classList.remove('has-menu-open');
+    document.body.classList.remove('has-menu-open');
+    mobileMenuElement.style.top = '';
+    mobileMenuElement.style.height = '';
     if (typeof releaseFocusTrap === 'function') {
       releaseFocusTrap();
       releaseFocusTrap = null;
@@ -78,7 +97,7 @@ export function initHeader() {
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && isMenuOpen) {
+      if ((event.key === 'Escape' || event.key === 'Esc') && isMenuOpen) {
         closeMobileMenu();
       }
     });
@@ -87,6 +106,10 @@ export function initHeader() {
   window.addEventListener('resize', () => {
     if (window.innerWidth >= 1100 && isMenuOpen) {
       closeMobileMenu();
+    } else {
+      if (isMenuOpen) {
+        updateMobileMenuPosition();
+      }
     }
   });
 
@@ -123,8 +146,10 @@ export function initHeader() {
     }
 
     if (stickyCtaElement) {
-      const heroElement = document.getElementById('top') || document.querySelector('[data-section="hero"]');
-      const quoteElement = document.getElementById('quote') || document.querySelector('[data-section="quote"]');
+      const heroElement =
+        document.getElementById('top') || document.querySelector('[data-section="hero"]');
+      const quoteElement =
+        document.getElementById('quote') || document.querySelector('[data-section="quote"]');
 
       let isUserPastHero = false;
       if (heroElement) {
@@ -141,10 +166,7 @@ export function initHeader() {
       let isQuoteSectionInView = false;
       if (quoteElement) {
         const quoteBoundingRectangle = quoteElement.getBoundingClientRect();
-        if (
-          quoteBoundingRectangle.top < viewportInnerHeight &&
-          quoteBoundingRectangle.bottom > 0
-        ) {
+        if (quoteBoundingRectangle.top < viewportInnerHeight && quoteBoundingRectangle.bottom > 0) {
           isQuoteSectionInView = true;
         }
       }
@@ -179,12 +201,13 @@ export function initHeader() {
     'coverage',
     'why',
     'reviews',
-    'faq'
+    'faq',
   ];
 
   const sectionElementsToObserve = [];
   for (const sectionId of observedSectionIds) {
-    const sectionElement = document.getElementById(sectionId) || document.querySelector(`[data-section="${sectionId}"]`);
+    const sectionElement =
+      document.getElementById(sectionId) || document.querySelector(`[data-section="${sectionId}"]`);
     if (sectionElement) {
       sectionElementsToObserve.push(sectionElement);
     }
@@ -230,7 +253,7 @@ export function initHeader() {
       },
       {
         rootMargin: '-15% 0px -40% 0px',
-        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0]
+        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0],
       }
     );
 

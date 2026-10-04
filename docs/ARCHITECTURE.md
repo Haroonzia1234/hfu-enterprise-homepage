@@ -29,17 +29,17 @@ value that has a token.
 
 Colours:
 
-| Role | Token | Value |
-| --- | --- | --- |
-| Page background | `--paper` | `#f4f2ee` |
-| Alternate background | `--paper-2` | `#ebe7df` |
-| Cards, white sections | `--white` | `#ffffff` |
-| Dark surfaces | `--ink-900`, `--ink-800`, `--ink-950` | `#0b1324`, `#121d35`, `#070c16` |
-| Body text on light | `--ink-900` (strong), `--ink-500` (muted) | |
-| Body text on dark | `--white` (strong), `--ink-200` (normal), `--ink-300` (muted) | |
-| Brand blue | `--blue-500` (graphics, large text), `--blue-600` (text on light), `--blue-400` and `--blue-300` (on dark) | `#2781ba` |
-| Brand plum | `--plum-500` (buttons, graphics on light), `--plum-600` (text on light), `--plum-400` and `--plum-300` (on dark) | `#a2356e` |
-| Hairlines | `--line` on light, `--line-ink` on dark | |
+| Role                  | Token                                                                                                            | Value                           |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| Page background       | `--paper`                                                                                                        | `#f4f2ee`                       |
+| Alternate background  | `--paper-2`                                                                                                      | `#ebe7df`                       |
+| Cards, white sections | `--white`                                                                                                        | `#ffffff`                       |
+| Dark surfaces         | `--ink-900`, `--ink-800`, `--ink-950`                                                                            | `#0b1324`, `#121d35`, `#070c16` |
+| Body text on light    | `--ink-900` (strong), `--ink-500` (muted)                                                                        |                                 |
+| Body text on dark     | `--white` (strong), `--ink-200` (normal), `--ink-300` (muted)                                                    |                                 |
+| Brand blue            | `--blue-500` (graphics, large text), `--blue-600` (text on light), `--blue-400` and `--blue-300` (on dark)       | `#2781ba`                       |
+| Brand plum            | `--plum-500` (buttons, graphics on light), `--plum-600` (text on light), `--plum-400` and `--plum-300` (on dark) | `#a2356e`                       |
+| Hairlines             | `--line` on light, `--line-ink` on dark                                                                          |                                 |
 
 Rules: primary buttons are plum with white text. Links and route lines are blue. On dark
 backgrounds use `--blue-400` or `--plum-400` for accents, never `--plum-500` (contrast too low).
@@ -151,8 +151,12 @@ in HTML that no stylesheet defines.
 Every partial is one landmark. Section skeleton:
 
 ```html
-<section class="section section--paper services" id="services" data-section="services"
-  aria-labelledby="services-title">
+<section
+  class="section section--paper services"
+  id="services"
+  data-section="services"
+  aria-labelledby="services-title"
+>
   <div class="container">
     <header class="section__header">
       <p class="section__eyebrow"><span class="section__stop">01</span> Services</p>
@@ -214,8 +218,16 @@ script in the template, so content is visible when JavaScript is off.
 Call to action wiring (handled centrally by `main.js`, so sections only add attributes):
 
 ```html
-<a class="btn btn--primary" href="#quote" data-quote-cta data-cta-id="hero-primary"
-   data-quote-service="same-day" data-quote-vehicle="lwb" data-quote-delivery="same-day">Get a Quote</a>
+<a
+  class="btn btn--primary"
+  href="#quote"
+  data-quote-cta
+  data-cta-id="hero-primary"
+  data-quote-service="same-day"
+  data-quote-vehicle="lwb"
+  data-quote-delivery="same-day"
+  >Get a Quote</a
+>
 ```
 
 On click `main.js` writes the `data-quote-*` values into the quote store, tracks the event, and
@@ -254,7 +266,7 @@ Segmented radio group markup:
 <fieldset class="segmented">
   <legend class="field__label">Delivery type</legend>
   <label class="segmented__option">
-    <input class="segmented__input" type="radio" name="delivery-type" value="same-day" checked>
+    <input class="segmented__input" type="radio" name="delivery-type" value="same-day" checked />
     <span class="segmented__label">Same Day</span>
   </label>
 </fieldset>
@@ -267,8 +279,15 @@ Stepper markup:
   <button class="stepper__btn" type="button" data-stepper="decrease" aria-label="Fewer pallets">
     <svg class="icon" aria-hidden="true"><use href="#icon-minus"></use></svg>
   </button>
-  <input class="stepper__input" type="number" inputmode="numeric" min="0" max="16" value="0"
-    aria-label="Pallets">
+  <input
+    class="stepper__input"
+    type="number"
+    inputmode="numeric"
+    min="0"
+    max="16"
+    value="0"
+    aria-label="Pallets"
+  />
   <button class="stepper__btn" type="button" data-stepper="increase" aria-label="More pallets">
     <svg class="icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
   </button>
@@ -279,8 +298,13 @@ Combobox markup (place autocomplete, behaviour from `js/lib/combobox.js`):
 
 ```html
 <div class="combobox" data-js="combobox">
-  <input class="field__control" id="hero-from" type="text" autocomplete="off"
-    placeholder="Town, city or postcode">
+  <input
+    class="field__control"
+    id="hero-from"
+    type="text"
+    autocomplete="off"
+    placeholder="Town, city or postcode"
+  />
 </div>
 ```
 
@@ -296,7 +320,7 @@ Already written. Read them before using them. Highlights:
 
 - `COMPANY` (name, phones, email, address, hours, stats, localAreas, keywords, hubPlaceId).
 - `FLEET` entries: `{ id, name, shortName, kind: 'van' | 'luton' | 'rigid', lengthCm, widthCm,
-  heightCm, payloadKg, pallets, bodyOptions }`. Ids: `sv`, `swb`, `lwb`, `xlwb`, `luton`, `t75`,
+heightCm, payloadKg, pallets, bodyOptions }`. Ids: `sv`, `swb`, `lwb`, `xlwb`, `luton`, `t75`,
   `t18`, `t26`. Helpers: `getVehicle(id)`, `recommendVehicle(pallets, weightKg)`,
   `formatMetres(cm)`, `formatPayload(kg)`, constant `STANDARD_PALLET_CM`.
 - `SERVICES` entries: `{ id, name, shortName, icon, summary, description, bestFor }`. Ids:
@@ -313,10 +337,28 @@ Already written. Read them before using them. Highlights:
 
 ```js
 export const PLACES = [
-  { id: 'manchester', name: 'Manchester', area: 'M', region: 'North West', lat: 53.4808, lon: -2.2426,
-    kind: 'city', labelOnMap: true, aliases: [] },
-  { id: 'salford', name: 'Salford', area: 'M', region: 'North West', lat: 53.4875, lon: -2.2901,
-    kind: 'local', labelOnMap: false, aliases: [] },
+  {
+    id: 'manchester',
+    name: 'Manchester',
+    area: 'M',
+    region: 'North West',
+    lat: 53.4808,
+    lon: -2.2426,
+    kind: 'city',
+    labelOnMap: true,
+    aliases: [],
+  },
+  {
+    id: 'salford',
+    name: 'Salford',
+    area: 'M',
+    region: 'North West',
+    lat: 53.4875,
+    lon: -2.2901,
+    kind: 'local',
+    labelOnMap: false,
+    aliases: [],
+  },
 ];
 export const HUB_PLACE_ID = 'manchester';
 export const MAP_VIEWBOX = { width: 640, height: 820 };
@@ -335,20 +377,20 @@ Chorlton; Manchester itself is a `city`). `area` is the postcode area letters, f
 ### lib/dom.js
 
 ```js
-qs(selector, rootElement = document)            // Element or null
-qsa(selector, rootElement = document)           // Element[]
-createElement(tagName, attributes = {}, children = [])
-createSvgElement(tagName, attributes = {}, children = [])
-prefersReducedMotion()                          // boolean
-debounce(callback, waitMilliseconds)
-clamp(value, minimum, maximum)
-formatNumber(value)                             // en-GB grouping
-animateNumber(element, { from, to, durationMilliseconds, suffix })
-onVisible(element, callback, { threshold, rootMargin, once })   // returns stop function
-scrollToSection(sectionId, { focusSelector, behavior })
-trapFocus(containerElement)                     // returns release function
-announce(message)                               // writes to #live-region
-uniqueId(prefix)
+qs(selector, (rootElement = document)); // Element or null
+qsa(selector, (rootElement = document)); // Element[]
+createElement(tagName, (attributes = {}), (children = []));
+createSvgElement(tagName, (attributes = {}), (children = []));
+prefersReducedMotion(); // boolean
+debounce(callback, waitMilliseconds);
+clamp(value, minimum, maximum);
+formatNumber(value); // en-GB grouping
+animateNumber(element, { from, to, durationMilliseconds, suffix });
+onVisible(element, callback, { threshold, rootMargin, once }); // returns stop function
+scrollToSection(sectionId, { focusSelector, behavior });
+trapFocus(containerElement); // returns release function
+announce(message); // writes to #live-region
+uniqueId(prefix);
 ```
 
 `createElement` attributes: `className`, `text`, `dataset` (object), `aria` (object, keys without
@@ -357,7 +399,7 @@ the `aria-` prefix), plus any other plain attribute. Children are nodes or strin
 ### lib/analytics.js
 
 ```js
-trackEvent(eventName, parameters = {})   // pushes { event: eventName, ...parameters } to window[CONFIG.dataLayerName]
+trackEvent(eventName, (parameters = {})); // pushes { event: eventName, ...parameters } to window[CONFIG.dataLayerName]
 ```
 
 Event names used across the page: `cta_click`, `phone_click`, `email_click`, `route_planned`,
@@ -399,23 +441,23 @@ The store persists to `sessionStorage` (wrapped in try/catch), hydrates from URL
 ### lib/geo.js
 
 ```js
-getPlaceById(placeId)
-getHubPlace()
-normalisePostcode(text)              // { area: 'BD', outcode: 'BD5' } or null
-findPlaceByQuery(text)               // exact name, alias, postcode area or outcode match -> Place or null
-suggestPlaces(text, limit = 6)       // ranked Place[]
-haversineMiles(placeA, placeB)
-estimateRoadMiles(placeA, placeB)    // haversine times CONFIG.roadDistanceFactor, rounded
-estimateDriveMinutes(roadMiles)      // miles / CONFIG.averageRoadSpeedMph * 60, plus 10, rounded
-formatMiles(miles)                   // '205 miles'
-formatDuration(minutes)              // '4 hr 10 min' or '35 min'
-describeRoute(fromPlace, toPlace)    // { miles, minutes, milesLabel, durationLabel }
+getPlaceById(placeId);
+getHubPlace();
+normalisePostcode(text); // { area: 'BD', outcode: 'BD5' } or null
+findPlaceByQuery(text); // exact name, alias, postcode area or outcode match -> Place or null
+suggestPlaces(text, (limit = 6)); // ranked Place[]
+haversineMiles(placeA, placeB);
+estimateRoadMiles(placeA, placeB); // haversine times CONFIG.roadDistanceFactor, rounded
+estimateDriveMinutes(roadMiles); // miles / CONFIG.averageRoadSpeedMph * 60, plus 10, rounded
+formatMiles(miles); // '205 miles'
+formatDuration(minutes); // '4 hr 10 min' or '35 min'
+describeRoute(fromPlace, toPlace); // { miles, minutes, milesLabel, durationLabel }
 ```
 
 ### lib/combobox.js
 
 ```js
-attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, limit })
+attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, limit });
 // returns { getPlace(), setPlace(place), clear(), destroy() }
 ```
 
@@ -426,14 +468,14 @@ emptied. Keyboard: arrow keys, Enter, Escape, Home and End.
 ### lib/stepper.js
 
 ```js
-attachStepper(rootElement, { onChange })
+attachStepper(rootElement, { onChange });
 // returns { getValue(), setValue(value, { silent }), destroy() }
 ```
 
 ### lib/vehicle-art.js
 
 ```js
-renderVehicleSvg(vehicleId, { className, title })   // returns an SVG markup string
+renderVehicleSvg(vehicleId, { className, title }); // returns an SVG markup string
 ```
 
 Side view, facing right, branded with the HFU chevron livery, viewBox `0 0 800 280`, ground line at
@@ -442,7 +484,7 @@ y = 232. Vehicle lengths are proportional to real lengths so the line-up reads a
 ### sections/route-map.js
 
 ```js
-createRouteMap(hostElement, { onPlaceSelect })
+createRouteMap(hostElement, { onPlaceSelect });
 // returns { setRoute(fromPlace, toPlace), clearRoute(), setAmbient(isEnabled), focusPlace(placeId), destroy() }
 ```
 

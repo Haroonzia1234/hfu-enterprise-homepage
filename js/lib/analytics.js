@@ -7,9 +7,7 @@ export function trackEvent(eventName, parameters = {}) {
     }
     window[CONFIG.dataLayerName].push({
       event: eventName,
-      ...parameters
+      ...parameters,
     });
-  } catch (error) {
-    // Never throws
-  }
+  } catch (error) {}
 }

@@ -1,0 +1,97 @@
+const browserGlobals = [
+  'window',
+  'document',
+  'navigator',
+  'location',
+  'history',
+  'localStorage',
+  'sessionStorage',
+  'console',
+  'requestAnimationFrame',
+  'cancelAnimationFrame',
+  'setTimeout',
+  'clearTimeout',
+  'setInterval',
+  'clearInterval',
+  'IntersectionObserver',
+  'ResizeObserver',
+  'MutationObserver',
+  'CustomEvent',
+  'Event',
+  'KeyboardEvent',
+  'PointerEvent',
+  'Element',
+  'HTMLElement',
+  'SVGElement',
+  'Node',
+  'URL',
+  'URLSearchParams',
+  'FormData',
+  'fetch',
+  'performance',
+  'getComputedStyle',
+  'Intl',
+  'DOMParser',
+  'structuredClone',
+];
+
+const nodeGlobals = ['process', 'console', 'URL', 'fetch', 'Buffer'];
+
+const toGlobals = (names) => Object.fromEntries(names.map((name) => [name, 'readonly']));
+
+const sharedRules = {
+  curly: ['error', 'all'],
+  eqeqeq: 'error',
+  'no-var': 'error',
+  'prefer-const': 'warn',
+  'no-undef': 'error',
+  'no-unused-vars': ['warn', { args: 'after-used' }],
+  'id-length': [
+    'warn',
+    { min: 3, properties: 'never', exceptionPatterns: ['^[xy][0-9]?$', '^[cd][xy]$', '^id$'] },
+  ],
+  'id-denylist': [
+    'error',
+    'e',
+    'el',
+    'evt',
+    'btn',
+    'cb',
+    'fn',
+    'res',
+    'tmp',
+    'idx',
+    'elem',
+    'opts',
+    'arr',
+    'str',
+    'num',
+    'obj',
+    'val',
+    'len',
+    'cfg',
+    'ctx',
+    'msg',
+  ],
+};
+
+export default [
+  {
+    files: ['js/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: 'module',
+      globals: toGlobals(browserGlobals),
+    },
+    rules: sharedRules,
+  },
+  {
+    files: ['scripts/**/*.mjs', 'eslint.config.js'],
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: 'module',
+      globals: toGlobals(nodeGlobals),
+    },
+    rules: sharedRules,
+  },
+];

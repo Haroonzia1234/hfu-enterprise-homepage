@@ -6,7 +6,7 @@ export function normalisePostcode(text) {
   if (!trimmed) {
     return null;
   }
-  
+
   if (trimmed.includes(' ')) {
     const parts = trimmed.split(/\s+/);
     if (parts.length >= 2) {
@@ -18,7 +18,7 @@ export function normalisePostcode(text) {
       return null;
     }
   }
-  
+
   const clean = trimmed.replace(/\s+/g, '');
   if (clean.length >= 5) {
     const outcodeStr = clean.slice(0, -3);
@@ -32,7 +32,7 @@ export function normalisePostcode(text) {
       return { area: match[1], outcode: match[1] + (match[2] || '') };
     }
   }
-  
+
   return null;
 }
 
@@ -40,16 +40,16 @@ export function findPlaceByQuery(text) {
   if (!text) {
     return null;
   }
-  
+
   let query = text.trim().toLowerCase().replace(/\s+/g, ' ');
   query = query.replace(/\s*\([a-z]{1,2}\)$/, '');
-  
+
   for (const place of PLACES) {
     if (place.id.toLowerCase() === query || place.name.toLowerCase() === query) {
       return place;
     }
   }
-  
+
   for (const place of PLACES) {
     if (place.aliases) {
       for (const alias of place.aliases) {
@@ -59,7 +59,7 @@ export function findPlaceByQuery(text) {
       }
     }
   }
-  
+
   const postcode = normalisePostcode(text);
   if (postcode) {
     for (const place of PLACES) {
@@ -68,7 +68,7 @@ export function findPlaceByQuery(text) {
       }
     }
   }
-  
+
   return null;
 }
 
@@ -83,26 +83,26 @@ export function suggestPlaces(text, limit = 6) {
     defaultPlaces.sort((a, b) => a.name.localeCompare(b.name));
     return defaultPlaces.slice(0, limit);
   }
-  
+
   const query = text.trim().toLowerCase().replace(/\s+/g, ' ');
   const postcode = normalisePostcode(text);
-  
+
   const results = [];
   const seen = new Set();
-  
+
   const addPlace = (place) => {
     if (!seen.has(place.id)) {
       seen.add(place.id);
       results.push(place);
     }
   };
-  
+
   for (const place of PLACES) {
     if (place.name.toLowerCase().startsWith(query)) {
       addPlace(place);
     }
   }
-  
+
   for (const place of PLACES) {
     if (place.aliases) {
       for (const alias of place.aliases) {
@@ -112,7 +112,7 @@ export function suggestPlaces(text, limit = 6) {
       }
     }
   }
-  
+
   if (postcode) {
     for (const place of PLACES) {
       if (place.kind === 'city') {
@@ -122,13 +122,13 @@ export function suggestPlaces(text, limit = 6) {
       }
     }
   }
-  
+
   for (const place of PLACES) {
     if (place.name.toLowerCase().includes(query)) {
       addPlace(place);
     }
   }
-  
+
   return results.slice(0, limit);
 }
 
@@ -136,7 +136,7 @@ export function formatPlaceLabel(place) {
   if (place.kind === 'city') {
     return `${place.name} (${place.area})`;
   }
-  
+
   let cityPlace = null;
   for (const p of PLACES) {
     if (p.kind === 'city' && p.area === place.area) {
@@ -167,14 +167,14 @@ export function haversineMiles(placeA, placeB) {
   const lon1 = placeA.lon * (Math.PI / 180);
   const lat2 = placeB.lat * (Math.PI / 180);
   const lon2 = placeB.lon * (Math.PI / 180);
-  
+
   const dLat = lat2 - lat1;
   const dLon = lon2 - lon1;
-  
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1) * Math.cos(lat2) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return r * c;
 }
@@ -208,7 +208,7 @@ export function formatMiles(miles) {
 export function formatDuration(minutes) {
   const hrs = Math.floor(minutes / 60);
   const mins = minutes % 60;
-  
+
   if (hrs === 0) {
     return `${mins} min`;
   }
@@ -221,11 +221,11 @@ export function formatDuration(minutes) {
 export function describeRoute(fromPlace, toPlace) {
   const miles = estimateRoadMiles(fromPlace, toPlace);
   const minutes = estimateDriveMinutes(miles);
-  
+
   return {
     miles,
     minutes,
     milesLabel: formatMiles(miles),
-    durationLabel: formatDuration(minutes)
+    durationLabel: formatDuration(minutes),
   };
 }

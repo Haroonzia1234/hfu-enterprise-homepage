@@ -6,8 +6,8 @@ async function generate() {
   const topology = JSON.parse(atlasData);
   const countries = feature(topology, topology.objects.countries);
 
-  const ukFeature = countries.features.find(f => f.properties.name === 'United Kingdom');
-  const irelandFeature = countries.features.find(f => f.properties.name === 'Ireland');
+  const ukFeature = countries.features.find((f) => f.properties.name === 'United Kingdom');
+  const irelandFeature = countries.features.find((f) => f.properties.name === 'Ireland');
 
   const minLon = -8.9;
   const maxLon = 2.1;
@@ -15,11 +15,11 @@ async function generate() {
   const maxLat = 58.8;
 
   function project(lat, lon) {
-    const latRad = lat * Math.PI / 180;
-    const lonRad = lon * Math.PI / 180;
+    const latRad = (lat * Math.PI) / 180;
+    const lonRad = (lon * Math.PI) / 180;
     return {
       x: lonRad,
-      y: Math.log(Math.tan(Math.PI / 4 + latRad / 2))
+      y: Math.log(Math.tan(Math.PI / 4 + latRad / 2)),
     };
   }
 
@@ -90,7 +90,8 @@ async function generate() {
     let totalPoints = 0;
     let finalPoints = 0;
 
-    const polygons = feat.geometry.type === 'Polygon' ? [feat.geometry.coordinates] : feat.geometry.coordinates;
+    const polygons =
+      feat.geometry.type === 'Polygon' ? [feat.geometry.coordinates] : feat.geometry.coordinates;
 
     for (const polygon of polygons) {
       for (const ring of polygon) {

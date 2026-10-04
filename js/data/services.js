@@ -7,7 +7,11 @@ export const SERVICES = [
     summary: 'Time sensitive deliveries are our specialty.',
     description:
       'When time is of the essence, our same day courier service is your go-to solution. Urgent business documents, critical medical supplies and last minute customer orders are prioritised and reach their destination on the same day.',
-    bestFor: ['Urgent business documents', 'Critical medical supplies', 'Last minute customer orders'],
+    bestFor: [
+      'Urgent business documents',
+      'Critical medical supplies',
+      'Last minute customer orders',
+    ],
   },
   {
     id: 'scheduled',

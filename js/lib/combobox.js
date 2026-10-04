@@ -4,34 +4,34 @@ import { suggestPlaces, findPlaceByQuery, formatPlaceLabel } from './geo.js';
 export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, limit = 6 }) {
   const wrapper = inputElement.parentElement;
   const listId = uniqueId('combobox-list');
-  
+
   const listElement = createElement('ul', {
     className: 'combobox__list',
     role: 'listbox',
     id: listId,
-    hidden: true
+    hidden: true,
   });
-  
+
   wrapper.appendChild(listElement);
-  
+
   inputElement.setAttribute('role', 'combobox');
   inputElement.setAttribute('aria-autocomplete', 'list');
   inputElement.setAttribute('aria-expanded', 'false');
   inputElement.setAttribute('aria-controls', listId);
   inputElement.setAttribute('aria-haspopup', 'listbox');
-  
+
   let currentSuggestions = [];
   let activeIndex = -1;
   let isOpen = false;
-  
+
   function renderSuggestions(suggestions) {
     currentSuggestions = suggestions;
     listElement.textContent = '';
-    
+
     if (suggestions.length === 0) {
       const emptyItem = createElement('li', {
         className: 'combobox__empty',
-        text: 'No match. Try a town, city or postcode area such as LS or M20.'
+        text: 'No match. Try a town, city or postcode area such as LS or M20.',
       });
       listElement.appendChild(emptyItem);
       announce('No match. Try a town, city or postcode area such as LS or M20.');
@@ -39,33 +39,37 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       for (let i = 0; i < suggestions.length; i++) {
         const place = suggestions[i];
         const optionId = `${listId}-opt-${i}`;
-        
+
         const metaText = place.kind === 'local' ? 'local' : place.area;
-        
+
         const nameSpan = createElement('span', {
           className: 'combobox__name',
-          text: place.name
+          text: place.name,
         });
-        
+
         const metaSpan = createElement('span', {
           className: 'combobox__meta',
-          text: metaText
+          text: metaText,
         });
-        
-        const item = createElement('li', {
-          className: 'combobox__option',
-          role: 'option',
-          id: optionId
-        }, [nameSpan, metaSpan]);
-        
+
+        const item = createElement(
+          'li',
+          {
+            className: 'combobox__option',
+            role: 'option',
+            id: optionId,
+          },
+          [nameSpan, metaSpan]
+        );
+
         listElement.appendChild(item);
       }
     }
-    
+
     activeIndex = -1;
     updateActiveDescendant();
   }
-  
+
   function openList() {
     if (!isOpen) {
       isOpen = true;
@@ -73,7 +77,7 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       inputElement.setAttribute('aria-expanded', 'true');
     }
   }
-  
+
   function closeList() {
     if (isOpen) {
       isOpen = false;
@@ -84,7 +88,7 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       updateActiveDescendant();
     }
   }
-  
+
   function updateActiveDescendant() {
     const options = listElement.querySelectorAll('.combobox__option');
     for (let i = 0; i < options.length; i++) {
@@ -102,7 +106,7 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       inputElement.removeAttribute('aria-activedescendant');
     }
   }
-  
+
   function chooseOption(index) {
     if (index >= 0 && index < currentSuggestions.length) {
       const place = currentSuggestions[index];
@@ -111,7 +115,7 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       onSelect(place);
     }
   }
-  
+
   function handleInput() {
     const text = inputElement.value;
     if (text === '') {
@@ -121,11 +125,11 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
     if (onInput) {
       onInput(text, matchedPlace);
     }
-    
+
     renderSuggestions(suggestPlaces(text, limit));
     openList();
   }
-  
+
   function handleKeyDown(event) {
     if (event.key === 'ArrowDown') {
       event.preventDefault();
@@ -174,12 +178,12 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       }
     }
   }
-  
+
   function handleFocus() {
     renderSuggestions(suggestPlaces(inputElement.value, limit));
     openList();
   }
-  
+
   function handleBlur() {
     setTimeout(() => {
       const text = inputElement.value;
@@ -193,7 +197,7 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       closeList();
     }, 150);
   }
-  
+
   function handlePointerDown(event) {
     const option = event.target.closest('.combobox__option');
     if (option) {
@@ -203,13 +207,13 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       chooseOption(index);
     }
   }
-  
+
   inputElement.addEventListener('input', handleInput);
   inputElement.addEventListener('keydown', handleKeyDown);
   inputElement.addEventListener('focus', handleFocus);
   inputElement.addEventListener('blur', handleBlur);
   listElement.addEventListener('mousedown', handlePointerDown);
-  
+
   return {
     getPlace: () => findPlaceByQuery(inputElement.value),
     setPlace: (place) => {
@@ -228,6 +232,6 @@ export function attachPlaceCombobox(inputElement, { onSelect, onInput, onClear, 
       if (listElement.parentNode) {
         listElement.parentNode.removeChild(listElement);
       }
-    }
+    },
   };
 }

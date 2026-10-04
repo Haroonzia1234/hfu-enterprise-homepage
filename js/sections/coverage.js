@@ -24,7 +24,7 @@ export function initCoverage() {
         tab.setAttribute('aria-selected', 'false');
       }
     }
-    
+
     for (const panel of panels) {
       if (panel.id === `panel-${zoneId}`) {
         panel.hidden = false;
@@ -58,7 +58,7 @@ export function initCoverage() {
 
   const inputEl = section.querySelector('[data-js="checker-input"]');
   const resultEl = section.querySelector('[data-js="checker-result"]');
-  
+
   if (inputEl && resultEl) {
     attachPlaceCombobox(inputEl, {
       onSelect: (place) => {
@@ -73,9 +73,9 @@ export function initCoverage() {
       },
       onClear: () => {
         resultEl.textContent = '';
-      }
+      },
     });
-    
+
     inputEl.addEventListener('blur', () => {
       const text = inputEl.value.trim();
       if (!text) {
@@ -106,36 +106,55 @@ export function initCoverage() {
     resultEl.textContent = '';
     const hub = getHubPlace();
     const miles = estimateRoadMiles(hub, place);
-    
+
     const textElement = createElement('p', {
       className: 'coverage__result-text',
-      text: `Yes, we cover ${place.name} (${place.area}). About ${miles} road miles from our Manchester hub.`
+      text: `Yes, we cover ${place.name} (${place.area}). About ${miles} road miles from our Manchester hub.`,
     });
-    
+
     const buttonElement = createElement('button', {
       type: 'button',
       className: 'btn btn--primary coverage__btn',
-      text: `Get a quote to ${place.area}`
+      text: `Get a quote to ${place.area}`,
     });
-    
+
     buttonElement.addEventListener('click', () => {
       quoteStore.update({ to: place, toText: formatPlaceLabel(place) }, 'coverage');
       scrollToSection('quote');
     });
-    
+
     resultEl.appendChild(textElement);
     resultEl.appendChild(buttonElement);
-    
+
     announce(`Yes, we cover ${place.name}.`);
     trackEvent('coverage_checked', { result: 'match', place_id: place.id });
   }
 
   function showNoMatch(text) {
     resultEl.textContent = '';
-    
+
     const lowerText = text.toLowerCase();
-    const internationalKeywords = ['ireland', 'france', 'spain', 'germany', 'italy', 'poland', 'netherlands', 'belgium', 'europe', 'usa', 'america', 'paris', 'dublin', 'berlin', 'madrid', 'rome', 'international', 'global'];
-    
+    const internationalKeywords = [
+      'ireland',
+      'france',
+      'spain',
+      'germany',
+      'italy',
+      'poland',
+      'netherlands',
+      'belgium',
+      'europe',
+      'usa',
+      'america',
+      'paris',
+      'dublin',
+      'berlin',
+      'madrid',
+      'rome',
+      'international',
+      'global',
+    ];
+
     let isInternational = false;
     for (const keyword of internationalKeywords) {
       if (lowerText.includes(keyword)) {
@@ -143,23 +162,23 @@ export function initCoverage() {
         break;
       }
     }
-    
+
     if (isInternational) {
       const textElement = createElement('p', {
         className: 'coverage__result-text',
-        text: 'It looks like you are searching outside the UK. For overseas shipping, please use our International service.'
+        text: 'It looks like you are searching outside the UK. For overseas shipping, please use our International service.',
       });
-      
+
       const buttonElement = createElement('button', {
         type: 'button',
         className: 'btn btn--secondary coverage__btn',
-        text: 'View International Service'
+        text: 'View International Service',
       });
-      
+
       buttonElement.addEventListener('click', () => {
         activateZone('intl');
       });
-      
+
       resultEl.appendChild(textElement);
       resultEl.appendChild(buttonElement);
       announce('Location looks international. Suggested international service.');
@@ -167,9 +186,9 @@ export function initCoverage() {
     } else {
       const textElement = createElement('p', {
         className: 'coverage__result-text',
-        text: 'We could not place that. Try the first part of your postcode, for example M20 or LS1, or call 0161 509 6152.'
+        text: 'We could not place that. Try the first part of your postcode, for example M20 or LS1, or call 0161 509 6152.',
       });
-      
+
       resultEl.appendChild(textElement);
       announce('We could not place that. Try the first part of your postcode, or call us.');
       trackEvent('coverage_checked', { result: 'no_match', query: text });

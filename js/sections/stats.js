@@ -31,7 +31,7 @@ export function initStats() {
           from: 0,
           to: targetValue,
           durationMilliseconds: 1500,
-          suffix: numberElement ? '' : (statElement.dataset.countSuffix || '')
+          suffix: numberElement ? '' : statElement.dataset.countSuffix || '',
         });
       }
     },

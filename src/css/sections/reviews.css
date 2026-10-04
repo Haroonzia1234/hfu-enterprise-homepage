@@ -108,7 +108,10 @@
   visibility: hidden;
   pointer-events: none;
   transform: translateX(24px);
-  transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out), visibility var(--dur-med);
+  transition:
+    opacity var(--dur-med) var(--ease-out),
+    transform var(--dur-med) var(--ease-out),
+    visibility var(--dur-med);
 }
 
 .js .reviews__slide.is-active {
@@ -254,7 +257,9 @@ html:not(.js) .reviews__controls {
   height: 4px;
   border-radius: var(--radius-pill);
   background: var(--line-strong);
-  transition: background-color var(--dur-fast) var(--ease-out), height var(--dur-fast) var(--ease-out);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    height var(--dur-fast) var(--ease-out);
 }
 
 .reviews__segment:hover .reviews__segment-fill {
@@ -286,7 +291,11 @@ html:not(.js) .reviews__controls {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
 }
 
 .reviews__nav-btn:hover {

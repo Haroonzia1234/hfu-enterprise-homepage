@@ -17,14 +17,18 @@ import { initFaq } from './sections/faq.js';
 function bootstrap() {
   const revealElements = qsa('[data-reveal]');
   for (const element of revealElements) {
-    onVisible(element, (target) => {
-      const delayMultiplier = target.getAttribute('data-reveal-delay');
-      if (delayMultiplier) {
-        const delayMs = parseInt(delayMultiplier, 10) * 80;
-        target.style.transitionDelay = `${delayMs}ms`;
-      }
-      target.classList.add('is-revealed');
-    }, { threshold: 0.15, once: true });
+    onVisible(
+      element,
+      (target) => {
+        const delayMultiplier = target.getAttribute('data-reveal-delay');
+        if (delayMultiplier) {
+          const delayMs = parseInt(delayMultiplier, 10) * 80;
+          target.style.transitionDelay = `${delayMs}ms`;
+        }
+        target.classList.add('is-revealed');
+      },
+      { threshold: 0.15, once: true }
+    );
   }
 
   document.addEventListener('click', (event) => {
@@ -40,17 +44,17 @@ function bootstrap() {
       if (ctaElement.hasAttribute('data-quote-delivery')) {
         patch.deliveryType = ctaElement.getAttribute('data-quote-delivery');
       }
-      
+
       quoteStore.update(patch, 'cta');
-      
+
       const cta_id = ctaElement.getAttribute('data-cta-id');
       trackEvent('cta_click', { cta_id });
-      
+
       event.preventDefault();
       scrollToSection('quote', { focusSelector: '[data-js="quote-focus-target"]' });
       return;
     }
-    
+
     const linkElement = event.target.closest('a[href]');
     if (linkElement) {
       const href = linkElement.getAttribute('href');
@@ -73,7 +77,7 @@ function bootstrap() {
     { name: 'coverage', init: initCoverage },
     { name: 'reviews', init: initReviews },
     { name: 'quote', init: initQuote },
-    { name: 'faq', init: initFaq }
+    { name: 'faq', init: initFaq },
   ];
 
   for (const section of sections) {

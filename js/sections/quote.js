@@ -22,7 +22,7 @@ export function initQuote() {
   const timeSelect = qs('#quote-time', section);
   const serviceSelect = qs('#quote-service', section);
   const vehicleSelect = qs('#quote-vehicle', section);
-  
+
   const today = new Date().toISOString().split('T')[0];
   dateInput.min = today;
 
@@ -68,7 +68,7 @@ export function initQuote() {
     },
     onClear: () => {
       quoteStore.update({ from: null, fromText: '' }, 'quote');
-    }
+    },
   });
 
   const toCombobox = attachPlaceCombobox(qs('[data-js="quote-to-combobox"]', section), {
@@ -81,13 +81,13 @@ export function initQuote() {
     },
     onClear: () => {
       quoteStore.update({ to: null, toText: '' }, 'quote');
-    }
+    },
   });
 
   const palletStepper = attachStepper(qs('[data-js="quote-pallets"]', section), {
     onChange: (value) => {
       quoteStore.update({ pallets: value }, 'quote');
-    }
+    },
   });
 
   form.addEventListener('input', (event) => {
@@ -168,7 +168,7 @@ export function initQuote() {
     const serviceNode = qs('[data-js="summary-service"]', section);
     const scheduleNode = qs('[data-js="summary-schedule"]', section);
     const scheduleRow = qs('[data-js="summary-schedule-row"]', section);
-    
+
     const successRouteNode = qs('[data-js="success-route"]', section);
     const successDeliveryNode = qs('[data-js="success-delivery"]', section);
     const successDateNode = qs('[data-js="success-datetime"]', section);
@@ -193,12 +193,19 @@ export function initQuote() {
       successRouteNode.textContent = '-';
     }
 
-    const deliveryText = state.deliveryType === 'same-day' ? 'Same Day' : state.deliveryType === 'next-day' ? 'Next Day' : 'Flexible';
+    const deliveryText =
+      state.deliveryType === 'same-day'
+        ? 'Same Day'
+        : state.deliveryType === 'next-day'
+          ? 'Next Day'
+          : 'Flexible';
     deliveryNode.textContent = deliveryText;
     successDeliveryNode.textContent = deliveryText;
 
     const timeLabel = state.collectionTime ? getTimeSlotLabel(state.collectionTime) : '';
-    const dateText = state.collectionDate ? state.collectionDate + (timeLabel ? ` at ${timeLabel}` : '') : '-';
+    const dateText = state.collectionDate
+      ? state.collectionDate + (timeLabel ? ` at ${timeLabel}` : '')
+      : '-';
     dateNode.textContent = dateText;
     successDateNode.textContent = dateText;
 
@@ -279,18 +286,18 @@ export function initQuote() {
     if (id === 'quote-phone' || id === 'quote-email') {
       const phoneValue = qs('#quote-phone', section).value.trim();
       const emailValue = qs('#quote-email', section).value.trim();
-      
+
       if (phoneValue === '' && emailValue === '') {
         return 'Please provide either a phone number or an email.';
       }
-      
+
       if (id === 'quote-email' && emailValue !== '') {
         const emailRegex = /^\S+@\S+\.\S+$/;
         if (!emailRegex.test(emailValue)) {
           return 'Please provide a valid email address.';
         }
       }
-      
+
       if (id === 'quote-phone' && phoneValue !== '') {
         if (phoneValue.length < 9) {
           return 'Please provide a valid phone number.';
@@ -319,18 +326,22 @@ export function initQuote() {
 
   form.addEventListener('focusout', (event) => {
     const target = event.target;
-    if (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA') {
+    if (
+      target.tagName === 'INPUT' ||
+      target.tagName === 'SELECT' ||
+      target.tagName === 'TEXTAREA'
+    ) {
       if (target.id === 'quote-phone' || target.id === 'quote-email') {
         const phoneError = validateField('quote-phone', qs('#quote-phone', section).value);
         const emailError = validateField('quote-email', qs('#quote-email', section).value);
         showError(qs('#quote-phone', section), phoneError ? 'Phone or email required.' : '');
         showError(qs('#quote-email', section), emailError);
-        
+
         const contactErrorNode = qs('#quote-contact-error', section);
         if (phoneError && emailError && contactErrorNode) {
-           contactErrorNode.textContent = phoneError;
+          contactErrorNode.textContent = phoneError;
         } else if (contactErrorNode) {
-           contactErrorNode.textContent = '';
+          contactErrorNode.textContent = '';
         }
       } else {
         const errorText = validateField(target.id, target.value);
@@ -362,7 +373,7 @@ export function initQuote() {
       showError(qs('#quote-email', section), contactError);
       const contactErrorNode = qs('#quote-contact-error', section);
       if (contactErrorNode) {
-         contactErrorNode.textContent = contactError;
+        contactErrorNode.textContent = contactError;
       }
       if (!firstInvalid) {
         firstInvalid = qs('#quote-phone', section);
@@ -373,7 +384,7 @@ export function initQuote() {
       showError(qs('#quote-email', section), '');
       const contactErrorNode = qs('#quote-contact-error', section);
       if (contactErrorNode) {
-         contactErrorNode.textContent = '';
+        contactErrorNode.textContent = '';
       }
     }
 
@@ -432,15 +443,15 @@ export function initQuote() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        showSuccess(payload);
-      })
-      .catch(() => {
-        announce('Submission failed. Please call us on 0161 509 6152.');
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          showSuccess(payload);
+        })
+        .catch(() => {
+          announce('Submission failed. Please call us on 0161 509 6152.');
+        });
     } else {
       showSuccess(payload);
     }

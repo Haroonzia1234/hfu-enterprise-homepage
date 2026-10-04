@@ -1,18 +1,28 @@
 <section class="hero" id="top" data-section="hero" aria-labelledby="hero-title">
-  <svg class="hero__bg-chevron" viewBox="0 0 297 290" aria-hidden="true" stroke="var(--line)" fill="none">
+  <svg
+    class="hero__bg-chevron"
+    viewBox="0 0 297 290"
+    aria-hidden="true"
+    stroke="var(--line)"
+    fill="none"
+  >
     <use href="#brand-chevron"></use>
   </svg>
   <div class="container hero__container">
     <div class="hero__content">
       <header class="hero__header">
         <p class="chip chip--blue hero__eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-pin"></use></svg>Manchester, UK wide and international
+          <svg class="icon" aria-hidden="true"><use href="#icon-pin"></use></svg>Manchester, UK wide
+          and international
         </p>
         <h1 class="display display--xl hero__title" id="hero-title">
-          <span class="hero__title-line1">Pick-up to drop-off.</span><br>
+          <span class="hero__title-line1">Pick-up to drop-off.</span>
           <span class="hero__title-line2">Quoted in 15 minutes.</span>
         </h1>
-        <p class="hero__lede">Same day couriers, pallet delivery and dedicated vans for businesses and households across Manchester, the UK and beyond. Open 24/7.</p>
+        <p class="hero__lede">
+          Same day couriers, pallet delivery and dedicated vans for businesses and households across
+          Manchester, the UK and beyond. Open 24/7.
+        </p>
       </header>
 
       <form class="planner card" data-js="planner" novalidate aria-label="Plan your delivery">
@@ -20,16 +30,33 @@
           <div class="field combobox-wrapper">
             <label class="field__label" for="hero-from">Collect from</label>
             <div class="combobox" data-js="combobox-from">
-              <input class="field__control" id="hero-from" type="text" autocomplete="off" placeholder="Town, city or postcode">
+              <input
+                class="field__control"
+                id="hero-from"
+                type="text"
+                autocomplete="off"
+                placeholder="Town, city or postcode"
+              />
             </div>
           </div>
-          <button class="planner__swap-btn" type="button" aria-label="Swap collection and delivery" data-js="planner-swap">
+          <button
+            class="planner__swap-btn"
+            type="button"
+            aria-label="Swap collection and delivery"
+            data-js="planner-swap"
+          >
             <svg class="icon" aria-hidden="true"><use href="#icon-swap"></use></svg>
           </button>
           <div class="field combobox-wrapper">
             <label class="field__label" for="hero-to">Deliver to</label>
             <div class="combobox" data-js="combobox-to">
-              <input class="field__control" id="hero-to" type="text" autocomplete="off" placeholder="Town, city or postcode">
+              <input
+                class="field__control"
+                id="hero-to"
+                type="text"
+                autocomplete="off"
+                placeholder="Town, city or postcode"
+              />
             </div>
           </div>
         </div>
@@ -37,39 +64,87 @@
         <fieldset class="segmented field">
           <legend class="field__label">When</legend>
           <label class="segmented__option">
-            <input class="segmented__input" type="radio" name="hero-delivery-type" value="same-day" checked>
+            <input
+              class="segmented__input"
+              type="radio"
+              name="hero-delivery-type"
+              value="same-day"
+              checked
+            />
             <span class="segmented__label">Same Day</span>
           </label>
           <label class="segmented__option">
-            <input class="segmented__input" type="radio" name="hero-delivery-type" value="next-day">
+            <input
+              class="segmented__input"
+              type="radio"
+              name="hero-delivery-type"
+              value="next-day"
+            />
             <span class="segmented__label">Next Day</span>
           </label>
           <label class="segmented__option">
-            <input class="segmented__input" type="radio" name="hero-delivery-type" value="flexible">
+            <input
+              class="segmented__input"
+              type="radio"
+              name="hero-delivery-type"
+              value="flexible"
+            />
             <span class="segmented__label">Flexible</span>
           </label>
         </fieldset>
 
-        <div class="planner__load">
-          <div class="field">
-            <label class="field__label" for="hero-pallets">Pallets</label>
-            <div class="stepper" data-js="stepper-pallets" data-min="0" data-max="16" data-value="0">
-              <button class="stepper__btn" type="button" data-stepper="decrease" aria-label="Fewer pallets">
+        <div class="planner__load field">
+          <label class="field__label" for="hero-pallets">Pallets</label>
+          <div class="planner__row">
+            <div
+              class="stepper"
+              data-js="stepper-pallets"
+              data-min="0"
+              data-max="16"
+              data-value="0"
+            >
+              <button
+                class="stepper__btn"
+                type="button"
+                data-stepper="decrease"
+                aria-label="Fewer pallets"
+              >
                 <svg class="icon" aria-hidden="true"><use href="#icon-minus"></use></svg>
               </button>
-              <input class="stepper__input" type="number" inputmode="numeric" min="0" max="16" value="0" aria-label="Pallets" id="hero-pallets">
-              <button class="stepper__btn" type="button" data-stepper="increase" aria-label="More pallets">
+              <input
+                class="stepper__input"
+                type="number"
+                inputmode="numeric"
+                min="0"
+                max="16"
+                value="0"
+                aria-label="Pallets"
+                id="hero-pallets"
+              />
+              <button
+                class="stepper__btn"
+                type="button"
+                data-stepper="increase"
+                aria-label="More pallets"
+              >
                 <svg class="icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
               </button>
             </div>
-            <p class="field__hint">0 means parcels or documents</p>
+            <div class="planner__vehicle" data-js="planner-vehicle" aria-live="polite">
+              <span class="chip chip--ink"
+                ><span data-js="vehicle-short" style="font-weight: 700; margin-inline-end: 0.5ch"
+                  >SV</span
+                >
+                <span data-js="vehicle-name">Small Van</span></span
+              >
+            </div>
           </div>
-          <div class="planner__vehicle" data-js="planner-vehicle" aria-live="polite">
-             <span class="chip chip--ink"><span data-js="vehicle-short">SV</span> <span data-js="vehicle-name">Small Van</span></span>
-          </div>
+          <p class="field__hint">0 means parcels or documents</p>
         </div>
 
-        <p class="planner__result" data-js="planner-result" aria-live="polite">Choose where from and where to to see your route.</p>
+        <p class="planner__result" data-js="planner-result" aria-live="polite">
+          Choose where from and where to to see your route.
+        </p>
 
         <p class="field__error" data-js="planner-error" role="alert" hidden></p>
 
@@ -77,13 +152,24 @@
           Get my quote in 15 minutes
           <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-arrow-right"></use></svg>
         </button>
-        <p class="planner__secondary-cta">Prefer to talk? <a href="tel:+441615096152">Call 0161 509 6152</a></p>
+        <p class="planner__secondary-cta">
+          Prefer to talk? <a href="tel:+441615096152">Call 0161 509 6152</a>
+        </p>
       </form>
 
       <ul class="hero__assurances">
-        <li><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>Quote in about 15 minutes, no waiting for email</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>Collections from 4:15 am to 11:45 pm</li>
-        <li><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>Real time tracking and updates</li>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>Quote in about 15
+          minutes, no waiting for email
+        </li>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>Collections from
+          4:15 am to 11:45 pm
+        </li>
+        <li>
+          <svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg>Real time
+          tracking and updates
+        </li>
       </ul>
     </div>
 
@@ -93,11 +179,20 @@
         <div class="board__legend">
           <span class="legend-item"><span class="dot dot--blue"></span>From</span>
           <span class="legend-item"><span class="dot dot--plum"></span>To</span>
-          <span class="legend-item"><svg class="icon icon-hub" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>HFU hub</span>
+          <span class="legend-item"
+            ><svg class="icon icon-hub" aria-hidden="true">
+              <use href="#icon-chevron-right"></use></svg
+            >HFU hub</span
+          >
         </div>
       </div>
       <div class="board__body">
-        <div class="hero__map" data-js="route-map" role="img" aria-label="Map of the United Kingdom showing your delivery route"></div>
+        <div
+          class="hero__map"
+          data-js="route-map"
+          role="img"
+          aria-label="Map of the United Kingdom showing your delivery route"
+        ></div>
         <p class="hero__map-hint">Tap a city on the map to set your route</p>
       </div>
       <div class="board__footer">

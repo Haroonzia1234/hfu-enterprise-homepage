@@ -28,9 +28,10 @@ const MIME_TYPES = {
 const server = http.createServer(async (req, res) => {
   try {
     let urlPath = new URL(req.url, `http://${req.headers.host}`).pathname;
-    if (urlPath === '/') urlPath = '/index.html';
-    
-    // Block path traversal
+    if (urlPath === '/') {
+      urlPath = '/index.html';
+    }
+
     const safePath = path.normalize(urlPath).replace(/^(\.\.[\/\\])+/, '');
     const filePath = path.join(ROOT, safePath);
 
@@ -61,7 +62,7 @@ const server = http.createServer(async (req, res) => {
 
     res.writeHead(200, {
       'Content-Type': mimeType,
-      'Cache-Control': 'no-store'
+      'Cache-Control': 'no-store',
     });
     res.end(content);
   } catch (err) {

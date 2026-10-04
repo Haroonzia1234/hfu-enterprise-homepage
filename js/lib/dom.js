@@ -114,18 +114,25 @@ export function animateNumber(element, { from, to, durationMilliseconds, suffix 
   requestAnimationFrame(update);
 }
 
-export function onVisible(element, callback, { threshold = 0.2, rootMargin = '0px', once = true } = {}) {
+export function onVisible(
+  element,
+  callback,
+  { threshold = 0.2, rootMargin = '0px', once = true } = {}
+) {
   if (typeof IntersectionObserver !== 'undefined') {
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          callback(entry.target);
-          if (once) {
-            observer.disconnect();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            callback(entry.target);
+            if (once) {
+              observer.disconnect();
+            }
           }
         }
-      }
-    }, { threshold, rootMargin });
+      },
+      { threshold, rootMargin }
+    );
     observer.observe(element);
     return function () {
       observer.disconnect();
@@ -155,16 +162,18 @@ export function scrollToSection(sectionId, { focusSelector, behavior = 'smooth' 
 }
 
 export function trapFocus(containerElement) {
-  const focusableSelectors = 'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])';
+  const focusableSelectors =
+    'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])';
   const previousFocus = document.activeElement;
   function handleKeyDown(event) {
     if (event.key !== 'Tab') {
       return;
     }
-    const focusableElements = Array.from(containerElement.querySelectorAll(focusableSelectors))
-      .filter((element) => {
-        return !element.hasAttribute('disabled') && !element.getAttribute('aria-hidden');
-      });
+    const focusableElements = Array.from(
+      containerElement.querySelectorAll(focusableSelectors)
+    ).filter((element) => {
+      return !element.hasAttribute('disabled') && !element.getAttribute('aria-hidden');
+    });
     if (focusableElements.length === 0) {
       event.preventDefault();
       return;

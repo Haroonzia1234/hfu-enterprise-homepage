@@ -1,54 +1,129 @@
-<section class="section section--ink section--slant fleet" id="fleet" data-section="fleet" aria-labelledby="fleet-title">
+<section
+  class="section section--ink section--slant fleet"
+  id="fleet"
+  data-section="fleet"
+  aria-labelledby="fleet-title"
+>
   <div class="container">
     <header class="section__header" data-reveal>
       <p class="section__eyebrow"><span class="section__stop">02</span> Fleet</p>
       <h2 class="section__title" id="fleet-title">The right vehicle for the load</h2>
-      <p class="section__lede">From a Small Van to a 26 tonne truck. Pick a vehicle to see its space, or tell us the load and we will match it.</p>
+      <p class="section__lede">
+        From a Small Van to a 26 tonne truck. Pick a vehicle to see its space, or tell us the load
+        and we will match it.
+      </p>
     </header>
 
     <div class="fleet__layout">
-      <!-- Selector tablist -->
       <div class="fleet__selector-wrapper" data-reveal data-reveal-delay="1">
         <div class="fleet__selector" role="tablist" aria-label="Our fleet" data-js="fleet-tablist">
-          <button class="fleet__tab" role="tab" id="fleet-tab-sv" aria-selected="false" aria-controls="fleet-panel-sv" data-js="fleet-tab" data-vehicle="sv">
+          <button
+            class="fleet__tab"
+            role="tab"
+            id="fleet-tab-sv"
+            aria-selected="false"
+            aria-controls="fleet-panel-sv"
+            data-js="fleet-tab"
+            data-vehicle="sv"
+          >
             <span class="fleet__tab-short">SV</span>
             <span class="fleet__tab-full">Small Van</span>
           </button>
-          <button class="fleet__tab" role="tab" id="fleet-tab-swb" aria-selected="false" aria-controls="fleet-panel-swb" data-js="fleet-tab" data-vehicle="swb">
+          <button
+            class="fleet__tab"
+            role="tab"
+            id="fleet-tab-swb"
+            aria-selected="false"
+            aria-controls="fleet-panel-swb"
+            data-js="fleet-tab"
+            data-vehicle="swb"
+          >
             <span class="fleet__tab-short">SWB</span>
             <span class="fleet__tab-full">Short Wheel Base Van</span>
           </button>
-          <button class="fleet__tab" role="tab" id="fleet-tab-lwb" aria-selected="true" aria-controls="fleet-panel-lwb" data-js="fleet-tab" data-vehicle="lwb">
+          <button
+            class="fleet__tab"
+            role="tab"
+            id="fleet-tab-lwb"
+            aria-selected="true"
+            aria-controls="fleet-panel-lwb"
+            data-js="fleet-tab"
+            data-vehicle="lwb"
+          >
             <span class="fleet__tab-short">LWB</span>
             <span class="fleet__tab-full">Long Wheel Base Van</span>
           </button>
-          <button class="fleet__tab" role="tab" id="fleet-tab-xlwb" aria-selected="false" aria-controls="fleet-panel-xlwb" data-js="fleet-tab" data-vehicle="xlwb">
+          <button
+            class="fleet__tab"
+            role="tab"
+            id="fleet-tab-xlwb"
+            aria-selected="false"
+            aria-controls="fleet-panel-xlwb"
+            data-js="fleet-tab"
+            data-vehicle="xlwb"
+          >
             <span class="fleet__tab-short">XLWB</span>
             <span class="fleet__tab-full">Extra-Long Wheel Base Van</span>
           </button>
-          <button class="fleet__tab" role="tab" id="fleet-tab-luton" aria-selected="false" aria-controls="fleet-panel-luton" data-js="fleet-tab" data-vehicle="luton">
+          <button
+            class="fleet__tab"
+            role="tab"
+            id="fleet-tab-luton"
+            aria-selected="false"
+            aria-controls="fleet-panel-luton"
+            data-js="fleet-tab"
+            data-vehicle="luton"
+          >
             <span class="fleet__tab-short">LV</span>
             <span class="fleet__tab-full">Luton Van</span>
           </button>
-          <button class="fleet__tab" role="tab" id="fleet-tab-t75" aria-selected="false" aria-controls="fleet-panel-t75" data-js="fleet-tab" data-vehicle="t75">
+          <button
+            class="fleet__tab"
+            role="tab"
+            id="fleet-tab-t75"
+            aria-selected="false"
+            aria-controls="fleet-panel-t75"
+            data-js="fleet-tab"
+            data-vehicle="t75"
+          >
             <span class="fleet__tab-short">7.5T</span>
             <span class="fleet__tab-full">7.5 Tonne</span>
           </button>
-          <button class="fleet__tab" role="tab" id="fleet-tab-t18" aria-selected="false" aria-controls="fleet-panel-t18" data-js="fleet-tab" data-vehicle="t18">
+          <button
+            class="fleet__tab"
+            role="tab"
+            id="fleet-tab-t18"
+            aria-selected="false"
+            aria-controls="fleet-panel-t18"
+            data-js="fleet-tab"
+            data-vehicle="t18"
+          >
             <span class="fleet__tab-short">18T</span>
             <span class="fleet__tab-full">18 Tonne</span>
           </button>
-          <button class="fleet__tab" role="tab" id="fleet-tab-t26" aria-selected="false" aria-controls="fleet-panel-t26" data-js="fleet-tab" data-vehicle="t26">
+          <button
+            class="fleet__tab"
+            role="tab"
+            id="fleet-tab-t26"
+            aria-selected="false"
+            aria-controls="fleet-panel-t26"
+            data-js="fleet-tab"
+            data-vehicle="t26"
+          >
             <span class="fleet__tab-short">26T</span>
             <span class="fleet__tab-full">26 Tonne</span>
           </button>
         </div>
       </div>
 
-      <!-- Panels -->
       <div class="fleet__panels" data-js="fleet-panels" data-reveal data-reveal-delay="2">
-        <!-- SV -->
-        <div class="fleet__panel" role="tabpanel" id="fleet-panel-sv" aria-labelledby="fleet-tab-sv" hidden>
+        <div
+          class="fleet__panel"
+          role="tabpanel"
+          id="fleet-panel-sv"
+          aria-labelledby="fleet-tab-sv"
+          hidden
+        >
           <div class="fleet__panel-grid">
             <div class="board fleet__stage">
               <div class="fleet__art" data-js="fleet-art"></div>
@@ -56,22 +131,47 @@
             </div>
             <div class="fleet__info stack">
               <div class="fleet__specs">
-                <div class="readout"><span class="readout__label">Length</span><span class="readout__value">1.2 m</span></div>
-                <div class="readout"><span class="readout__label">Width</span><span class="readout__value">1 m</span></div>
-                <div class="readout"><span class="readout__label">Height</span><span class="readout__value">1 m</span></div>
-                <div class="readout"><span class="readout__label">Payload</span><span class="readout__value">450 kg</span></div>
-                <div class="readout"><span class="readout__label">Pallets</span><span class="readout__value">1</span></div>
+                <div class="readout">
+                  <span class="readout__label">Length</span
+                  ><span class="readout__value">1.2 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Width</span><span class="readout__value">1 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Height</span><span class="readout__value">1 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Payload</span
+                  ><span class="readout__value">450 kg</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Pallets</span><span class="readout__value">1</span>
+                </div>
               </div>
-              <a class="btn btn--primary fleet__quote-btn" href="#quote" data-quote-cta data-cta-id="fleet-sv" data-quote-vehicle="sv">
+              <a
+                class="btn btn--primary fleet__quote-btn"
+                href="#quote"
+                data-quote-cta
+                data-cta-id="fleet-sv"
+                data-quote-vehicle="sv"
+              >
                 Quote with this vehicle
-                <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                <svg class="icon btn__icon" aria-hidden="true">
+                  <use href="#icon-chevron-right"></use>
+                </svg>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- SWB -->
-        <div class="fleet__panel" role="tabpanel" id="fleet-panel-swb" aria-labelledby="fleet-tab-swb" hidden>
+        <div
+          class="fleet__panel"
+          role="tabpanel"
+          id="fleet-panel-swb"
+          aria-labelledby="fleet-tab-swb"
+          hidden
+        >
           <div class="fleet__panel-grid">
             <div class="board fleet__stage">
               <div class="fleet__art" data-js="fleet-art"></div>
@@ -79,22 +179,47 @@
             </div>
             <div class="fleet__info stack">
               <div class="fleet__specs">
-                <div class="readout"><span class="readout__label">Length</span><span class="readout__value">2.4 m</span></div>
-                <div class="readout"><span class="readout__label">Width</span><span class="readout__value">1 m</span></div>
-                <div class="readout"><span class="readout__label">Height</span><span class="readout__value">1.2 m</span></div>
-                <div class="readout"><span class="readout__label">Payload</span><span class="readout__value">800 kg</span></div>
-                <div class="readout"><span class="readout__label">Pallets</span><span class="readout__value">2</span></div>
+                <div class="readout">
+                  <span class="readout__label">Length</span
+                  ><span class="readout__value">2.4 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Width</span><span class="readout__value">1 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Height</span
+                  ><span class="readout__value">1.2 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Payload</span
+                  ><span class="readout__value">800 kg</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Pallets</span><span class="readout__value">2</span>
+                </div>
               </div>
-              <a class="btn btn--primary fleet__quote-btn" href="#quote" data-quote-cta data-cta-id="fleet-swb" data-quote-vehicle="swb">
+              <a
+                class="btn btn--primary fleet__quote-btn"
+                href="#quote"
+                data-quote-cta
+                data-cta-id="fleet-swb"
+                data-quote-vehicle="swb"
+              >
                 Quote with this vehicle
-                <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                <svg class="icon btn__icon" aria-hidden="true">
+                  <use href="#icon-chevron-right"></use>
+                </svg>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- LWB -->
-        <div class="fleet__panel" role="tabpanel" id="fleet-panel-lwb" aria-labelledby="fleet-tab-lwb">
+        <div
+          class="fleet__panel"
+          role="tabpanel"
+          id="fleet-panel-lwb"
+          aria-labelledby="fleet-tab-lwb"
+        >
           <div class="fleet__panel-grid">
             <div class="board fleet__stage">
               <div class="fleet__art" data-js="fleet-art"></div>
@@ -102,22 +227,48 @@
             </div>
             <div class="fleet__info stack">
               <div class="fleet__specs">
-                <div class="readout"><span class="readout__label">Length</span><span class="readout__value">3.4 m</span></div>
-                <div class="readout"><span class="readout__label">Width</span><span class="readout__value">1.2 m</span></div>
-                <div class="readout"><span class="readout__label">Height</span><span class="readout__value">1.8 m</span></div>
-                <div class="readout"><span class="readout__label">Payload</span><span class="readout__value">1,200 kg</span></div>
-                <div class="readout"><span class="readout__label">Pallets</span><span class="readout__value">3</span></div>
+                <div class="readout">
+                  <span class="readout__label">Length</span
+                  ><span class="readout__value">3.4 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Width</span><span class="readout__value">1.2 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Height</span
+                  ><span class="readout__value">1.8 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Payload</span
+                  ><span class="readout__value">1,200 kg</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Pallets</span><span class="readout__value">3</span>
+                </div>
               </div>
-              <a class="btn btn--primary fleet__quote-btn" href="#quote" data-quote-cta data-cta-id="fleet-lwb" data-quote-vehicle="lwb">
+              <a
+                class="btn btn--primary fleet__quote-btn"
+                href="#quote"
+                data-quote-cta
+                data-cta-id="fleet-lwb"
+                data-quote-vehicle="lwb"
+              >
                 Quote with this vehicle
-                <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                <svg class="icon btn__icon" aria-hidden="true">
+                  <use href="#icon-chevron-right"></use>
+                </svg>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- XLWB -->
-        <div class="fleet__panel" role="tabpanel" id="fleet-panel-xlwb" aria-labelledby="fleet-tab-xlwb" hidden>
+        <div
+          class="fleet__panel"
+          role="tabpanel"
+          id="fleet-panel-xlwb"
+          aria-labelledby="fleet-tab-xlwb"
+          hidden
+        >
           <div class="fleet__panel-grid">
             <div class="board fleet__stage">
               <div class="fleet__art" data-js="fleet-art"></div>
@@ -125,22 +276,48 @@
             </div>
             <div class="fleet__info stack">
               <div class="fleet__specs">
-                <div class="readout"><span class="readout__label">Length</span><span class="readout__value">4.2 m</span></div>
-                <div class="readout"><span class="readout__label">Width</span><span class="readout__value">1.2 m</span></div>
-                <div class="readout"><span class="readout__label">Height</span><span class="readout__value">1.8 m</span></div>
-                <div class="readout"><span class="readout__label">Payload</span><span class="readout__value">1,000 kg</span></div>
-                <div class="readout"><span class="readout__label">Pallets</span><span class="readout__value">4</span></div>
+                <div class="readout">
+                  <span class="readout__label">Length</span
+                  ><span class="readout__value">4.2 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Width</span><span class="readout__value">1.2 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Height</span
+                  ><span class="readout__value">1.8 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Payload</span
+                  ><span class="readout__value">1,000 kg</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Pallets</span><span class="readout__value">4</span>
+                </div>
               </div>
-              <a class="btn btn--primary fleet__quote-btn" href="#quote" data-quote-cta data-cta-id="fleet-xlwb" data-quote-vehicle="xlwb">
+              <a
+                class="btn btn--primary fleet__quote-btn"
+                href="#quote"
+                data-quote-cta
+                data-cta-id="fleet-xlwb"
+                data-quote-vehicle="xlwb"
+              >
                 Quote with this vehicle
-                <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                <svg class="icon btn__icon" aria-hidden="true">
+                  <use href="#icon-chevron-right"></use>
+                </svg>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- Luton Van -->
-        <div class="fleet__panel" role="tabpanel" id="fleet-panel-luton" aria-labelledby="fleet-tab-luton" hidden>
+        <div
+          class="fleet__panel"
+          role="tabpanel"
+          id="fleet-panel-luton"
+          aria-labelledby="fleet-tab-luton"
+          hidden
+        >
           <div class="fleet__panel-grid">
             <div class="board fleet__stage">
               <div class="fleet__art" data-js="fleet-art"></div>
@@ -148,27 +325,51 @@
             </div>
             <div class="fleet__info stack">
               <div class="fleet__specs">
-                <div class="readout"><span class="readout__label">Length</span><span class="readout__value">4 m</span></div>
-                <div class="readout"><span class="readout__label">Width</span><span class="readout__value">2 m</span></div>
-                <div class="readout"><span class="readout__label">Height</span><span class="readout__value">2 m</span></div>
-                <div class="readout"><span class="readout__label">Payload</span><span class="readout__value">1,000 kg</span></div>
-                <div class="readout"><span class="readout__label">Pallets</span><span class="readout__value">6</span></div>
+                <div class="readout">
+                  <span class="readout__label">Length</span><span class="readout__value">4 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Width</span><span class="readout__value">2 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Height</span><span class="readout__value">2 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Payload</span
+                  ><span class="readout__value">1,000 kg</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Pallets</span><span class="readout__value">6</span>
+                </div>
               </div>
               <div class="fleet__chips cluster">
                 <span class="chip chip--ink">Box</span>
                 <span class="chip chip--ink">Curtain</span>
                 <span class="chip chip--ink">Tail lift</span>
               </div>
-              <a class="btn btn--primary fleet__quote-btn" href="#quote" data-quote-cta data-cta-id="fleet-luton" data-quote-vehicle="luton">
+              <a
+                class="btn btn--primary fleet__quote-btn"
+                href="#quote"
+                data-quote-cta
+                data-cta-id="fleet-luton"
+                data-quote-vehicle="luton"
+              >
                 Quote with this vehicle
-                <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                <svg class="icon btn__icon" aria-hidden="true">
+                  <use href="#icon-chevron-right"></use>
+                </svg>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- 7.5 Tonne -->
-        <div class="fleet__panel" role="tabpanel" id="fleet-panel-t75" aria-labelledby="fleet-tab-t75" hidden>
+        <div
+          class="fleet__panel"
+          role="tabpanel"
+          id="fleet-panel-t75"
+          aria-labelledby="fleet-tab-t75"
+          hidden
+        >
           <div class="fleet__panel-grid">
             <div class="board fleet__stage">
               <div class="fleet__art" data-js="fleet-art"></div>
@@ -176,27 +377,52 @@
             </div>
             <div class="fleet__info stack">
               <div class="fleet__specs">
-                <div class="readout"><span class="readout__label">Length</span><span class="readout__value">6 m</span></div>
-                <div class="readout"><span class="readout__label">Width</span><span class="readout__value">2.4 m</span></div>
-                <div class="readout"><span class="readout__label">Height</span><span class="readout__value">2.2 m</span></div>
-                <div class="readout"><span class="readout__label">Payload</span><span class="readout__value">2,500 kg</span></div>
-                <div class="readout"><span class="readout__label">Pallets</span><span class="readout__value">10</span></div>
+                <div class="readout">
+                  <span class="readout__label">Length</span><span class="readout__value">6 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Width</span><span class="readout__value">2.4 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Height</span
+                  ><span class="readout__value">2.2 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Payload</span
+                  ><span class="readout__value">2,500 kg</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Pallets</span><span class="readout__value">10</span>
+                </div>
               </div>
               <div class="fleet__chips cluster">
                 <span class="chip chip--ink">Box</span>
                 <span class="chip chip--ink">Curtain</span>
                 <span class="chip chip--ink">Tail lift</span>
               </div>
-              <a class="btn btn--primary fleet__quote-btn" href="#quote" data-quote-cta data-cta-id="fleet-t75" data-quote-vehicle="t75">
+              <a
+                class="btn btn--primary fleet__quote-btn"
+                href="#quote"
+                data-quote-cta
+                data-cta-id="fleet-t75"
+                data-quote-vehicle="t75"
+              >
                 Quote with this vehicle
-                <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                <svg class="icon btn__icon" aria-hidden="true">
+                  <use href="#icon-chevron-right"></use>
+                </svg>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- 18 Tonne -->
-        <div class="fleet__panel" role="tabpanel" id="fleet-panel-t18" aria-labelledby="fleet-tab-t18" hidden>
+        <div
+          class="fleet__panel"
+          role="tabpanel"
+          id="fleet-panel-t18"
+          aria-labelledby="fleet-tab-t18"
+          hidden
+        >
           <div class="fleet__panel-grid">
             <div class="board fleet__stage">
               <div class="fleet__art" data-js="fleet-art"></div>
@@ -204,27 +430,52 @@
             </div>
             <div class="fleet__info stack">
               <div class="fleet__specs">
-                <div class="readout"><span class="readout__label">Length</span><span class="readout__value">7 m</span></div>
-                <div class="readout"><span class="readout__label">Width</span><span class="readout__value">2.4 m</span></div>
-                <div class="readout"><span class="readout__label">Height</span><span class="readout__value">2.5 m</span></div>
-                <div class="readout"><span class="readout__label">Payload</span><span class="readout__value">9,000 kg</span></div>
-                <div class="readout"><span class="readout__label">Pallets</span><span class="readout__value">14</span></div>
+                <div class="readout">
+                  <span class="readout__label">Length</span><span class="readout__value">7 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Width</span><span class="readout__value">2.4 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Height</span
+                  ><span class="readout__value">2.5 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Payload</span
+                  ><span class="readout__value">9,000 kg</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Pallets</span><span class="readout__value">14</span>
+                </div>
               </div>
               <div class="fleet__chips cluster">
                 <span class="chip chip--ink">Box</span>
                 <span class="chip chip--ink">Curtain</span>
                 <span class="chip chip--ink">Tail lift</span>
               </div>
-              <a class="btn btn--primary fleet__quote-btn" href="#quote" data-quote-cta data-cta-id="fleet-t18" data-quote-vehicle="t18">
+              <a
+                class="btn btn--primary fleet__quote-btn"
+                href="#quote"
+                data-quote-cta
+                data-cta-id="fleet-t18"
+                data-quote-vehicle="t18"
+              >
                 Quote with this vehicle
-                <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                <svg class="icon btn__icon" aria-hidden="true">
+                  <use href="#icon-chevron-right"></use>
+                </svg>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- 26 Tonne -->
-        <div class="fleet__panel" role="tabpanel" id="fleet-panel-t26" aria-labelledby="fleet-tab-t26" hidden>
+        <div
+          class="fleet__panel"
+          role="tabpanel"
+          id="fleet-panel-t26"
+          aria-labelledby="fleet-tab-t26"
+          hidden
+        >
           <div class="fleet__panel-grid">
             <div class="board fleet__stage">
               <div class="fleet__art" data-js="fleet-art"></div>
@@ -232,27 +483,46 @@
             </div>
             <div class="fleet__info stack">
               <div class="fleet__specs">
-                <div class="readout"><span class="readout__label">Length</span><span class="readout__value">8 m</span></div>
-                <div class="readout"><span class="readout__label">Width</span><span class="readout__value">2.4 m</span></div>
-                <div class="readout"><span class="readout__label">Height</span><span class="readout__value">2.5 m</span></div>
-                <div class="readout"><span class="readout__label">Payload</span><span class="readout__value">15,000 kg</span></div>
-                <div class="readout"><span class="readout__label">Pallets</span><span class="readout__value">16</span></div>
+                <div class="readout">
+                  <span class="readout__label">Length</span><span class="readout__value">8 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Width</span><span class="readout__value">2.4 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Height</span
+                  ><span class="readout__value">2.5 m</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Payload</span
+                  ><span class="readout__value">15,000 kg</span>
+                </div>
+                <div class="readout">
+                  <span class="readout__label">Pallets</span><span class="readout__value">16</span>
+                </div>
               </div>
               <div class="fleet__chips cluster">
                 <span class="chip chip--ink">Box</span>
                 <span class="chip chip--ink">Curtain</span>
                 <span class="chip chip--ink">Tail lift</span>
               </div>
-              <a class="btn btn--primary fleet__quote-btn" href="#quote" data-quote-cta data-cta-id="fleet-t26" data-quote-vehicle="t26">
+              <a
+                class="btn btn--primary fleet__quote-btn"
+                href="#quote"
+                data-quote-cta
+                data-cta-id="fleet-t26"
+                data-quote-vehicle="t26"
+              >
                 Quote with this vehicle
-                <svg class="icon btn__icon" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+                <svg class="icon btn__icon" aria-hidden="true">
+                  <use href="#icon-chevron-right"></use>
+                </svg>
               </a>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Load finder and ladder -->
       <div class="fleet__bottom" data-reveal data-reveal-delay="3">
         <div class="board fleet__finder">
           <div class="board__header">
@@ -263,51 +533,132 @@
               <div class="field">
                 <label class="field__label" for="fleet-finder-pallets">Pallets</label>
                 <div class="stepper" data-js="stepper" data-min="0" data-max="16" data-value="0">
-                  <button class="stepper__btn" type="button" data-stepper="decrease" aria-label="Fewer pallets">
+                  <button
+                    class="stepper__btn"
+                    type="button"
+                    data-stepper="decrease"
+                    aria-label="Fewer pallets"
+                  >
                     <svg class="icon" aria-hidden="true"><use href="#icon-minus"></use></svg>
                   </button>
-                  <input class="stepper__input" type="number" id="fleet-finder-pallets" data-js="fleet-finder-pallets" inputmode="numeric" min="0" max="16" value="0" aria-label="Pallets">
-                  <button class="stepper__btn" type="button" data-stepper="increase" aria-label="More pallets">
+                  <input
+                    class="stepper__input"
+                    type="number"
+                    id="fleet-finder-pallets"
+                    data-js="fleet-finder-pallets"
+                    inputmode="numeric"
+                    min="0"
+                    max="16"
+                    value="0"
+                    aria-label="Pallets"
+                  />
+                  <button
+                    class="stepper__btn"
+                    type="button"
+                    data-stepper="increase"
+                    aria-label="More pallets"
+                  >
                     <svg class="icon" aria-hidden="true"><use href="#icon-plus"></use></svg>
                   </button>
                 </div>
               </div>
               <div class="field">
                 <label class="field__label" for="fleet-finder-weight">Weight (kg)</label>
-                <input class="field__control" type="number" id="fleet-finder-weight" data-js="fleet-finder-weight" min="0" max="15000" placeholder="Optional">
+                <input
+                  class="field__control"
+                  type="number"
+                  id="fleet-finder-weight"
+                  data-js="fleet-finder-weight"
+                  min="0"
+                  max="15000"
+                  placeholder="Optional"
+                />
               </div>
             </div>
-            <div class="fleet__finder-result" data-js="finder-result" aria-live="polite">
-              <!-- JS fills this -->
-            </div>
+            <div class="fleet__finder-result" data-js="finder-result" aria-live="polite"></div>
           </div>
         </div>
 
         <div class="fleet__ladder" data-js="fleet-ladder">
-          <!-- Widths are proportional to sqrt(payloadKg) vs sqrt(15000) -->
-          <button class="fleet__ladder-bar" type="button" data-vehicle="sv" style="--scale: 0.173" aria-label="Small Van">
-            <span class="fleet__ladder-label">SV</span>
+          <button
+            class="fleet__ladder-bar"
+            type="button"
+            data-vehicle="sv"
+            style="--scale: 0.173"
+            aria-label="Small Van"
+          >
+            <span class="fleet__ladder-label">SV</span
+            ><span class="fleet__ladder-payload">450 kg</span>
           </button>
-          <button class="fleet__ladder-bar" type="button" data-vehicle="swb" style="--scale: 0.231" aria-label="Short Wheel Base Van">
-            <span class="fleet__ladder-label">SWB</span>
+          <button
+            class="fleet__ladder-bar"
+            type="button"
+            data-vehicle="swb"
+            style="--scale: 0.231"
+            aria-label="Short Wheel Base Van"
+          >
+            <span class="fleet__ladder-label">SWB</span
+            ><span class="fleet__ladder-payload">800 kg</span>
           </button>
-          <button class="fleet__ladder-bar" type="button" data-vehicle="lwb" style="--scale: 0.283" aria-label="Long Wheel Base Van">
-            <span class="fleet__ladder-label">LWB</span>
+          <button
+            class="fleet__ladder-bar"
+            type="button"
+            data-vehicle="lwb"
+            style="--scale: 0.283"
+            aria-label="Long Wheel Base Van"
+          >
+            <span class="fleet__ladder-label">LWB</span
+            ><span class="fleet__ladder-payload">1,200 kg</span>
           </button>
-          <button class="fleet__ladder-bar" type="button" data-vehicle="xlwb" style="--scale: 0.258" aria-label="Extra-Long Wheel Base Van">
-            <span class="fleet__ladder-label">XLWB</span>
+          <button
+            class="fleet__ladder-bar"
+            type="button"
+            data-vehicle="xlwb"
+            style="--scale: 0.258"
+            aria-label="Extra-Long Wheel Base Van"
+          >
+            <span class="fleet__ladder-label">XLWB</span
+            ><span class="fleet__ladder-payload">1,000 kg</span>
           </button>
-          <button class="fleet__ladder-bar" type="button" data-vehicle="luton" style="--scale: 0.258" aria-label="Luton Van">
-            <span class="fleet__ladder-label">LV</span>
+          <button
+            class="fleet__ladder-bar"
+            type="button"
+            data-vehicle="luton"
+            style="--scale: 0.258"
+            aria-label="Luton Van"
+          >
+            <span class="fleet__ladder-label">LV</span
+            ><span class="fleet__ladder-payload">1,000 kg</span>
           </button>
-          <button class="fleet__ladder-bar" type="button" data-vehicle="t75" style="--scale: 0.408" aria-label="7.5 Tonne">
-            <span class="fleet__ladder-label">7.5T</span>
+          <button
+            class="fleet__ladder-bar"
+            type="button"
+            data-vehicle="t75"
+            style="--scale: 0.408"
+            aria-label="7.5 Tonne"
+          >
+            <span class="fleet__ladder-label">7.5T</span
+            ><span class="fleet__ladder-payload">2,500 kg</span>
           </button>
-          <button class="fleet__ladder-bar" type="button" data-vehicle="t18" style="--scale: 0.775" aria-label="18 Tonne">
-            <span class="fleet__ladder-label">18T</span>
+          <button
+            class="fleet__ladder-bar"
+            type="button"
+            data-vehicle="t18"
+            style="--scale: 0.775"
+            aria-label="18 Tonne"
+          >
+            <span class="fleet__ladder-label">18T</span
+            ><span class="fleet__ladder-payload">9,000 kg</span>
           </button>
-          <button class="fleet__ladder-bar" type="button" data-vehicle="t26" style="--scale: 1" aria-label="26 Tonne">
-            <span class="fleet__ladder-label">26T</span>
+          <button
+            class="fleet__ladder-bar"
+            type="button"
+            data-vehicle="t26"
+            style="--scale: 1"
+            aria-label="26 Tonne"
+          >
+            <span class="fleet__ladder-label">26T</span
+            ><span class="fleet__ladder-payload">15,000 kg</span>
           </button>
         </div>
       </div>

@@ -82,7 +82,12 @@
   justify-content: center;
   cursor: pointer;
   padding: 0;
-  transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
 }
 
 .how__node-number {
@@ -112,7 +117,11 @@
   border-radius: var(--radius-md);
   padding: var(--space-5);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out), border-color var(--dur-med) var(--ease-out), opacity var(--dur-med) var(--ease-out);
+  transition:
+    transform var(--dur-med) var(--ease-out),
+    box-shadow var(--dur-med) var(--ease-out),
+    border-color var(--dur-med) var(--ease-out),
+    opacity var(--dur-med) var(--ease-out);
 }
 
 .how__card-header {
@@ -188,7 +197,9 @@
   background: linear-gradient(135deg, var(--blue-500), var(--plum-500));
   border-color: transparent;
   color: var(--white);
-  box-shadow: 0 0 0 4px rgb(39 129 186 / 0.25), var(--shadow-md);
+  box-shadow:
+    0 0 0 4px rgb(39 129 186 / 0.25),
+    var(--shadow-md);
   transform: scale(1.06);
 }
 

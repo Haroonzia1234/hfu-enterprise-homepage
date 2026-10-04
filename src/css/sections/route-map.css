@@ -244,11 +244,11 @@
 }
 
 .route-map__chevron-top {
-  fill: #2781BA;
+  fill: #2781ba;
 }
 
 .route-map__chevron-bottom {
-  fill: #A2356E;
+  fill: #a2356e;
 }
 
 @media (prefers-reduced-motion: reduce) {

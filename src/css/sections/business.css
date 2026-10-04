@@ -29,7 +29,9 @@
   padding: var(--space-4);
   text-decoration: none;
   color: var(--ink-900);
-  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
 }
 
 .business__service-card:hover {

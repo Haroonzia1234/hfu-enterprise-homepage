@@ -165,8 +165,12 @@ function buildVan(vehicleData, idPrefix) {
 
   const bumperHeight = 8;
   const bumperY = bodyBottomY - bumperHeight;
-  bodyParts.push(`<rect x="${bonnetTipX - 6}" y="${bumperY}" width="6" height="${bumperHeight + (GROUND_Y - bodyBottomY)}" rx="2" fill="${BUMPER_COLOUR}"/>`);
-  bodyParts.push(`<rect x="${bodyLeftX - 3}" y="${bumperY}" width="5" height="${bumperHeight + (GROUND_Y - bodyBottomY)}" rx="2" fill="${BUMPER_COLOUR}"/>`);
+  bodyParts.push(
+    `<rect x="${bonnetTipX - 6}" y="${bumperY}" width="6" height="${bumperHeight + (GROUND_Y - bodyBottomY)}" rx="2" fill="${BUMPER_COLOUR}"/>`
+  );
+  bodyParts.push(
+    `<rect x="${bodyLeftX - 3}" y="${bumperY}" width="5" height="${bumperHeight + (GROUND_Y - bodyBottomY)}" rx="2" fill="${BUMPER_COLOUR}"/>`
+  );
 
   const bodyPath = [
     `M${bodyLeftX},${roofY}`,
@@ -181,9 +185,13 @@ function buildVan(vehicleData, idPrefix) {
   bodyParts.push(`<path d="${bodyPath}" fill="${BODY_COLOUR}"/>`);
 
   const shadeTopY = bodyBottomY - bodyHeight * 0.33;
-  bodyParts.push(`<rect x="${bodyLeftX}" y="${shadeTopY}" width="${bodyRightX - bodyLeftX}" height="${bodyBottomY - shadeTopY}" fill="${BODY_SHADE_COLOUR}"/>`);
+  bodyParts.push(
+    `<rect x="${bodyLeftX}" y="${shadeTopY}" width="${bodyRightX - bodyLeftX}" height="${bodyBottomY - shadeTopY}" fill="${BODY_SHADE_COLOUR}"/>`
+  );
 
-  bodyParts.push(`<rect x="${bodyLeftX}" y="${roofY}" width="${bodyRightX - bodyLeftX}" height="${bodyHeight * 0.12}" fill="${ROOF_HIGHLIGHT_COLOUR}"/>`);
+  bodyParts.push(
+    `<rect x="${bodyLeftX}" y="${roofY}" width="${bodyRightX - bodyLeftX}" height="${bodyHeight * 0.12}" fill="${ROOF_HIGHLIGHT_COLOUR}"/>`
+  );
 
   const cabShadeTopY = bodyBottomY - cabHeight * 0.33;
   const cabShadeClipId = `${idPrefix}cab-shade-clip`;
@@ -195,14 +203,22 @@ function buildVan(vehicleData, idPrefix) {
     `L${bodyRightX},${bodyBottomY}`,
     `Z`,
   ].join(' ');
-  bodyParts.push(`<defs><clipPath id="${cabShadeClipId}"><path d="${cabShapePath}"/></clipPath></defs>`);
-  bodyParts.push(`<rect x="${bodyRightX}" y="${cabShadeTopY}" width="${cabWidth + VAN_BONNET_LENGTH}" height="${bodyBottomY - cabShadeTopY}" fill="${BODY_SHADE_COLOUR}" clip-path="url(#${cabShadeClipId})"/>`);
+  bodyParts.push(
+    `<defs><clipPath id="${cabShadeClipId}"><path d="${cabShapePath}"/></clipPath></defs>`
+  );
+  bodyParts.push(
+    `<rect x="${bodyRightX}" y="${cabShadeTopY}" width="${cabWidth + VAN_BONNET_LENGTH}" height="${bodyBottomY - cabShadeTopY}" fill="${BODY_SHADE_COLOUR}" clip-path="url(#${cabShadeClipId})"/>`
+  );
 
   const seamX = bodyRightX - 4;
-  bodyParts.push(`<line x1="${seamX}" y1="${roofY + 8}" x2="${seamX}" y2="${bodyBottomY - 8}" stroke="${BODY_SHADE_COLOUR}" stroke-width="1.5"/>`);
+  bodyParts.push(
+    `<line x1="${seamX}" y1="${roofY + 8}" x2="${seamX}" y2="${bodyBottomY - 8}" stroke="${BODY_SHADE_COLOUR}" stroke-width="1.5"/>`
+  );
 
   const doorSeamX = bodyLeftX + bodyLength * 0.55;
-  bodyParts.push(`<line x1="${doorSeamX}" y1="${roofY + 8}" x2="${doorSeamX}" y2="${bodyBottomY - 8}" stroke="${BODY_SHADE_COLOUR}" stroke-width="1.5"/>`);
+  bodyParts.push(
+    `<line x1="${doorSeamX}" y1="${roofY + 8}" x2="${doorSeamX}" y2="${bodyBottomY - 8}" stroke="${BODY_SHADE_COLOUR}" stroke-width="1.5"/>`
+  );
 
   const glassX = windscreenTopX + 3;
   const glassY = cabRoofY + 5;
@@ -232,8 +248,12 @@ function buildVan(vehicleData, idPrefix) {
   bodyParts.push(buildWheel(rearWheelX, wheelCentreY, wheelRadius, idPrefix));
   bodyParts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius, idPrefix));
 
-  bodyParts.push(`<rect x="${bonnetTipX - 3}" y="${bonnetY - 3}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`);
-  bodyParts.push(`<rect x="${bodyLeftX - 2}" y="${bodyBottomY - 18}" width="4" height="12" rx="1.5" fill="${TAIL_LIGHT_COLOUR}"/>`);
+  bodyParts.push(
+    `<rect x="${bonnetTipX - 3}" y="${bonnetY - 3}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`
+  );
+  bodyParts.push(
+    `<rect x="${bodyLeftX - 2}" y="${bodyBottomY - 18}" width="4" height="12" rx="1.5" fill="${TAIL_LIGHT_COLOUR}"/>`
+  );
 
   return bodyParts.join('');
 }
@@ -273,8 +293,12 @@ function buildLuton(vehicleData, idPrefix) {
   parts.push(buildShadowFilter(idPrefix));
   parts.push(buildContactShadow(vehicleLeftX, cabRightX, idPrefix));
 
-  parts.push(`<rect x="${bonnetTipX - 5}" y="${bonnetY}" width="5" height="${GROUND_Y - bonnetY}" rx="2" fill="${BUMPER_COLOUR}"/>`);
-  parts.push(`<rect x="${boxLeftX - 3}" y="${bodyBottomY - 8}" width="5" height="${GROUND_Y - bodyBottomY + 8}" rx="2" fill="${BUMPER_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${bonnetTipX - 5}" y="${bonnetY}" width="5" height="${GROUND_Y - bonnetY}" rx="2" fill="${BUMPER_COLOUR}"/>`
+  );
+  parts.push(
+    `<rect x="${boxLeftX - 3}" y="${bodyBottomY - 8}" width="5" height="${GROUND_Y - bodyBottomY + 8}" rx="2" fill="${BUMPER_COLOUR}"/>`
+  );
 
   const boxPath = [
     `M${boxLeftX},${boxTopY}`,
@@ -299,19 +323,27 @@ function buildLuton(vehicleData, idPrefix) {
   parts.push(`<path d="${cabPath}" fill="${BODY_COLOUR}"/>`);
 
   const shadeTopY = bodyBottomY - bodyHeight * 0.33;
-  parts.push(`<rect x="${boxLeftX}" y="${shadeTopY}" width="${bodyLength}" height="${bodyBottomY - shadeTopY}" fill="${BODY_SHADE_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${boxLeftX}" y="${shadeTopY}" width="${bodyLength}" height="${bodyBottomY - shadeTopY}" fill="${BODY_SHADE_COLOUR}"/>`
+  );
 
-  parts.push(`<rect x="${boxLeftX}" y="${boxTopY}" width="${bodyLength}" height="${bodyHeight * 0.1}" fill="${ROOF_HIGHLIGHT_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${boxLeftX}" y="${boxTopY}" width="${bodyLength}" height="${bodyHeight * 0.1}" fill="${ROOF_HIGHLIGHT_COLOUR}"/>`
+  );
 
   const cabShadeTopY = bodyBottomY - cabHeight * 0.33;
   const cabShadeClipId = `${idPrefix}luton-cab-clip`;
   parts.push(`<defs><clipPath id="${cabShadeClipId}"><path d="${cabPath}"/></clipPath></defs>`);
-  parts.push(`<rect x="${boxRightX}" y="${cabShadeTopY}" width="${cabWidth + 20}" height="${bodyBottomY - cabShadeTopY}" fill="${BODY_SHADE_COLOUR}" clip-path="url(#${cabShadeClipId})"/>`);
+  parts.push(
+    `<rect x="${boxRightX}" y="${cabShadeTopY}" width="${cabWidth + 20}" height="${bodyBottomY - cabShadeTopY}" fill="${BODY_SHADE_COLOUR}" clip-path="url(#${cabShadeClipId})"/>`
+  );
 
   const rollerDoorX = boxLeftX + 4;
   const rollerDoorTopY = boxTopY + 6;
   const rollerDoorWidth = 3;
-  parts.push(`<rect x="${rollerDoorX}" y="${rollerDoorTopY}" width="${rollerDoorWidth}" height="${bodyBottomY - rollerDoorTopY - 4}" fill="${BODY_SHADE_COLOUR}" rx="1"/>`);
+  parts.push(
+    `<rect x="${rollerDoorX}" y="${rollerDoorTopY}" width="${rollerDoorWidth}" height="${bodyBottomY - rollerDoorTopY - 4}" fill="${BODY_SHADE_COLOUR}" rx="1"/>`
+  );
 
   const glassX = boxRightX + 6;
   const glassY = cabRoofY + 5;
@@ -328,8 +360,12 @@ function buildLuton(vehicleData, idPrefix) {
   parts.push(buildWheel(rearWheelX, wheelCentreY, wheelRadius, idPrefix));
   parts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius, idPrefix));
 
-  parts.push(`<rect x="${bonnetTipX - 3}" y="${bonnetY - 3}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`);
-  parts.push(`<rect x="${boxLeftX - 2}" y="${bodyBottomY - 18}" width="4" height="12" rx="1.5" fill="${TAIL_LIGHT_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${bonnetTipX - 3}" y="${bonnetY - 3}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`
+  );
+  parts.push(
+    `<rect x="${boxLeftX - 2}" y="${bodyBottomY - 18}" width="4" height="12" rx="1.5" fill="${TAIL_LIGHT_COLOUR}"/>`
+  );
 
   return parts.join('');
 }
@@ -381,19 +417,31 @@ function buildRigid(vehicleData, idPrefix) {
   parts.push(buildShadowFilter(idPrefix));
   parts.push(buildContactShadow(vehicleLeftX - tailLiftWidth, cabRightX, idPrefix));
 
-  parts.push(`<rect x="${vehicleLeftX}" y="${chassisBottomY}" width="${totalLength}" height="${CHASSIS_HEIGHT}" fill="${BUMPER_COLOUR}" rx="2"/>`);
+  parts.push(
+    `<rect x="${vehicleLeftX}" y="${chassisBottomY}" width="${totalLength}" height="${CHASSIS_HEIGHT}" fill="${BUMPER_COLOUR}" rx="2"/>`
+  );
 
   const bumperFrontX = cabRightX;
   const bumperFrontY = chassisBottomY - cabHeight * 0.3;
-  parts.push(`<rect x="${bumperFrontX - 5}" y="${bumperFrontY}" width="6" height="${GROUND_Y - bumperFrontY}" rx="2" fill="${BUMPER_COLOUR}"/>`);
-  parts.push(`<rect x="${boxLeftX - 3}" y="${bodyBottomY}" width="5" height="${GROUND_Y - bodyBottomY}" rx="2" fill="${BUMPER_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${bumperFrontX - 5}" y="${bumperFrontY}" width="6" height="${GROUND_Y - bumperFrontY}" rx="2" fill="${BUMPER_COLOUR}"/>`
+  );
+  parts.push(
+    `<rect x="${boxLeftX - 3}" y="${bodyBottomY}" width="5" height="${GROUND_Y - bodyBottomY}" rx="2" fill="${BUMPER_COLOUR}"/>`
+  );
 
-  parts.push(`<rect x="${boxLeftX}" y="${boxTopY}" width="${bodyLength}" height="${bodyHeight}" rx="3" fill="${BODY_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${boxLeftX}" y="${boxTopY}" width="${bodyLength}" height="${bodyHeight}" rx="3" fill="${BODY_COLOUR}"/>`
+  );
 
   const shadeTopY = bodyBottomY - bodyHeight * 0.33;
-  parts.push(`<rect x="${boxLeftX}" y="${shadeTopY}" width="${bodyLength}" height="${bodyBottomY - shadeTopY}" fill="${BODY_SHADE_COLOUR}" rx="0"/>`);
+  parts.push(
+    `<rect x="${boxLeftX}" y="${shadeTopY}" width="${bodyLength}" height="${bodyBottomY - shadeTopY}" fill="${BODY_SHADE_COLOUR}" rx="0"/>`
+  );
 
-  parts.push(`<rect x="${boxLeftX}" y="${boxTopY}" width="${bodyLength}" height="${bodyHeight * 0.1}" fill="${ROOF_HIGHLIGHT_COLOUR}" rx="3"/>`);
+  parts.push(
+    `<rect x="${boxLeftX}" y="${boxTopY}" width="${bodyLength}" height="${bodyHeight * 0.1}" fill="${ROOF_HIGHLIGHT_COLOUR}" rx="3"/>`
+  );
 
   const cabPath = [
     `M${boxRightX + chassisGap},${cabRoofY}`,
@@ -405,7 +453,9 @@ function buildRigid(vehicleData, idPrefix) {
   parts.push(`<path d="${cabPath}" fill="${BODY_COLOUR}"/>`);
 
   const cabShadeTopY = bodyBottomY - cabHeight * 0.33;
-  parts.push(`<rect x="${boxRightX + chassisGap}" y="${cabShadeTopY}" width="${cabWidth}" height="${bodyBottomY - cabShadeTopY}" fill="${BODY_SHADE_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${boxRightX + chassisGap}" y="${cabShadeTopY}" width="${cabWidth}" height="${bodyBottomY - cabShadeTopY}" fill="${BODY_SHADE_COLOUR}"/>`
+  );
 
   const glassX = boxRightX + chassisGap + 5;
   const glassY = cabRoofY + 5;
@@ -416,8 +466,12 @@ function buildRigid(vehicleData, idPrefix) {
   parts.push(buildChevronLivery(boxLeftX, boxRightX, boxTopY, bodyBottomY, idPrefix));
   parts.push(buildStripe(boxLeftX, boxRightX, bodyBottomY));
 
-  parts.push(`<rect x="${tailLiftX}" y="${tailLiftY}" width="${tailLiftWidth}" height="${tailLiftHeight}" fill="${HUB_COLOUR}" rx="1"/>`);
-  parts.push(`<circle cx="${tailLiftX + tailLiftWidth}" cy="${hingeY}" r="3" fill="${BUMPER_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${tailLiftX}" y="${tailLiftY}" width="${tailLiftWidth}" height="${tailLiftHeight}" fill="${HUB_COLOUR}" rx="1"/>`
+  );
+  parts.push(
+    `<circle cx="${tailLiftX + tailLiftWidth}" cy="${hingeY}" r="3" fill="${BUMPER_COLOUR}"/>`
+  );
 
   for (const axleX of rearAxles) {
     parts.push(buildWheelArch(axleX, chassisBottomY, wheelRadius, archDarken));
@@ -429,8 +483,12 @@ function buildRigid(vehicleData, idPrefix) {
   }
   parts.push(buildWheel(frontWheelX, wheelCentreY, wheelRadius, idPrefix));
 
-  parts.push(`<rect x="${cabRightX - 3}" y="${cabRoofY + glassHeight + 10}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`);
-  parts.push(`<rect x="${boxLeftX - 2}" y="${bodyBottomY - 18}" width="4" height="12" rx="1.5" fill="${TAIL_LIGHT_COLOUR}"/>`);
+  parts.push(
+    `<rect x="${cabRightX - 3}" y="${cabRoofY + glassHeight + 10}" width="4" height="8" rx="1.5" fill="${INDICATOR_COLOUR}"/>`
+  );
+  parts.push(
+    `<rect x="${boxLeftX - 2}" y="${bodyBottomY - 18}" width="4" height="12" rx="1.5" fill="${TAIL_LIGHT_COLOUR}"/>`
+  );
 
   return parts.join('');
 }

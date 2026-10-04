@@ -121,18 +121,35 @@ const inputs = [
   { a: 'WS', n: 'Walsall', r: 'West Midlands', o: 'WS1' },
   { a: 'WV', n: 'Wolverhampton', r: 'West Midlands', o: 'WV1' },
   { a: 'YO', n: 'York', r: 'Yorkshire', o: 'YO1' },
-  { a: 'ZE', n: 'Lerwick', r: 'Scotland', o: 'ZE1' }
+  { a: 'ZE', n: 'Lerwick', r: 'Scotland', o: 'ZE1' },
 ];
 
 const labelIds = new Set([
-  'manchester', 'london', 'birmingham', 'leeds', 'liverpool', 'sheffield',
-  'newcastle-upon-tyne', 'glasgow', 'edinburgh', 'cardiff', 'bristol',
-  'nottingham', 'southampton', 'norwich', 'aberdeen', 'belfast',
-  'plymouth', 'inverness'
+  'manchester',
+  'london',
+  'birmingham',
+  'leeds',
+  'liverpool',
+  'sheffield',
+  'newcastle-upon-tyne',
+  'glasgow',
+  'edinburgh',
+  'cardiff',
+  'bristol',
+  'nottingham',
+  'southampton',
+  'norwich',
+  'aberdeen',
+  'belfast',
+  'plymouth',
+  'inverness',
 ]);
 
 function getSlug(name) {
-  return name.toLowerCase().replace(/ /g, '-').replace(/[^a-z0-9-]/g, '');
+  return name
+    .toLowerCase()
+    .replace(/ /g, '-')
+    .replace(/[^a-z0-9-]/g, '');
 }
 
 function getAliases(id) {
@@ -155,25 +172,25 @@ function getAliases(id) {
 }
 
 const fallbacks = {
-  B1: { lat: 52.48, lon: -1.90 },
+  B1: { lat: 52.48, lon: -1.9 },
   BD1: { lat: 53.79, lon: -1.75 },
-  BT1: { lat: 54.60, lon: -5.93 },
+  BT1: { lat: 54.6, lon: -5.93 },
   CF10: { lat: 51.48, lon: -3.18 },
   E1: { lat: 51.52, lon: -0.06 },
-  EC1A: { lat: 51.52, lon: -0.10 },
+  EC1A: { lat: 51.52, lon: -0.1 },
   EH1: { lat: 55.95, lon: -3.19 },
   G1: { lat: 55.86, lon: -4.25 },
-  L1: { lat: 53.40, lon: -2.98 },
-  LS1: { lat: 53.80, lon: -1.55 },
+  L1: { lat: 53.4, lon: -2.98 },
+  LS1: { lat: 53.8, lon: -1.55 },
   M1: { lat: 53.48, lon: -2.24 },
-  N1: { lat: 51.53, lon: -0.10 },
+  N1: { lat: 51.53, lon: -0.1 },
   NE1: { lat: 54.97, lon: -1.61 },
   NW1: { lat: 51.53, lon: -0.14 },
   S1: { lat: 53.38, lon: -1.47 },
-  SE1: { lat: 51.50, lon: -0.09 },
-  SW1A: { lat: 51.50, lon: -0.14 },
+  SE1: { lat: 51.5, lon: -0.09 },
+  SW1A: { lat: 51.5, lon: -0.14 },
   W1A: { lat: 51.51, lon: -0.14 },
-  WC1A: { lat: 51.52, lon: -0.12 }
+  WC1A: { lat: 51.52, lon: -0.12 },
 };
 
 function getFallback(outcode) {
@@ -204,15 +221,55 @@ async function fetchCoord(outcode, retries = 3) {
 }
 
 const locals = [
-  { id: 'salford', name: 'Salford', area: 'M', region: 'North West', lat: 53.4875, lon: -2.2901, kind: 'local', labelOnMap: false, aliases: [] },
-  { id: 'trafford', name: 'Trafford', area: 'M', region: 'North West', lat: 53.4503, lon: -2.3170, kind: 'local', labelOnMap: false, aliases: [] },
-  { id: 'didsbury', name: 'Didsbury', area: 'M', region: 'North West', lat: 53.4163, lon: -2.2295, kind: 'local', labelOnMap: false, aliases: [] },
-  { id: 'chorlton', name: 'Chorlton', area: 'M', region: 'North West', lat: 53.4425, lon: -2.2764, kind: 'local', labelOnMap: false, aliases: [] }
+  {
+    id: 'salford',
+    name: 'Salford',
+    area: 'M',
+    region: 'North West',
+    lat: 53.4875,
+    lon: -2.2901,
+    kind: 'local',
+    labelOnMap: false,
+    aliases: [],
+  },
+  {
+    id: 'trafford',
+    name: 'Trafford',
+    area: 'M',
+    region: 'North West',
+    lat: 53.4503,
+    lon: -2.317,
+    kind: 'local',
+    labelOnMap: false,
+    aliases: [],
+  },
+  {
+    id: 'didsbury',
+    name: 'Didsbury',
+    area: 'M',
+    region: 'North West',
+    lat: 53.4163,
+    lon: -2.2295,
+    kind: 'local',
+    labelOnMap: false,
+    aliases: [],
+  },
+  {
+    id: 'chorlton',
+    name: 'Chorlton',
+    area: 'M',
+    region: 'North West',
+    lat: 53.4425,
+    lon: -2.2764,
+    kind: 'local',
+    labelOnMap: false,
+    aliases: [],
+  },
 ];
 
 async function generate() {
   const places = [];
-  
+
   for (const item of inputs) {
     const id = item.id || getSlug(item.n);
     const coord = await fetchCoord(item.o);
@@ -225,7 +282,7 @@ async function generate() {
       lon: Number(coord.lon.toFixed(4)),
       kind: 'city',
       labelOnMap: labelIds.has(id),
-      aliases: getAliases(id)
+      aliases: getAliases(id),
     });
   }
 
